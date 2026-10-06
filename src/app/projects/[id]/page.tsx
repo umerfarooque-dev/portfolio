@@ -99,7 +99,9 @@ export default async function ProjectDetailPage({ params }: { params: Promise<{ 
                         ))}
                     </div>
 
-                    <Heading size="xl" className="mb-4">
+                    {/* The page's h1. Heading defaults to h2, which left this route
+                        with no h1 at all. */}
+                    <Heading as="h1" size="xl" className="mb-4">
                         {project.title}
                     </Heading>
 
