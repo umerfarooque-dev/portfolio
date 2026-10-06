@@ -1,11 +1,14 @@
 import { AboutSection } from "@/components/organisms/AboutSection";
-import { Container } from "@/components/atoms/Container";
-import { Heading } from "@/components/atoms/Heading";
+import { getSiteConfig } from "@/lib/site-data";
 
-export default function AboutPage() {
+export const revalidate = 60;
+
+export default async function AboutPage() {
+    const siteConfig = await getSiteConfig();
+
     return (
         <div className="pt-24">
-            <AboutSection />
+            <AboutSection config={siteConfig} />
         </div>
     );
 }

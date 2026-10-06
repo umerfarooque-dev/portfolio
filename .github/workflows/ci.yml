@@ -1,17 +1,33 @@
-# CI/CD Pipeline for next-js-updated-portfolio
-# Runs on: development & deployment branches
+# Quality gate for next-js-updated-portfolio.
+#
+# Deployment itself is handled by Vercel's Git integration (see DEPLOY.md):
+#   development -> Preview URL
+#   deployment  -> Production
+# This workflow is what tells you whether that deploy is going to be any good.
+#
+# Nothing here needs a database. The app treats Prisma as an optional override
+# over src/data/*.ts (see src/lib/site-data.ts), so the build succeeds with no
+# DATABASE_URL at all — which is exactly the situation on Vercel.
 
 name: CI
 
 on:
   push:
-    branches: [development, deployment]
+    branches: [development, deployment, master]
   pull_request:
-    branches: [development, deployment]
+    branches: [development, deployment, master]
+
+# A newer push to the same branch makes an in-flight run pointless.
+concurrency:
+  group: ci-${{ github.ref }}
+  cancel-in-progress: true
 
 jobs:
-  build-and-lint:
+  verify:
+    name: Types, lint, build
     runs-on: ubuntu-latest
+    timeout-minutes: 15
+
     steps:
       - name: Checkout
         uses: actions/checkout@v4
@@ -22,19 +38,52 @@ jobs:
           node-version: "20"
           cache: "npm"
 
+      # `npm ci` runs postinstall -> `prisma generate`, which only needs the
+      # schema, not a reachable database.
       - name: Install dependencies
         run: npm ci
 
-      - name: Generate Prisma Client
-        run: npx prisma generate
-        continue-on-error: true
+      # Fail the build on a type error. The previous workflow ran `next lint`,
+      # which no longer exists in Next 16, behind `continue-on-error: true` — so
+      # it reported success no matter what.
+      - name: Type check
+        run: npx tsc --noEmit
 
       - name: Lint
-        run: npx next lint
-        continue-on-error: true
+        run: npx eslint src
 
       - name: Build
         run: npm run build
-        env:
-          # Next.js build needs these if you use env in build (add real values in Vercel)
-          SKIP_ENV_VALIDATION: "1"
+
+      - name: Report bundle size
+        if: always()
+        run: |
+          echo "### Build output" >> "$GITHUB_STEP_SUMMARY"
+          echo '```' >> "$GITHUB_STEP_SUMMARY"
+          du -sh .next 2>/dev/null >> "$GITHUB_STEP_SUMMARY" || true
+          find .next/static/chunks -name '*.js' -printf '%s\n' 2>/dev/null \
+            | awk '{s+=$1} END{printf "client JS (uncompressed): %.0f KB\n", s/1024}' \
+            >> "$GITHUB_STEP_SUMMARY" || true
+          echo '```' >> "$GITHUB_STEP_SUMMARY"
+
+  audit:
+    name: Dependency audit
+    runs-on: ubuntu-latest
+    timeout-minutes: 10
+    steps:
+      - uses: actions/checkout@v4
+      - uses: actions/setup-node@v4
+        with:
+          node-version: "20"
+          cache: "npm"
+      - run: npm ci
+
+      # Advisory only. The 5 current "high" findings are all in the ESLint
+      # toolchain (braces -> micromatch -> fast-glob -> eslint-config-next); they
+      # never reach the browser or the server runtime, and the only fix is a major
+      # downgrade of eslint-config-next. Documented in docs/SECURITY.md.
+      - name: Audit production dependencies
+        run: npm audit --omit=dev || true
+
+      - name: Full audit (informational)
+        run: npm audit || true

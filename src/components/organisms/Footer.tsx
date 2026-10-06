@@ -1,51 +1,186 @@
-import { Container } from "@/components/atoms/Container";
-import { Logo } from "@/components/atoms/Logo";
-import { Text } from "@/components/atoms/Text";
-import { Github, Linkedin, Mail } from "lucide-react";
+"use client";
+
+import { FOOTER_COLUMNS, SITE } from "@/data/site";
+import type { SiteConfig } from "@/types/site";
 import Link from "next/link";
+import { useEffect, useRef, useState } from "react";
 
-const WhatsAppIcon = ({ size = 20 }: { size?: number }) => (
-    <svg width={size} height={size} viewBox="0 0 24 24" fill="currentColor" aria-hidden>
-        <path d="M17.472 14.382c-.297-.149-1.758-.867-2.03-.967-.273-.099-.471-.148-.67.15-.197.297-.767.966-.94 1.164-.173.199-.347.223-.644.075-.297-.15-1.255-.463-2.39-1.475-.883-.788-1.48-1.761-1.653-2.059-.173-.297-.018-.458.13-.606.134-.133.298-.347.446-.52.149-.174.198-.298.298-.497.099-.198.05-.371-.025-.52-.075-.149-.669-1.612-.916-2.207-.242-.579-.487-.5-.669-.51-.173-.008-.371-.01-.57-.01-.198 0-.52.074-.792.372-.272.297-1.04 1.016-1.04 2.479 0 1.462 1.065 2.875 1.213 3.074.149.198 2.096 3.2 5.077 4.487.709.306 1.262.489 1.694.625.712.227 1.36.195 1.871.118.571-.085 1.758-.719 2.006-1.413.248-.694.248-1.289.173-1.413-.074-.124-.272-.198-.57-.347m-5.421 7.403h-.004a9.87 9.87 0 01-5.031-1.378l-.361-.214-3.741.982.998-3.648-.235-.374a9.86 9.86 0 01-1.51-5.26c.001-5.45 4.436-9.884 9.888-9.884 2.64 0 5.122 1.03 6.988 2.898a9.825 9.825 0 012.893 6.994c-.003 5.45-4.437 9.884-9.885 9.884m8.413-18.297A11.815 11.815 0 0012.05 0C5.495 0 .16 5.335.157 11.892c0 2.096.547 4.142 1.588 5.945L.057 24l6.305-1.654a11.882 11.882 0 005.683 1.448h.005c6.554 0 11.89-5.335 11.893-11.893a11.821 11.821 0 00-3.48-8.413z" />
-    </svg>
-);
+/**
+ * Wordmark that scales to fill the footer's width exactly.
+ *
+ * The glyphs are measured once at a known size, then the ratio gives the font
+ * size that fits the container — cheaper and sharper than an SVG viewBox trick,
+ * and it re-fits on resize.
+ */
+const FitWordmark = ({ text }: { text: string }) => {
+    const boxRef = useRef<HTMLDivElement>(null);
+    const spanRef = useRef<HTMLSpanElement>(null);
+    const [size, setSize] = useState(0);
 
-export const Footer = () => {
+    useEffect(() => {
+        const fit = () => {
+            const box = boxRef.current;
+            const span = spanRef.current;
+            if (!box || !span) return;
+            const BASE = 100;
+            const previous = span.style.fontSize;
+            span.style.fontSize = `${BASE}px`;
+            const natural = span.getBoundingClientRect().width;
+            span.style.fontSize = previous;
+            if (!natural) return;
+            // A hair under 1 so the last glyph's bearing never clips.
+            setSize((box.clientWidth / natural) * BASE * 0.995);
+        };
+
+        fit();
+
+        // Measuring before the webfont lands gives the fallback's metrics, which
+        // is what made the wordmark overflow its container.
+        let cancelled = false;
+        document.fonts?.ready.then(() => {
+            if (!cancelled) fit();
+        });
+
+        const observer = new ResizeObserver(fit);
+        if (boxRef.current) observer.observe(boxRef.current);
+        return () => {
+            cancelled = true;
+            observer.disconnect();
+        };
+    }, [text]);
+
     return (
-        <footer className="border-t border-white/10 bg-black/50 backdrop-blur-md pt-16 pb-8">
-            <Container>
-                <div className="grid gap-12 md:grid-cols-2 lg:grid-cols-4 mb-12">
-                    <div className="col-span-1 lg:col-span-2">
-                        <Logo className="mb-6" />
-                        <Text className="max-w-sm">
-                            Crafting digital experiences with a focus on liquid aesthetics and human-centered design.
-                        </Text>
+        <div aria-hidden="true" className="relative mt-8 max-w-full select-none overflow-hidden">
+            <div ref={boxRef} className="w-full font-bold uppercase leading-none tracking-tight text-ink">
+                <span
+                    ref={spanRef}
+                    className="inline-block whitespace-nowrap align-top"
+                    style={size ? { fontSize: `${size}px` } : { fontSize: "100px", visibility: "hidden" }}
+                >
+                    {text}
+                </span>
+            </div>
+        </div>
+    );
+};
+
+export const Footer = ({ config }: { config?: SiteConfig }) => {
+    const year = new Date().getFullYear();
+    const email = config?.email || SITE.email;
+    const fullName = SITE.name;
+    // The oversized wordmark reads better as the first name alone.
+    const mark = fullName.split(" ").filter(Boolean)[0] ?? fullName;
+
+    return (
+        <footer id="footer" className="relative w-full max-w-full overflow-hidden border-t border-line">
+            <div className="relative mx-auto w-full max-w-[var(--container-grid)] px-[var(--gutter)] pb-12 pt-[clamp(56px,7vw,96px)]">
+                <div className="grid grid-cols-1 gap-14 lg:grid-cols-12 lg:gap-12 xl:gap-16">
+                    {/* Pitch + email */}
+                    <div className="lg:col-span-4">
+                        <p className="max-w-[34ch] text-body leading-snug">
+                            {SITE.role} with 3 years of experience, crafting web and eCommerce
+                            experiences that load fast and convert better.
+                        </p>
+                        <p className="mt-10 font-mono text-label uppercase tracking-wider text-muted">
+                            Let&rsquo;s make an impact together.
+                        </p>
+                        <a
+                            href={`mailto:${email}`}
+                            data-cursor-text="Email"
+                            className="mt-4 inline-block text-h3 font-medium transition-colors hover:text-accent"
+                        >
+                            {email}
+                        </a>
                     </div>
 
-                    <div>
-                        <h3 className="text-white font-bold mb-6">Navigation</h3>
-                        <ul className="space-y-4">
-                            <li><Link href="#about" className="text-gray-400 hover:text-sky-400 transition-colors">About</Link></li>
-                            <li><Link href="#projects" className="text-gray-400 hover:text-sky-400 transition-colors">Projects</Link></li>
-                            <li><Link href="#contact" className="text-gray-400 hover:text-sky-400 transition-colors">Contact</Link></li>
+                    {/* Link columns */}
+                    <div className="grid grid-cols-2 gap-x-8 gap-y-10 sm:grid-cols-3 sm:gap-x-12 sm:gap-y-12 lg:col-span-8 lg:grid-cols-3 xl:gap-x-14">
+                        {FOOTER_COLUMNS.map((column) => (
+                            <nav key={column.heading} aria-label={column.heading}>
+                                <h2 className="font-mono text-label uppercase tracking-wider text-muted">
+                                    {column.heading}
+                                </h2>
+                                <ul className="mt-5 flex flex-col gap-3">
+                                    {column.links.map((link) => {
+                                        const content = column.dotted ? (
+                                            <>
+                                                <span
+                                                    aria-hidden="true"
+                                                    className="h-1.5 w-1.5 rounded-full bg-muted transition-colors group-hover:bg-accent"
+                                                />
+                                                {link.name}
+                                            </>
+                                        ) : (
+                                            link.name
+                                        );
+
+                                        const className = column.dotted
+                                            ? "group inline-flex items-center gap-2 text-small transition-colors hover:text-accent"
+                                            : "text-small transition-colors hover:text-accent";
+
+                                        return (
+                                            <li key={link.name}>
+                                                {link.external ? (
+                                                    <a
+                                                        href={link.href}
+                                                        target="_blank"
+                                                        rel="noopener noreferrer"
+                                                        className={className}
+                                                    >
+                                                        {content}
+                                                    </a>
+                                                ) : (
+                                                    <Link href={link.href} className={className}>
+                                                        {content}
+                                                    </Link>
+                                                )}
+                                            </li>
+                                        );
+                                    })}
+                                </ul>
+                            </nav>
+                        ))}
+                    </div>
+                </div>
+            </div>
+
+            {/* Availability marquee */}
+            <div
+                role="group"
+                className="relative flex w-full overflow-hidden border-y border-line py-4 text-[clamp(32px,6vw,84px)] font-medium uppercase leading-none tracking-tight"
+                style={{
+                    maskImage:
+                        "linear-gradient(to right, transparent 0%, black 9%, black 91%, transparent 100%)",
+                    WebkitMaskImage:
+                        "linear-gradient(to right, transparent 0%, black 9%, black 91%, transparent 100%)",
+                }}
+            >
+                <div
+                    className="flex motion-reduce:animate-none"
+                    style={{ animation: "marquee 28s linear infinite" }}
+                >
+                    {[0, 1].map((copy) => (
+                        <ul key={copy} aria-hidden="true" className="flex shrink-0 items-center gap-8 pr-8">
+                            <li className="flex items-center gap-8 whitespace-nowrap">
+                                <span>Available for freelance or fulltime</span>
+                                <span className="text-accent">·</span>
+                            </li>
                         </ul>
-                    </div>
-
-                    <div>
-                        <h3 className="text-white font-bold mb-6">Socials</h3>
-                        <div className="flex gap-4">
-                            <Link href="https://github.com/umerfarooque00786" target="_blank" rel="noopener noreferrer" className="p-2 rounded-full bg-white/5 hover:bg-sky-500/20 hover:text-sky-400 transition-colors" aria-label="GitHub"><Github size={20} /></Link>
-                            <Link href="https://www.linkedin.com/in/umer-farooq-296252272" target="_blank" rel="noopener noreferrer" className="p-2 rounded-full bg-white/5 hover:bg-sky-500/20 hover:text-sky-400 transition-colors" aria-label="LinkedIn"><Linkedin size={20} /></Link>
-                            <Link href="https://wa.me/923003024283" target="_blank" rel="noopener noreferrer" className="p-2 rounded-full bg-white/5 hover:bg-sky-500/20 hover:text-sky-400 transition-colors" aria-label="WhatsApp"><WhatsAppIcon size={20} /></Link>
-                            <Link href="mailto:umerfarooqkk4@gmail.com" className="p-2 rounded-full bg-white/5 hover:bg-sky-500/20 hover:text-sky-400 transition-colors" aria-label="Email"><Mail size={20} /></Link>
-                        </div>
-                    </div>
+                    ))}
                 </div>
+                {/* The animated copies are hidden from assistive tech; this is the readable one. */}
+                <ul className="sr-only">
+                    <li>Available for freelance or fulltime</li>
+                </ul>
+            </div>
 
-                <div className="border-t border-white/5 pt-8 text-center">
-                    <Text size="sm">&copy; {new Date().getFullYear()} Umer. All rights reserved.</Text>
-                </div>
-            </Container>
+            <FitWordmark text={mark} />
+
+            <div className="relative mx-auto w-full max-w-[var(--container-grid)] px-[var(--gutter)] pb-7 pt-7">
+                <p className="font-mono text-[10px] uppercase tracking-wider text-muted">
+                    © {year} {fullName}. All rights reserved.
+                </p>
+            </div>
         </footer>
     );
 };

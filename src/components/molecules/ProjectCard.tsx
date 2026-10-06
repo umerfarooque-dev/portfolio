@@ -15,13 +15,19 @@ export const ProjectCard = ({ project }: ProjectCardProps) => {
         <GlassCard hoverEffect className="group relative overflow-hidden p-0 h-full flex flex-col">
             {/* Image Container */}
             <Link href={`/projects/${project.id}`} className="block relative aspect-video w-full overflow-hidden bg-gray-900/50">
-                <Image
-                    src={project.imageUrl}
-                    alt={project.title}
-                    fill
-                    sizes="(max-width: 768px) 100vw, (max-width: 1200px) 50vw, 33vw"
-                    className="object-cover object-top transition-transform duration-700 group-hover:scale-105"
-                />
+                {project.imageUrl && project.imageUrl.startsWith('http') || project.imageUrl.startsWith('/') ? (
+                    <Image
+                        src={project.imageUrl}
+                        alt={project.title}
+                        fill
+                        sizes="(max-width: 768px) 100vw, (max-width: 1200px) 50vw, 33vw"
+                        className="object-cover object-top transition-transform duration-700 group-hover:scale-105"
+                    />
+                ) : (
+                    <div className="absolute inset-0 flex items-center justify-center bg-surface text-muted">
+                        No Image
+                    </div>
+                )}
                 {/* Overlay Gradient */}
                 <div className="absolute inset-0 bg-gradient-to-t from-gray-950 via-gray-950/20 to-transparent opacity-80" />
             </Link>
@@ -31,7 +37,7 @@ export const ProjectCard = ({ project }: ProjectCardProps) => {
                 <div className="mb-4 flex items-start justify-between">
                     <div>
                         <Link href={`/projects/${project.id}`}>
-                            <Heading size="md" className="group-hover:text-sky-400 transition-colors">
+                            <Heading size="md" className="group-hover:text-accent transition-colors">
                                 {project.title}
                             </Heading>
                         </Link>
@@ -39,7 +45,7 @@ export const ProjectCard = ({ project }: ProjectCardProps) => {
                             {project.tags?.slice(0, 3).map((tag) => (
                                 <span
                                     key={tag}
-                                    className="rounded-full bg-white/5 px-2 py-0.5 text-xs font-medium text-gray-300 border border-white/10"
+                                    className="rounded-full bg-surface px-2 py-0.5 text-xs font-medium text-ink/75 border border-line"
                                 >
                                     {tag}
                                 </span>
@@ -50,21 +56,21 @@ export const ProjectCard = ({ project }: ProjectCardProps) => {
                         href={project.liveUrl}
                         target="_blank"
                         rel="noopener noreferrer"
-                        className="rounded-full bg-white/10 p-2 text-white transition-colors hover:bg-sky-500 hover:text-white"
+                        className="rounded-full bg-surface p-2 text-ink transition-colors hover:bg-sky-500 hover:text-ink"
                         aria-label="Visit Live Site"
                     >
                         <ExternalLink className="h-5 w-5" />
                     </a>
                 </div>
 
-                <Text size="sm" className="text-gray-400 flex-grow mb-4">
+                <Text size="sm" className="text-muted flex-grow mb-4">
                     {project.description}
                 </Text>
 
-                <div className="mt-auto pt-4 border-t border-white/5">
+                <div className="mt-auto pt-4 border-t border-line">
                     <Link
                         href={`/projects/${project.id}`}
-                        className="inline-flex items-center text-sm font-medium text-sky-400 hover:text-sky-300 transition-colors"
+                        className="inline-flex items-center text-sm font-medium text-accent hover:text-accent transition-colors"
                     >
                         View Details
                         <ArrowUpRight className="ml-1 h-3 w-3" />

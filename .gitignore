@@ -45,4 +45,13 @@ prisma/*.db-journal
 *.tsbuildinfo
 next-env.d.ts
 
-/src/generated/prisma
+# generated Prisma clients — stale, regenerated into node_modules/.prisma instead.
+# ~150 MB incl. query-engine binaries; must never be committed.
+/src/generated
+
+# agent + scratch working dirs
+/.claude
+/scratch
+
+# leftover local uploads from the removed admin CMS
+/public/uploads

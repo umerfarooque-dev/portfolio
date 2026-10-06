@@ -9,15 +9,15 @@ interface TextProps {
 }
 
 export const Text = ({
-    as: Component = "p",
+    as: Component ="p",
     children,
     className,
-    size = "md",
+    size ="md",
 }: TextProps) => {
     return (
         <Component
             className={cn(
-                "text-gray-400 leading-relaxed",
+"text-muted leading-relaxed",
                 size === "lg" && "text-lg",
                 size === "md" && "text-base",
                 size === "sm" && "text-sm",

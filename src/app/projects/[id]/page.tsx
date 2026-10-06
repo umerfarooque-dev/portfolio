@@ -1,7 +1,8 @@
-"use client";
-
-import { useParams, useRouter } from "next/navigation";
-import { projects } from "@/data/projects";
+import { ProjectImage } from "@/components/atoms/ProjectImage";
+import Image from "next/image";
+import { getProjectRow, getSiteConfig } from "@/lib/site-data";
+import { toProject } from "@/lib/db-project";
+import { projects as staticProjects } from "@/data/projects";
 import { Container } from "@/components/atoms/Container";
 import { GlassCard } from "@/components/atoms/GlassCard";
 import { Heading } from "@/components/atoms/Heading";
@@ -10,14 +11,22 @@ import { Button } from "@/components/atoms/Button";
 import { ArrowLeft, ExternalLink, Calendar, User, FolderOpen, CheckCircle2 } from "lucide-react";
 import Link from "next/link";
 
-export default function ProjectDetailPage() {
-    const params = useParams();
-    const router = useRouter();
-    const projectId = params.id as string;
 
-    const project = projects.find((p) => p.id === projectId);
+export const revalidate = 60;
 
-    if (!project) {
+export default async function ProjectDetailPage({ params }: { params: Promise<{ id: string }> }) {
+    const { id: projectId } = await params;
+
+    const [dbProject, config] = await Promise.all([
+        getProjectRow(projectId),
+        getSiteConfig(),
+    ]);
+
+    // Projects that live in the static catalogue (the Shopify storefronts) have
+    // no database row, so fall back to it before deciding the page is missing.
+    const staticProject = staticProjects.find((p) => p.id === projectId);
+
+    if (!dbProject && !staticProject) {
         return (
             <div className="min-h-screen flex items-center justify-center py-24">
                 <Container className="text-center">
@@ -36,25 +45,31 @@ export default function ProjectDetailPage() {
         );
     }
 
+    // A database row wins; otherwise the project comes from the static catalogue.
+    const project = dbProject ? toProject(dbProject) : staticProject!;
+
     return (
         <div className="min-h-screen py-24">
             <Container>
-                {/* Back Button */}
-                <button
-                    onClick={() => router.back()}
-                    className="flex items-center gap-2 text-gray-400 hover:text-sky-400 transition-colors mb-8"
-                >
-                    <ArrowLeft className="h-4 w-4" />
-                    <span>Back to Projects</span>
-                </button>
+                {/* Top Actions */}
+                <div className="flex items-center justify-between mb-8">
+                    <Link
+                        href="/projects"
+                        className="inline-flex items-center gap-2 text-muted hover:text-accent transition-colors"
+                    >
+                        <ArrowLeft className="h-4 w-4" />
+                        <span>Back to Projects</span>
+                    </Link>
+
+                </div>
 
                 {/* Hero Section */}
                 <div className="mb-12">
                     <div className="flex flex-wrap items-center gap-3 mb-4">
-                        {project.tags?.map((tag) => (
+                        {project.tags?.map((tag: string) => (
                             <span
                                 key={tag}
-                                className="px-3 py-1 text-xs font-medium rounded-full bg-sky-500/10 text-sky-400 border border-sky-500/20"
+                                className="px-3 py-1 text-xs font-medium rounded-full bg-accent-dim text-accent border border-sky-500/20"
                             >
                                 {tag}
                             </span>
@@ -83,11 +98,13 @@ export default function ProjectDetailPage() {
                 </div>
 
                 {/* Main Image */}
-                <GlassCard className="p-0 mb-12 overflow-hidden">
-                    <img
+                <GlassCard className="p-0 mb-12 overflow-hidden relative aspect-video">
+                    <ProjectImage
                         src={project.imageUrl}
-                        alt={project.title}
-                        className="w-full h-auto object-cover"
+                        title={project.title}
+                        alt={`${project.title} screenshot`}
+                        sizes="(min-width: 1024px) 60vw, 100vw"
+                        priority
                     />
                 </GlassCard>
 
@@ -96,8 +113,8 @@ export default function ProjectDetailPage() {
                     {project.duration && (
                         <GlassCard className="p-6">
                             <div className="flex items-center gap-3 mb-2">
-                                <Calendar className="h-5 w-5 text-sky-400" />
-                                <h3 className="font-semibold text-white">Duration</h3>
+                                <Calendar className="h-5 w-5 text-accent" />
+                                <h3 className="font-semibold text-ink">Duration</h3>
                             </div>
                             <Text>{project.duration}</Text>
                         </GlassCard>
@@ -107,7 +124,7 @@ export default function ProjectDetailPage() {
                         <GlassCard className="p-6">
                             <div className="flex items-center gap-3 mb-2">
                                 <User className="h-5 w-5 text-purple-400" />
-                                <h3 className="font-semibold text-white">Role</h3>
+                                <h3 className="font-semibold text-ink">Role</h3>
                             </div>
                             <Text>{project.role}</Text>
                         </GlassCard>
@@ -117,7 +134,7 @@ export default function ProjectDetailPage() {
                         <GlassCard className="p-6">
                             <div className="flex items-center gap-3 mb-2">
                                 <FolderOpen className="h-5 w-5 text-pink-400" />
-                                <h3 className="font-semibold text-white">Category</h3>
+                                <h3 className="font-semibold text-ink">Category</h3>
                             </div>
                             <Text>{project.category}</Text>
                         </GlassCard>
@@ -135,9 +152,9 @@ export default function ProjectDetailPage() {
                                     Project Scope
                                 </Heading>
                                 <ul className="space-y-3">
-                                    {project.scope.map((item, index) => (
+                                    {project.scope.map((item: string, index: number) => (
                                         <li key={index} className="flex items-start gap-3">
-                                            <CheckCircle2 className="h-5 w-5 text-sky-400 mt-0.5 flex-shrink-0" />
+                                            <CheckCircle2 className="h-5 w-5 text-accent mt-0.5 flex-shrink-0" />
                                             <Text>{item}</Text>
                                         </li>
                                     ))}
@@ -152,7 +169,7 @@ export default function ProjectDetailPage() {
                                     Key Features
                                 </Heading>
                                 <ul className="space-y-3">
-                                    {project.features.map((feature, index) => (
+                                    {project.features.map((feature: string, index: number) => (
                                         <li key={index} className="flex items-start gap-3">
                                             <CheckCircle2 className="h-5 w-5 text-purple-400 mt-0.5 flex-shrink-0" />
                                             <Text>{feature}</Text>
@@ -169,12 +186,14 @@ export default function ProjectDetailPage() {
                                     Project Gallery
                                 </Heading>
                                 <div className="grid md:grid-cols-2 gap-4">
-                                    {project.gallery.map((image, index) => (
-                                        <GlassCard key={index} className="p-0 overflow-hidden">
-                                            <img
+                                    {project.gallery.map((image: string, index: number) => (
+                                        <GlassCard key={index} className="relative aspect-video p-0 overflow-hidden">
+                                            <Image
                                                 src={image}
                                                 alt={`${project.title} screenshot ${index + 1}`}
-                                                className="w-full h-auto object-cover hover:scale-105 transition-transform duration-300"
+                                                fill
+                                                sizes="(min-width: 768px) 50vw, 100vw"
+                                                className="object-cover transition-transform duration-300 hover:scale-105"
                                             />
                                         </GlassCard>
                                     ))}
@@ -187,15 +206,15 @@ export default function ProjectDetailPage() {
                     <div className="space-y-8">
                         <GlassCard className="p-8 sticky top-24">
                             {project.techStack && project.techStack.length > 0 && (
-                                <div className="mb-8 pb-8 border-b border-white/10">
+                                <div className="mb-8 pb-8 border-b border-line">
                                     <Heading size="md" className="mb-6">
                                         Tech Stack
                                     </Heading>
                                     <div className="flex flex-wrap gap-2">
-                                        {project.techStack.map((tech, index) => (
+                                        {project.techStack.map((tech: string, index: number) => (
                                             <span
                                                 key={index}
-                                                className="px-4 py-2 text-sm font-medium rounded-lg bg-white/5 text-gray-300 border border-white/10 hover:border-sky-500/30 transition-colors"
+                                                className="px-4 py-2 text-sm font-medium rounded-sm bg-surface text-ink/75 border border-line hover:border-sky-500/30 transition-colors"
                                             >
                                                 {tech}
                                             </span>
@@ -228,11 +247,10 @@ export default function ProjectDetailPage() {
                 <div className="mt-16">
                     <GlassCard className="p-12 text-center">
                         <Heading size="lg" className="mb-4">
-                            Interested in Similar Work?
+                            {config?.projectCtaTitle || "Interested in Similar Work? "}
                         </Heading>
                         <Text className="mb-8 max-w-2xl mx-auto">
-                            I&apos;m available for freelance projects and open to new opportunities.
-                            Let&apos;s discuss how we can work together.
+                            {config?.projectCtaText || "I'm available for freelance projects and open to new opportunities. Let's discuss how we can work together."}
                         </Text>
                         <div className="flex flex-wrap gap-4 justify-center">
                             <Link href="/contact">

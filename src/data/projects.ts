@@ -1,4 +1,7 @@
-export type ProjectStack = "laravel" | "wordpress";
+import { customProjects } from "./custom-projects";
+import { storeProjects } from "./store-projects";
+
+export type ProjectStack = "laravel" | "wordpress" | "shopify" | "nextjs";
 
 export interface Project {
   id: string;
@@ -18,15 +21,81 @@ export interface Project {
   role?: string;
   category?: string;
   gallery?: string[];
+  // Case Study fields
+  tagline?: string;
+  challenge?: string;
+  approach?: string;
+  results?: { value: string; label: string }[];
+  codeUrl?: string;
 }
 
-export const projects: Project[] = [
+const otherProjects: Project[] = [
+  {
+    id: "project-react-placeholder",
+    title: "Project Name (React)",
+    description: "Short one-line description of what it does.",
+    liveUrl: "#",
+    codeUrl: "#",
+    imageUrl: "",
+    tags: ["React", "Tailwind", "REST API"],
+    stack: "nextjs",
+    fullDescription: "A modern React web application designed with a sleek user interface, Tailwind CSS styling, and integration with REST APIs.",
+    scope: ["Frontend architecture", "Responsive layout", "State management"],
+    techStack: ["React", "Tailwind CSS", "JavaScript"],
+    features: ["Interactive state", "Tailwind utility layout", "REST API integration"],
+    duration: "2 weeks",
+    role: "Frontend Developer",
+    category: "Web Application"
+  },
+  {
+    id: "project-nextjs-placeholder",
+    title: "Project Name (Next.js)",
+    description: "Short one-line description of what it does.",
+    liveUrl: "#",
+    codeUrl: "#",
+    imageUrl: "",
+    tags: ["Next.js", "TypeScript", "Auth"],
+    stack: "nextjs",
+    fullDescription: "A high-performance Next.js application built with TypeScript and featuring secure authentication mechanisms.",
+    scope: ["Full Stack Development", "TypeScript configuration", "Auth setup"],
+    techStack: ["Next.js", "TypeScript", "Tailwind CSS", "Auth"],
+    features: ["Server-Side Rendering", "TypeScript static checking", "Secure Auth integrations"],
+    duration: "3 weeks",
+    role: "Full Stack Developer",
+    category: "SaaS Platform"
+  },
+  {
+    id: "coffee-delivery",
+    title: "Coffee Delivery",
+    description: "A beautiful e-commerce platform for ordering coffee online.",
+    liveUrl: "https://coffee-delivery-first.vercel.app/",
+    imageUrl: "/projects/coffee-delivery.webp",
+    tags: ["E-commerce", "Next.js", "Frontend"],
+    stack: "nextjs",
+    fullDescription: "Coffee Delivery is a modern e-commerce web application built with Next.js, allowing users to browse coffee varieties, add them to a shopping cart, and complete orders with a seamless user experience.",
+    scope: [
+      "Frontend development",
+      "Shopping cart functionality",
+      "Responsive design",
+      "State management"
+    ],
+    techStack: ["Next.js", "React", "Tailwind CSS", "TypeScript"],
+    features: [
+      "Product catalog",
+      "Cart management",
+      "Checkout flow",
+      "Responsive layout"
+    ],
+    duration: "1 month",
+    role: "Frontend Developer",
+    category: "E-commerce"
+  },
   {
     id: "vadu",
     title: "VADU",
     description: "Connecting General Contractors with top-rated Sub-Contractors.",
     liveUrl: "https://vadu.io/",
-    imageUrl: "https://image.thum.io/get/width/600/crop/800/https://vadu.io/",
+    imageUrl: "",
     tags: ["Marketplace", "Laravel", "Contractors"],
     stack: "laravel",
     fullDescription: "VADU bridges trust between General Contractors and Sub-Contractors, providing transparency for both parties. A marketplace for services, top-rated professionals, and trending services—built to end fake reviews and help people find the right contractor.",
@@ -48,51 +117,59 @@ export const projects: Project[] = [
     duration: "Ongoing",
     role: "Full Stack Developer",
     category: "Marketplace",
-    gallery: [
-      "https://image.thum.io/get/width/800/crop/600/https://vadu.io/",
-      "https://image.thum.io/get/width/600/crop/800/https://vadu.io/"
-    ]
+    tagline: "Connecting General Contractors with top-rated Sub-Contractors",
+    challenge: "General Contractors struggled to find trusted, verified sub-contractors, often falling victim to fake reviews and lack of transparency. The marketplace needed a reliable rating system and clear service categorization to bridge this gap.",
+    approach: "Built a robust marketplace using Laravel and MySQL. Implemented a custom onboarding flow for sub-contractors, an advanced review verification system, and a multilingual interface in English and Spanish for broad accessibility.",
+    results: [
+      { value: "[ADD METRIC]", label: "Increase in Contractor Connections" },
+      { value: "[ADD METRIC]", label: "Reduction in Fake Reviews" },
+      { value: "100%", label: "Verified Profile Directory" }
+    ],
+    codeUrl: ""
   },
   {
     id: "outriderx",
     title: "OutriderX",
-    description: "High-performance marketing platform.",
+    description: "Marketing platform built on a custom WordPress theme.",
     liveUrl: "https://outriderx.com/",
-    imageUrl: "https://image.thum.io/get/width/600/crop/800/https://outriderx.com/",
-    tags: ["Marketing", "Platform"],
-    fullDescription: "OutriderX is a cutting-edge marketing platform designed to help businesses scale their digital presence. Built with modern web technologies, it offers seamless user experience and powerful analytics.",
-    scope: [
-      "Full-stack web application development",
-      "Responsive design for all devices",
-      "SEO optimization and performance tuning",
-      "Integration with third-party marketing tools",
-      "Analytics dashboard implementation"
-    ],
-    techStack: ["Next.js", "React", "TypeScript", "Tailwind CSS", "Node.js", "PostgreSQL"],
-    features: [
-      "Real-time analytics dashboard",
-      "Campaign management system",
-      "Multi-channel marketing automation",
-      "Custom reporting tools",
-      "Team collaboration features"
-    ],
-    duration: "3 months",
-    role: "Full Stack Developer",
-    category: "Marketing Platform",
+    imageUrl: "/projects/outriderx.webp",
+    tags: ["WordPress", "Custom Theme", "PHP"],
     stack: "wordpress",
-    gallery: [
-      "https://image.thum.io/get/width/800/crop/600/https://outriderx.com/",
-      "https://image.thum.io/get/width/600/crop/800/https://outriderx.com/"
-    ]
+    role: "WordPress Developer",
+    category: "Marketing Site",
+    fullDescription: "A marketing site for OutriderX built on a custom WordPress theme, with reusable content blocks so the marketing team can build pages without a developer, and performance work to keep Core Web Vitals green.",
+    challenge:
+      "The marketing team could not ship a landing page without a developer. Every campaign meant a ticket, a deploy and a wait, so campaigns got planned around developer availability rather than around the market.",
+    approach:
+      "Built the theme as a set of reusable ACF blocks with real editor previews, so pages are composed from a controlled kit. The team builds and publishes on its own; the design stays consistent because the blocks enforce it.",
+    scope: [
+      "Custom WordPress theme development",
+      "Reusable block and template system",
+      "Responsive layout across breakpoints",
+      "SEO and performance tuning",
+      "Third-party marketing integrations"
+    ],
+    techStack: ["WordPress", "PHP", "JavaScript", "MySQL", "ACF"],
+    features: [
+      "Custom theme built from scratch",
+      "Reusable content blocks for the marketing team",
+      "SEO and Core Web Vitals tuning",
+      "Third-party marketing tool integrations"
+    ],
+    duration: "3 months"
   },
   {
     id: "hqpt",
     title: "HQPT",
     description: "Premium fitness and training connection.",
     liveUrl: "https://hqpt.com/",
-    imageUrl: "https://image.thum.io/get/width/600/crop/800/https://hqpt.com/",
+    imageUrl: "/projects/hqpt.webp",
     tags: ["Health", "Fitness"],
     fullDescription: "HQPT connects fitness enthusiasts with professional trainers, offering personalized training programs and nutrition guidance. The platform streamlines the entire fitness journey from goal setting to achievement tracking.",
+    challenge:
+      "A corporate site that kept accumulating plugins to cover gaps the theme could not. Each addition loaded more script on every page, and Core Web Vitals had drifted into the red on mobile.",
+    approach:
+      "Rebuilt the pieces that mattered as custom blocks, removed the plugins they replaced, and worked the remaining third-party scripts down to what actually needed to load before first render.",
     scope: [
       "User authentication and profile management",
       "Trainer-client matching algorithm",
@@ -110,20 +187,20 @@ export const projects: Project[] = [
     duration: "4 months",
     role: "Lead Web Developer",
     category: "Fitness & Health",
-    stack: "wordpress",
-    gallery: [
-      "https://image.thum.io/get/width/800/crop/600/https://hqpt.com/",
-      "https://image.thum.io/get/width/600/crop/800/https://hqpt.com/"
-    ]
+    stack: "wordpress"
   },
   {
     id: "themindfulc",
     title: "The Mindful C",
     description: "Mindfulness and coaching platform.",
     liveUrl: "https://themindfulc.com/",
-    imageUrl: "https://image.thum.io/get/width/600/crop/800/https://themindfulc.com/",
+    imageUrl: "/projects/themindfulc.webp",
     tags: ["Coaching", "Wellness"],
     fullDescription: "A comprehensive mindfulness and life coaching platform that helps users achieve mental clarity and personal growth through guided sessions, meditation, and one-on-one coaching.",
+    challenge:
+      "An editorial publication where the writing is the product, running on a template designed for a business brochure. Long reads were hard to read: measure too wide, hierarchy flat, images fighting the text.",
+    approach:
+      "Designed the typography first — measure, scale and rhythm — then built the theme around it, with Gutenberg blocks that give writers the layouts they actually use rather than a generic page builder.",
     scope: [
       "Content management system for courses",
       "Live session booking and management",
@@ -140,18 +217,14 @@ export const projects: Project[] = [
     ],
     duration: "2 months",
     role: "WordPress Developer",
-    category: "Wellness & Coaching",
-    gallery: [
-      "https://image.thum.io/get/width/800/crop/600/https://themindfulc.com/",
-      "https://image.thum.io/get/width/600/crop/800/https://themindfulc.com/"
-    ]
+    category: "Wellness & Coaching"
   },
   {
     id: "refreshlifepro",
     title: "Refresh Life Pro",
     description: "Interactive lifestyle management tool.",
     liveUrl: "https://refreshlifepro.com/",
-    imageUrl: "https://image.thum.io/get/width/600/crop/800/https://refreshlifepro.com/",
+    imageUrl: "/projects/refreshlifepro.webp",
     tags: ["Lifestyle", "Web App"],
     fullDescription: "Refresh Life Pro is an all-in-one lifestyle management platform helping users organize their daily routines, set goals, and maintain work-life balance through smart scheduling and habit tracking.",
     scope: [
@@ -171,19 +244,28 @@ export const projects: Project[] = [
     duration: "3 months",
     role: "Full Stack Developer",
     category: "Productivity",
-    gallery: [
-      "https://image.thum.io/get/width/800/crop/600/https://refreshlifepro.com/",
-      "https://image.thum.io/get/width/600/crop/800/https://refreshlifepro.com/"
-    ]
+    tagline: "Interactive lifestyle management and productivity tool",
+    challenge: "Modern professionals struggle with work-life balance and daily routine organization. Existing apps were either too complex or lacked clean, motivating dashboards to track habits and goals in one place.",
+    approach: "Developed a Next.js web application utilizing Tailwind CSS and React hooks for seamless state management. Built interactive calendar integrations and custom habit-tracking charts using a liquid glass dashboard.",
+    results: [
+      { value: "[ADD METRIC]", label: "Active Daily Users" },
+      { value: "[ADD METRIC]", label: "Habits Tracked Weekly" },
+      { value: "[ADD METRIC]", label: "Faster page loads via Next.js SSG" }
+    ],
+    codeUrl: ""
   },
   {
     id: "lampo",
     title: "Lampo Shop",
     description: "E-commerce solution for lighting.",
     liveUrl: "https://en.lamposhop.com/",
-    imageUrl: "https://image.thum.io/get/width/600/crop/800/https://en.lamposhop.com/",
+    imageUrl: "/projects/lampo.webp",
     tags: ["E-commerce", "Lighting"],
     fullDescription: "Lampo Shop is a premium e-commerce platform specializing in designer lighting solutions. Features include advanced product filtering, 3D product previews, and seamless checkout experience.",
+    challenge:
+      "One WooCommerce catalogue selling into several language markets. The usual answer is a separate site per language, which means the same product maintained in several places and going out of sync the first week.",
+    approach:
+      "Kept one catalogue and one source of truth, with translated content layered over it and localised routes and currency, so adding a product is one job rather than one per market.",
     scope: [
       "E-commerce platform development",
       "Product catalog with advanced filters",
@@ -201,18 +283,14 @@ export const projects: Project[] = [
     duration: "2 months",
     role: "Shopify Developer",
     category: "E-commerce",
-    stack: "wordpress",
-    gallery: [
-      "https://image.thum.io/get/width/800/crop/600/https://en.lamposhop.com/",
-      "https://image.thum.io/get/width/600/crop/800/https://en.lamposhop.com/"
-    ]
+    stack: "wordpress"
   },
   {
     id: "timeless",
     title: "Timeless Touch Ceramics",
     description: "Artisan ceramics showcase and store.",
     liveUrl: "https://www.timelesstouchceramics.com/",
-    imageUrl: "https://image.thum.io/get/width/600/crop/800/https://www.timelesstouchceramics.com/",
+    imageUrl: "/projects/timeless.webp",
     tags: ["Art", "Store"],
     fullDescription: "An elegant online gallery and store for handcrafted ceramic art pieces. The platform beautifully showcases artisan work while providing a smooth purchasing experience.",
     scope: [
@@ -231,20 +309,20 @@ export const projects: Project[] = [
     ],
     duration: "1.5 months",
     role: "WordPress & WooCommerce Developer",
-    category: "E-commerce & Art",
-    gallery: [
-      "https://image.thum.io/get/width/800/crop/600/https://www.timelesstouchceramics.com/",
-      "https://image.thum.io/get/width/600/crop/800/https://www.timelesstouchceramics.com/"
-    ]
+    category: "E-commerce & Art"
   },
   {
     id: "anphie",
     title: "Anphie Jewels",
     description: "Luxury jewelry brand website.",
     liveUrl: "https://anphiejewels.com/",
-    imageUrl: "https://image.thum.io/get/width/600/crop/800/https://anphiejewels.com/",
+    imageUrl: "/projects/anphie.webp",
     tags: ["Luxury", "Fashion"],
     fullDescription: "Anphie Jewels is a luxury jewelry e-commerce platform featuring high-end collections with stunning visuals, detailed product information, and premium user experience.",
+    challenge:
+      "Jewellery sells on detail — stone, setting, finish — and a stock product template reduces all of that to a gallery and a price. Customers were emailing to ask what the listing should already have told them.",
+    approach:
+      "Rebuilt the product page around the detail: material and specification surfaced inline, imagery given the room to carry the craft, and the variant structure changed so finish and size stopped fighting each other.",
     scope: [
       "Luxury brand website design",
       "High-resolution image galleries",
@@ -262,20 +340,20 @@ export const projects: Project[] = [
     duration: "3 months",
     role: "Shopify Plus Developer",
     category: "Luxury E-commerce",
-    stack: "wordpress",
-    gallery: [
-      "https://image.thum.io/get/width/800/crop/600/https://anphiejewels.com/",
-      "https://image.thum.io/get/width/600/crop/800/https://anphiejewels.com/"
-    ]
+    stack: "wordpress"
   },
   {
     id: "rightways",
     title: "Rightways",
     description: "Corporate consulting and strategy.",
     liveUrl: "https://rightways.com/",
-    imageUrl: "/images/right-ways-imge.png",
+    imageUrl: "/projects/rightways.webp",
     tags: ["Corporate", "Strategies"],
     fullDescription: "Rightways is a corporate consulting firm's website showcasing their services, case studies, and thought leadership in business strategy and organizational development.",
+    challenge:
+      "Leads arrived by email with no structure, so nothing could be followed up reliably and nobody could say which service page produced which enquiry.",
+    approach:
+      "Put structured forms on each service page with validation and spam handling, and recorded the source with the submission so the enquiries are attributable rather than an undifferentiated inbox.",
     scope: [
       "Corporate website development",
       "Service pages and case studies",
@@ -292,18 +370,14 @@ export const projects: Project[] = [
     ],
     duration: "2 months",
     role: "WordPress Developer",
-    category: "Corporate Website",
-    gallery: [
-      "https://image.thum.io/get/width/800/crop/600/https://rightways.com/",
-      "https://image.thum.io/get/width/600/crop/800/https://rightways.com/"
-    ]
+    category: "Corporate Website"
   },
   {
     id: "taxformhero",
     title: "Tax Form Hero",
     description: "Automated tax form processing.",
     liveUrl: "https://taxformhero.com/",
-    imageUrl: "https://image.thum.io/get/width/600/crop/800/https://taxformhero.com/",
+    imageUrl: "/projects/taxformhero.webp",
     tags: ["Finance", "SaaS"],
     fullDescription: "Tax Form Hero automates the complex process of tax form generation and filing, making tax season stress-free for individuals and small businesses.",
     scope: [
@@ -323,17 +397,22 @@ export const projects: Project[] = [
     duration: "5 months",
     role: "Full Stack Developer",
     category: "FinTech SaaS",
-    gallery: [
-      "https://image.thum.io/get/width/800/crop/600/https://taxformhero.com/",
-      "https://image.thum.io/get/width/600/crop/800/https://taxformhero.com/"
-    ]
+    tagline: "Automated tax form processing and FinTech SaaS",
+    challenge: "Individuals and small businesses face stressful, error-prone manual tax filing processes. The application required a highly secure, automated solution to compile and file tax documents quickly.",
+    approach: "Created a secure FinTech SaaS using Laravel, integrating advanced data encryption, automated PDF generation engines, and secure payment processing for filing fees.",
+    results: [
+      { value: "[ADD METRIC]", label: "Tax Forms Processed" },
+      { value: "[ADD METRIC]", label: "Time Saved per User" },
+      { value: "[ADD METRIC]", label: "Filing Accuracy Rate" }
+    ],
+    codeUrl: ""
   },
   {
     id: "khebrati",
     title: "Khebrati",
     description: "Professional expertise sharing platform.",
     liveUrl: "https://khebrati.com/",
-    imageUrl: "https://image.thum.io/get/width/600/crop/800/https://khebrati.com/",
+    imageUrl: "/projects/khebrati.webp",
     tags: ["Education", "LMS"],
     fullDescription: "Khebrati connects professionals with learners, enabling knowledge sharing through courses, mentorship programs, and interactive workshops.",
     scope: [
@@ -352,18 +431,14 @@ export const projects: Project[] = [
     ],
     duration: "4 months",
     role: "Lead Developer",
-    category: "EdTech Platform",
-    gallery: [
-      "https://image.thum.io/get/width/800/crop/600/https://khebrati.com/",
-      "https://image.thum.io/get/width/600/crop/800/https://khebrati.com/"
-    ]
+    category: "EdTech Platform"
   },
   {
     id: "vara",
     title: "Vara Corp",
     description: "Enterprise corporate solutions.",
     liveUrl: "https://www.vara-corp.com/",
-    imageUrl: "https://image.thum.io/get/width/600/crop/800/https://www.vara-corp.com/",
+    imageUrl: "/projects/vara.webp",
     tags: ["Enterprise", "Solutions"],
     fullDescription: "Vara Corp provides enterprise-level corporate solutions with a focus on digital transformation and business process optimization.",
     scope: [
@@ -382,18 +457,14 @@ export const projects: Project[] = [
     ],
     duration: "2.5 months",
     role: "WordPress Developer",
-    category: "Enterprise Website",
-    gallery: [
-      "https://image.thum.io/get/width/800/crop/600/https://www.vara-corp.com/",
-      "https://image.thum.io/get/width/600/crop/800/https://www.vara-corp.com/"
-    ]
+    category: "Enterprise Website"
   },
   {
     id: "xaigent",
     title: "Xaigent",
     description: "AI-driven business intelligence.",
     liveUrl: "https://xaigent.net/",
-    imageUrl: "https://image.thum.io/get/width/600/crop/800/https://xaigent.net/",
+    imageUrl: "/projects/xaigent.webp",
     tags: ["AI", "Analytics"],
     fullDescription: "Xaigent leverages artificial intelligence to provide businesses with actionable insights, predictive analytics, and automated decision-making tools.",
     scope: [
@@ -412,18 +483,14 @@ export const projects: Project[] = [
     ],
     duration: "6 months",
     role: "Full Stack Developer",
-    category: "AI & Analytics",
-    gallery: [
-      "https://image.thum.io/get/width/800/crop/600/https://xaigent.net/",
-      "https://image.thum.io/get/width/600/crop/800/https://xaigent.net/"
-    ]
+    category: "AI & Analytics"
   },
   {
     id: "dokanat",
     title: "Dokanat",
     description: "Online marketplace platform.",
     liveUrl: "https://www.dokanat.com/",
-    imageUrl: "https://image.thum.io/get/width/600/crop/800/https://www.dokanat.com/",
+    imageUrl: "/projects/dokanat.webp",
     tags: ["Marketplace", "Store"],
     fullDescription: "Dokanat is a comprehensive online marketplace connecting buyers and sellers across multiple categories with secure transactions and reliable delivery.",
     scope: [
@@ -442,18 +509,14 @@ export const projects: Project[] = [
     ],
     duration: "5 months",
     role: "Backend Developer",
-    category: "Marketplace Platform",
-    gallery: [
-      "https://image.thum.io/get/width/800/crop/600/https://www.dokanat.com/",
-      "https://image.thum.io/get/width/600/crop/800/https://www.dokanat.com/"
-    ]
+    category: "Marketplace Platform"
   },
   {
     id: "hajiq",
     title: "Hajiq",
     description: "Pilgrimage services and logistics.",
     liveUrl: "https://hajiq.com/",
-    imageUrl: "https://image.thum.io/get/width/600/crop/800/https://hajiq.com/",
+    imageUrl: "/projects/hajiq.webp",
     tags: ["Logistics", "Services"],
     fullDescription: "Hajiq provides comprehensive pilgrimage services including travel arrangements, accommodation booking, and guided tours for religious journeys.",
     scope: [
@@ -472,18 +535,14 @@ export const projects: Project[] = [
     ],
     duration: "3 months",
     role: "WordPress & WooCommerce Developer",
-    category: "Travel & Services",
-    gallery: [
-      "https://image.thum.io/get/width/800/crop/600/https://hajiq.com/",
-      "https://image.thum.io/get/width/600/crop/800/https://hajiq.com/"
-    ]
+    category: "Travel & Services"
   },
   {
     id: "marisavaz",
     title: "Marisa Vaz",
     description: "Personal brand and portfolio.",
     liveUrl: "https://marisavaz.co.mz/home/en/home/",
-    imageUrl: "https://image.thum.io/get/width/600/crop/800/https://marisavaz.co.mz/home/en/home/",
+    imageUrl: "/projects/marisavaz.webp",
     tags: ["Portfolio", "Creative"],
     fullDescription: "A stunning personal brand website showcasing professional achievements, portfolio work, and thought leadership in the industry.",
     scope: [
@@ -502,18 +561,14 @@ export const projects: Project[] = [
     ],
     duration: "1.5 months",
     role: "WordPress Developer",
-    category: "Personal Portfolio",
-    gallery: [
-      "https://image.thum.io/get/width/800/crop/600/https://marisavaz.co.mz/home/en/home/",
-      "https://image.thum.io/get/width/600/crop/800/https://marisavaz.co.mz/home/en/home/"
-    ]
+    category: "Personal Portfolio"
   },
   {
     id: "landology",
     title: "Landology",
     description: "Real estate and land development.",
     liveUrl: "https://landologyinc.com/",
-    imageUrl: "https://image.thum.io/get/width/600/crop/800/https://landologyinc.com/",
+    imageUrl: "/projects/landology.webp",
     tags: ["Real Estate", "Web"],
     fullDescription: "Landology specializes in land development and real estate investment, providing comprehensive property listings and development project showcases.",
     scope: [
@@ -533,18 +588,14 @@ export const projects: Project[] = [
     duration: "4 months",
     role: "Full Stack Developer",
     category: "Real Estate",
-    stack: "wordpress",
-    gallery: [
-      "https://image.thum.io/get/width/800/crop/600/https://landologyinc.com/",
-      "https://image.thum.io/get/width/600/crop/800/https://landologyinc.com/"
-    ]
+    stack: "wordpress"
   },
   {
     id: "finalchoice",
     title: "Final Choice",
     description: "Consumer choice awards and rankings.",
     liveUrl: "https://www.finalchoice.ca/",
-    imageUrl: "https://image.thum.io/get/width/600/crop/800/https://www.finalchoice.ca/",
+    imageUrl: "/projects/finalchoice.webp",
     tags: ["Directory", "Awards"],
     fullDescription: "Final Choice is a consumer choice awards platform that recognizes excellence in various industries through public voting and expert reviews.",
     scope: [
@@ -563,18 +614,14 @@ export const projects: Project[] = [
     ],
     duration: "3 months",
     role: "WordPress Developer",
-    category: "Awards Platform",
-    gallery: [
-      "https://image.thum.io/get/width/800/crop/600/https://www.finalchoice.ca/",
-      "https://image.thum.io/get/width/600/crop/800/https://www.finalchoice.ca/"
-    ]
+    category: "Awards Platform"
   },
   {
     id: "rxdirect",
     title: "RX Direct",
     description: "Direct to consumer pharmacy services.",
     liveUrl: "https://rx-direct.co.uk/",
-    imageUrl: "https://image.thum.io/get/width/600/crop/800/https://rx-direct.co.uk/",
+    imageUrl: "/projects/rxdirect.webp",
     tags: ["Health", "E-commerce"],
     fullDescription: "RX Direct provides direct-to-consumer pharmacy services with online prescription management, medication delivery, and health consultations.",
     scope: [
@@ -594,17 +641,14 @@ export const projects: Project[] = [
     duration: "3.5 months",
     role: "Shopify Developer",
     category: "Healthcare E-commerce",
-    gallery: [
-      "https://image.thum.io/get/width/800/crop/600/https://rx-direct.co.uk/",
-      "https://image.thum.io/get/width/600/crop/800/https://rx-direct.co.uk/"
-    ]
+    stack: "laravel"
   },
   {
     id: "easyrevie",
     title: "Easy Revie",
     description: "Review management system.",
     liveUrl: "https://easyrevie.sg/",
-    imageUrl: "https://image.thum.io/get/width/600/crop/800/https://easyrevie.sg/",
+    imageUrl: "/projects/easyrevie.webp",
     tags: ["SaaS", "Business"],
     fullDescription: "Easy Revie is a comprehensive review management platform helping businesses collect, manage, and showcase customer reviews across multiple platforms.",
     scope: [
@@ -623,18 +667,14 @@ export const projects: Project[] = [
     ],
     duration: "4 months",
     role: "Full Stack Developer",
-    category: "SaaS Platform",
-    gallery: [
-      "https://image.thum.io/get/width/800/crop/600/https://easyrevie.sg/",
-      "https://image.thum.io/get/width/600/crop/800/https://easyrevie.sg/"
-    ]
+    category: "SaaS Platform"
   },
   {
     id: "fulham",
     title: "Fulham Health",
     description: "Healthcare provider information.",
     liveUrl: "https://fulhamhealth.com/",
-    imageUrl: "https://image.thum.io/get/width/600/crop/800/https://fulhamhealth.com/",
+    imageUrl: "/projects/fulham.webp",
     tags: ["Healthcare", "Medical"],
     fullDescription: "Fulham Health provides comprehensive healthcare information, doctor directories, and appointment booking services for patients seeking quality medical care.",
     scope: [
@@ -653,18 +693,14 @@ export const projects: Project[] = [
     ],
     duration: "2 months",
     role: "WordPress Developer",
-    category: "Healthcare Website",
-    gallery: [
-      "https://image.thum.io/get/width/800/crop/600/https://fulhamhealth.com/",
-      "https://image.thum.io/get/width/600/crop/800/https://fulhamhealth.com/"
-    ]
+    category: "Healthcare Website"
   },
   {
     id: "valuesofgolf",
     title: "Values of Golf",
     description: "Golfing community and values.",
     liveUrl: "https://www.valuesofgolf.com/",
-    imageUrl: "https://image.thum.io/get/width/600/crop/800/https://www.valuesofgolf.com/",
+    imageUrl: "/projects/valuesofgolf.webp",
     tags: ["Sports", "Community"],
     fullDescription: "Values of Golf is a community platform celebrating the sport's traditions, values, and culture while connecting golf enthusiasts worldwide.",
     scope: [
@@ -683,17 +719,46 @@ export const projects: Project[] = [
     ],
     duration: "2 months",
     role: "WordPress Developer",
-    category: "Community Website",
-    gallery: [
-      "https://image.thum.io/get/width/800/crop/600/https://www.valuesofgolf.com/",
-      "https://image.thum.io/get/width/600/crop/800/https://www.valuesofgolf.com/"
-    ]
+    category: "Community Website"
   }
 ];
 
-/** Laravel vs WordPress for tabs: use explicit stack if set, else derive from role */
+/** Storefront work leads; the rest of the catalogue follows. */
+export const projects: Project[] = [...storeProjects, ...customProjects, ...otherProjects];
+
+/**
+ * `otherProjects` carries two seeded template entries so the shape of a new
+ * project is always visible in the file. They must never reach a public listing,
+ * and this is the one place that rule is expressed.
+ */
+export const isShipped = (project: Project) => !project.id.includes("placeholder");
+
+/** Use this, not `projects`, for anything a visitor can see. */
+export const shippedProjects: Project[] = projects.filter(isShipped);
+
+/** The three groups the work filters expose. */
+export type ProjectGroup = "shopify" | "wordpress" | "custom";
+
+export const PROJECT_GROUPS: { id: ProjectGroup; label: string }[] = [
+  { id: "shopify", label: "Shopify" },
+  { id: "wordpress", label: "WordPress" },
+  { id: "custom", label: "Custom" },
+];
+
+/** Laravel and Next.js work both read as custom development. */
+export function getProjectGroup(project: Project): ProjectGroup {
+  const stack = getProjectStack(project);
+  if (stack === "shopify") return "shopify";
+  if (stack === "wordpress") return "wordpress";
+  return "custom";
+}
+
+/** Laravel vs WordPress vs Shopify vs Next.js for tabs */
 export function getProjectStack(project: Project): ProjectStack {
   if (project.stack) return project.stack;
   const r = project.role?.toLowerCase() ?? "";
-  return r.includes("wordpress") ? "wordpress" : "laravel";
+  if (r.includes("wordpress")) return "wordpress";
+  if (r.includes("shopify")) return "shopify";
+  if (r.includes("next") || r.includes("react") || r.includes("frontend")) return "nextjs";
+  return "laravel";
 }

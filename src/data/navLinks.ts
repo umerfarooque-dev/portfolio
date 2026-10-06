@@ -4,8 +4,13 @@ export interface NavLink {
 }
 
 export const navLinks: NavLink[] = [
-    { name: "Home", href: "/" },
-    { name: "About", href: "/about" },
-    { name: "Projects", href: "/projects" },
-    { name: "Contact", href: "/contact" },
+    { name: "Work", href: "/work" },
+    { name: "Services", href: "/services" },
+    { name: "Process", href: "/#process" },
+    { name: "Showcase", href: "/#showcase" },
+    { name: "Case Studies", href: "/case-studies" },
+    { name: "Blog", href: "/blog" },
+    { name: "FAQ", href: "/#faq" },
+    { name: "Contact", href: "/#contact" },
+    { name: "Resume", href: "/resume/Umer-Farooque-Resume.pdf" },
 ];

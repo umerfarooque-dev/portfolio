@@ -17,3 +17,70 @@ model User {
   password  String
   createdAt DateTime @default(now())
 }
+
+model Project {
+  id              String   @id @default(cuid())
+  slug            String   @unique
+  title           String
+  description     String
+  liveUrl         String
+  imageUrl        String
+  tags            String   // JSON string
+  stack           String?
+  fullDescription String?
+  scope           String?  // JSON string
+  techStack       String?  // JSON string
+  features        String?  // JSON string
+  duration        String?
+  role            String?
+  category        String?
+  gallery         String?  // JSON string
+  createdAt       DateTime @default(now())
+  updatedAt       DateTime @updatedAt
+}
+
+model Skill {
+  id        String   @id @default(cuid())
+  name      String
+  icon      String
+  category  String?  // e.g., 'Frontend', 'Backend'
+  createdAt DateTime @default(now())
+}
+
+model Service {
+  id          String   @id @default(cuid())
+  title       String
+  description String
+  icon        String   // Lucide icon name
+  createdAt   DateTime @default(now())
+}
+
+model Education {
+  id          String   @id @default(cuid())
+  degree      String
+  institution String
+  period      String
+  grade       String?
+  createdAt   DateTime @default(now())
+}
+
+model SiteContent {
+  id              String   @id @default("site-settings")
+  siteName        String   @default("Umer")
+  heroTitle       String   @default("Creative Developer & UI/UX Designer")
+  heroDescription String   @default("I build modern, high-performance web applications with a focus on premium aesthetics and user experience.")
+  heroCtaText     String   @default("View My Work")
+  heroCtaUrl      String   @default("#projects")
+  aboutTitle      String   @default("About Me")
+  aboutText1      String   @default("I am a passionate Full Stack Developer with a keen eye for detail and a drive for perfection.")
+  aboutText2      String   @default("My approach focuses on Liquid Glass aesthetics.")
+  aboutImage      String   @default("/images/professional.png")
+  resumeUrl       String   @default("/resume/Umer-Farooque-Resume.pdf")
+  email           String   @default("umerfarooqkk4@gmail.com")
+  linkedin        String   @default("https://www.linkedin.com/in/umer-farooq-296252272")
+  github          String   @default("https://github.com/umerfarooque00786")
+  whatsapp        String   @default("+92 300 3024283")
+  projectCtaTitle String   @default("Interested in Similar Work?")
+  projectCtaText  String   @default("I'm available for freelance projects and open to new opportunities. Let's discuss how we can work together.")
+  updatedAt       DateTime @updatedAt
+}

@@ -1,239 +1,141 @@
 "use client";
 
-import { useState, useEffect } from "react";
-import { useSession } from "next-auth/react";
-import { Button } from "@/components/atoms/Button";
 import { Container } from "@/components/atoms/Container";
-import { GlassCard } from "@/components/atoms/GlassCard";
-import { Heading } from "@/components/atoms/Heading";
-import { Text } from "@/components/atoms/Text";
-import { useScrollReveal } from "@/hooks/useScrollReveal";
-import { Github, Linkedin, Mail, Loader2, CheckCircle, AlertCircle } from "lucide-react";
-import Link from "next/link";
+import { SITE } from "@/data/site";
+import { motion } from "framer-motion";
+import { containerVariants, itemVariants } from "@/lib/motion";
+import { Github, Linkedin, Mail, MapPin, ExternalLink } from "lucide-react";
 
-const WhatsAppIcon = ({ size = 24 }: { size?: number }) => (
-    <svg width={size} height={size} viewBox="0 0 24 24" fill="currentColor" aria-hidden>
+
+const WhatsAppIcon = () => (
+    <svg width="18" height="18" viewBox="0 0 24 24" fill="currentColor" aria-hidden>
         <path d="M17.472 14.382c-.297-.149-1.758-.867-2.03-.967-.273-.099-.471-.148-.67.15-.197.297-.767.966-.94 1.164-.173.199-.347.223-.644.075-.297-.15-1.255-.463-2.39-1.475-.883-.788-1.48-1.761-1.653-2.059-.173-.297-.018-.458.13-.606.134-.133.298-.347.446-.52.149-.174.198-.298.298-.497.099-.198.05-.371-.025-.52-.075-.149-.669-1.612-.916-2.207-.242-.579-.487-.5-.669-.51-.173-.008-.371-.01-.57-.01-.198 0-.52.074-.792.372-.272.297-1.04 1.016-1.04 2.479 0 1.462 1.065 2.875 1.213 3.074.149.198 2.096 3.2 5.077 4.487.709.306 1.262.489 1.694.625.712.227 1.36.195 1.871.118.571-.085 1.758-.719 2.006-1.413.248-.694.248-1.289.173-1.413-.074-.124-.272-.198-.57-.347m-5.421 7.403h-.004a9.87 9.87 0 01-5.031-1.378l-.361-.214-3.741.982.998-3.648-.235-.374a9.86 9.86 0 01-1.51-5.26c.001-5.45 4.436-9.884 9.888-9.884 2.64 0 5.122 1.03 6.988 2.898a9.825 9.825 0 012.893 6.994c-.003 5.45-4.437 9.884-9.885 9.884m8.413-18.297A11.815 11.815 0 0012.05 0C5.495 0 .16 5.335.157 11.892c0 2.096.547 4.142 1.588 5.945L.057 24l6.305-1.654a11.882 11.882 0 005.683 1.448h.005c6.554 0 11.89-5.335 11.893-11.893a11.821 11.821 0 00-3.48-8.413z" />
     </svg>
 );
 
-const contactLinks = [
-    {
-        label: "Email",
-        href: "mailto:umerfarooqkk4@gmail.com",
-        value: "umerfarooqkk4@gmail.com",
-        icon: <Mail className="h-6 w-6 text-sky-400" />,
-    },
-    {
-        label: "LinkedIn",
-        href: "https://www.linkedin.com/in/umer-farooq-296252272",
-        value: "umer-farooq-296252272",
-        icon: <Linkedin className="h-6 w-6 text-sky-400" />,
-    },
-    {
-        label: "GitHub",
-        href: "https://github.com/umerfarooque00786",
-        value: "github.com/umerfarooque00786",
-        icon: <Github className="h-6 w-6 text-sky-400" />,
-    },
-    {
-        label: "WhatsApp",
-        href: "https://wa.me/923003024283",
-        value: "+92 300 3024283",
-        icon: <span className="text-sky-400"><WhatsAppIcon size={24} /></span>,
-    },
-];
+/** Drops the scheme and `www.` so a URL reads as a handle in the card. */
+const asHandle = (url: string) => url.replace(/^https?:\/\//, "").replace(/^www\./, "");
+
+/**
+ * Every value here is derived from SITE, so the contact details exist in exactly
+ * one place (src/data/site.ts) rather than being restated per component.
+ */
+const CONTACT_LINKS = [
+    { icon: <Mail className="h-5 w-5" />, label: "Email", value: SITE.email, href: `mailto:${SITE.email}`, color: "sky" },
+    { icon: <WhatsAppIcon />, label: "WhatsApp", value: SITE.phoneLabel, href: `https://wa.me/${SITE.whatsapp}`, color: "emerald" },
+    { icon: <Linkedin className="h-5 w-5" />, label: "LinkedIn", value: asHandle(SITE.linkedin), href: SITE.linkedin, color: "blue" },
+    { icon: <Github className="h-5 w-5" />, label: "GitHub", value: asHandle(SITE.github), href: SITE.github, color: "purple" },
+    { icon: <MapPin className="h-5 w-5" />, label: "Location", value: `${SITE.location} (${SITE.timeZoneLabel})`, href: "#", color: "orange" },
+] as const;
+
+const colorMap: Record<string, { icon: string; bg: string }> = {
+    sky: { icon: "text-accent", bg: "bg-accent-dim border-sky-500/20" },
+    emerald: { icon: "text-emerald-400", bg: "bg-emerald-500/10 border-emerald-500/20" },
+    blue: { icon: "text-blue-400", bg: "bg-blue-500/10 border-blue-500/20" },
+    purple: { icon: "text-purple-400", bg: "bg-purple-500/10 border-purple-500/20" },
+    orange: { icon: "text-orange-400", bg: "bg-orange-500/10 border-orange-500/20" },
+};
 
 export const ContactSection = () => {
-    const { data: session, status: sessionStatus } = useSession();
-    const cardRef = useScrollReveal();
-    const infoRef = useScrollReveal();
-    const [name, setName] = useState("");
-    const [email, setEmail] = useState("");
-    const [message, setMessage] = useState("");
-    const [status, setStatus] = useState<"idle" | "loading" | "success" | "error">("idle");
-    const [errorMsg, setErrorMsg] = useState("");
-    const [successCountdown, setSuccessCountdown] = useState(5);
-    const [successFadeOut, setSuccessFadeOut] = useState(false);
-
-    // Pre-fill name and email when user is logged in (only if fields are empty)
-    useEffect(() => {
-        if (sessionStatus !== "authenticated" || !session?.user) return;
-        const user = session.user;
-        if (user.name && !name) setName(user.name);
-        if (user.email && !email) setEmail(user.email);
-    }, [sessionStatus, session?.user, name, email]);
-
-    // Success alert: countdown 5→0, then smooth fade-out and remove
-    useEffect(() => {
-        if (status !== "success") {
-            setSuccessFadeOut(false);
-            return;
-        }
-        setSuccessCountdown(5);
-        setSuccessFadeOut(false);
-        const interval = setInterval(() => {
-            setSuccessCountdown((prev) => {
-                if (prev <= 1) {
-                    clearInterval(interval);
-                    setSuccessFadeOut(true);
-                    setTimeout(() => setStatus("idle"), 350);
-                    return 0;
-                }
-                return prev - 1;
-            });
-        }, 1000);
-        return () => clearInterval(interval);
-    }, [status]);
-
-    const handleSubmit = async (e: React.FormEvent<HTMLFormElement>) => {
-        e.preventDefault();
-        const trimmedEmail = email.trim();
-        const trimmedMessage = message.trim();
-        if (!trimmedEmail || !trimmedMessage) {
-            setStatus("error");
-            setErrorMsg("Please enter your email and message.");
-            return;
-        }
-        setStatus("loading");
-        setErrorMsg("");
-        try {
-            const res = await fetch("/api/contact", {
-                method: "POST",
-                headers: { "Content-Type": "application/json" },
-                body: JSON.stringify({ name: name.trim() || undefined, email: trimmedEmail, message: trimmedMessage }),
-            });
-            const data = await res.json().catch(() => ({}));
-            if (!res.ok) {
-                setStatus("error");
-                setErrorMsg(data.error ?? "Something went wrong. (Add RESEND_API_KEY in .env for email to work.)");
-                return;
-            }
-            setStatus("success");
-            setName("");
-            setEmail("");
-            setMessage("");
-        } catch {
-            setStatus("error");
-            setErrorMsg("Failed to send. Please try again.");
-        }
-    };
-
     return (
-        <section id="contact" className=" pb-20 relative overflow-hidden">
-            <div className="absolute left-1/4 top-1/4 w-96 h-96 bg-sky-500/10 rounded-full blur-[128px]" />
-            <div className="absolute right-1/4 bottom-1/4 w-96 h-96 bg-purple-500/10 rounded-full blur-[128px]" />
-
-            <Container className="relative z-10 max-w-6xl">
-                <div ref={cardRef} className="scroll-reveal text-center mb-16">
-                    <Heading size="xl" className="mb-4">
-                        Get in <span className="text-transparent bg-clip-text bg-gradient-to-r from-sky-400 to-purple-400">Touch</span>
-                    </Heading>
-                    <Text size="lg" className="max-w-2xl mx-auto text-gray-300">
-                        I&apos;m available for freelance projects and new opportunities. Drop a message or reach out directly—I&apos;ll get back soon.
-                    </Text>
-                </div>
-
-                <div className="grid lg:grid-cols-2 gap-10 items-start">
-                    {/* Contact info cards */}
-                    <div ref={infoRef} className="scroll-reveal space-y-4">
-                        <h3 className="text-lg font-semibold text-white mb-6">Reach me directly</h3>
-                        {contactLinks.map((item) => (
-                            <Link key={item.label} href={item.href} target={item.href.startsWith("http") ? "_blank" : undefined} rel={item.href.startsWith("http") ? "noopener noreferrer" : undefined}>
-                                <GlassCard className="mb-4 p-5 flex items-center gap-4 hover:border-sky-500/30 transition-colors group">
-                                    <div className="shrink-0 w-12 h-12 rounded-xl bg-white/5 flex items-center justify-center group-hover:bg-sky-500/10 transition-colors">
-                                        {item.icon}
-                                    </div>
-                                    <div className="min-w-0 text-left">
-                                        <p className="text-sm text-gray-400">{item.label}</p>
-                                        <p className="text-white font-medium truncate">{item.value}</p>
-                                    </div>
-                                </GlassCard>
-                            </Link>
-                        ))}
+        <section id="contact" className="py-24 relative overflow-hidden">
+            <div className="absolute inset-0 bg-gradient-to-b from-transparent via-sky-900/5 to-transparent -z-10" />
+            <div className="absolute top-1/2 left-1/2 -translate-x-1/2 -translate-y-1/2 w-[600px] h-[400px] bg-sky-500/5 rounded-full blur-[120px] -z-10" />
+            <Container>
+                <motion.div variants={containerVariants} initial="hidden" whileInView="visible" viewport={{ once: true, margin: "-80px" }}>
+                    <div className="mb-14">
+                        <motion.span variants={itemVariants} className="t-label text-accent">07 — Contact</motion.span>
+                        <motion.h2 variants={itemVariants} className="t-h2 text-ink max-w-2xl">
+                            Ready to build something{" "}
+                            <span className="text-transparent bg-clip-text bg-gradient-to-r from-sky-400 to-purple-400">great?</span>
+                        </motion.h2>
+                        <motion.p variants={itemVariants} className="text-muted mt-3 max-w-xl text-sm">
+                            I&apos;m available for freelance contracts and remote work. Drop me a message and I&apos;ll get back to you within 24 hours.
+                        </motion.p>
                     </div>
 
-                    {/* Form */}
-                    <GlassCard className="p-8 lg:p-10 border-t border-white/20">
-                        <h3 className="text-lg font-semibold text-white mb-2">Send a message</h3>
-                        <Text size="sm" className="text-gray-400 mb-6">
-                            Fill the form and I&apos;ll get back to you at your email.
-                        </Text>
-                        <form onSubmit={handleSubmit} className="space-y-4" noValidate action="#">
-                            <div>
-                                <label htmlFor="contact-name" className="block text-sm font-medium text-gray-400 mb-1">Name (optional)</label>
-                                <input
-                                    type="text"
-                                    id="contact-name"
-                                    value={name}
-                                    onChange={(e) => setName(e.target.value)}
-                                    className="w-full rounded-lg bg-white/5 border border-white/10 px-4 py-3 text-white placeholder-gray-500 focus:border-sky-500 focus:outline-none focus:ring-1 focus:ring-sky-500 transition-all"
-                                    placeholder="Your name"
-                                />
-                            </div>
-                            <div>
-                                <label htmlFor="contact-email" className="block text-sm font-medium text-gray-400 mb-1">Your Email *</label>
-                                <input
-                                    type="email"
-                                    id="contact-email"
-                                    required
-                                    value={email}
-                                    onChange={(e) => setEmail(e.target.value)}
-                                    className="w-full rounded-lg bg-white/5 border border-white/10 px-4 py-3 text-white placeholder-gray-500 focus:border-sky-500 focus:outline-none focus:ring-1 focus:ring-sky-500 transition-all"
-                                    placeholder="you@example.com"
-                                />
-                            </div>
-                            <div>
-                                <label htmlFor="contact-message" className="block text-sm font-medium text-gray-400 mb-1">Message *</label>
-                                <textarea
-                                    id="contact-message"
-                                    rows={4}
-                                    required
-                                    value={message}
-                                    onChange={(e) => setMessage(e.target.value)}
-                                    className="w-full rounded-lg bg-white/5 border border-white/10 px-4 py-3 text-white placeholder-gray-500 focus:border-sky-500 focus:outline-none focus:ring-1 focus:ring-sky-500 transition-all resize-none"
-                                    placeholder="Tell me about your project or idea..."
-                                />
-                            </div>
-                            {status === "success" && (
-                                <div
-                                    className={`relative overflow-hidden rounded-lg bg-green-500/10 border border-green-500/30 transition-all duration-300 ease-out ${
-                                        successFadeOut ? "opacity-0 translate-y-1" : "opacity-100 translate-y-0"
-                                    }`}
-                                >
-                                    <div
-                                        className="absolute top-0 left-0 h-1 bg-green-400 transition-[width] duration-1000 ease-linear"
-                                        style={{ width: `${(successCountdown / 5) * 100}%` }}
-                                    />
-                                    <div className="p-4 flex items-start gap-3 pt-5">
-                                        <CheckCircle className="h-5 w-5 shrink-0 text-green-400 mt-0.5" />
-                                        <div className="flex-1 min-w-0">
-                                            <p className="font-medium text-green-400">Thank you!</p>
-                                            <p className="text-sm text-gray-300 mt-1">Your message has been sent. I&apos;ll reply to your email soon.</p>
+                    <div className="grid lg:grid-cols-5 gap-8">
+                        {/* Left: Direct Contact Links */}
+                        <motion.div variants={itemVariants} className="lg:col-span-2 space-y-3">
+                            {CONTACT_LINKS.map((link) => {
+                                const c = colorMap[link.color];
+                                const isStatic = link.href === "#";
+                                const content = (
+                                    <div className="flex items-center gap-4 p-4 rounded-sm bg-surface border border-line hover:border-ink/25 hover:bg-surface transition-all duration-200 group">
+                                        <div className={`w-10 h-10 rounded-sm flex items-center justify-center shrink-0 border ${c.bg} ${c.icon} group-hover:scale-110 transition-transform duration-200`}>
+                                            {link.icon}
                                         </div>
+                                        <div className="min-w-0">
+                                            <p className="text-[10px] font-bold uppercase tracking-wider text-muted mb-0.5">{link.label}</p>
+                                            <p className="text-sm text-ink/75 truncate">{link.value}</p>
+                                        </div>
+                                        {!isStatic && <ExternalLink className="h-3.5 w-3.5 text-muted ml-auto shrink-0 group-hover:text-muted transition-colors" />}
                                     </div>
-                                </div>
-                            )}
-                            {status === "error" && (
-                                <div className="rounded-lg bg-red-500/10 border border-red-500/30 p-4 flex items-start gap-3">
-                                    <AlertCircle className="h-5 w-5 shrink-0 text-red-400 mt-0.5" />
-                                    <p className="text-sm text-red-300">{errorMsg}</p>
-                                </div>
-                            )}
-                            <Button type="submit" className="w-full cursor-pointer" disabled={status === "loading"}>
-                                {status === "loading" ? (
-                                    <>
-                                        <Loader2 className="h-4 w-4 animate-spin mr-2" />
-                                        Sending...
-                                    </>
+                                );
+                                return isStatic ? (
+                                    <div key={link.label}>{content}</div>
                                 ) : (
-                                    "Send Message"
-                                )}
-                            </Button>
-                        </form>
-                    </GlassCard>
-                </div>
+                                    <a key={link.label} href={link.href} target="_blank" rel="noopener noreferrer" className="block">{content}</a>
+                                );
+                            })}
+                        </motion.div>
+
+                        {/* Right: Contact Form */}
+                        <motion.div variants={itemVariants} className="lg:col-span-3">
+                            <ContactForm />
+                        </motion.div>
+                    </div>
+                </motion.div>
             </Container>
         </section>
+    );
+};
+
+// Inline form to avoid circular imports
+const ContactForm = () => {
+    return (
+        <form
+            className="p-6 md:p-8 rounded-sm bg-surface border border-line space-y-5"
+            onSubmit={async (e) => {
+                e.preventDefault();
+                const form = e.currentTarget;
+                const data = new FormData(form);
+                const body = {
+                    name: data.get("name"),
+                    email: data.get("email"),
+                    subject: data.get("subject"),
+                    message: data.get("message"),
+                };
+                const res = await fetch("/api/contact", { method: "POST", headers: { "Content-Type": "application/json" }, body: JSON.stringify(body) });
+                if (res.ok) {
+                    form.reset();
+                    alert("Message sent! I'll get back to you within 24 hours.");
+                } else {
+                    alert(`Something went wrong. Please try emailing me directly at ${SITE.email}`);
+                }
+            }}
+        >
+            <div className="grid sm:grid-cols-2 gap-4">
+                <div>
+                    <label htmlFor="contact-name" className="block text-xs font-semibold text-muted uppercase tracking-wider mb-2">Name</label>
+                    <input id="contact-name" name="name" type="text" required placeholder="Your name" className="w-full px-4 py-3 rounded-sm bg-surface border border-line text-sm text-ink placeholder-gray-600 focus:outline-none focus:border-sky-500/40 focus:bg-white/8 transition-all" />
+                </div>
+                <div>
+                    <label htmlFor="contact-email" className="block text-xs font-semibold text-muted uppercase tracking-wider mb-2">Email</label>
+                    <input id="contact-email" name="email" type="email" required placeholder="your@email.com" className="w-full px-4 py-3 rounded-sm bg-surface border border-line text-sm text-ink placeholder-gray-600 focus:outline-none focus:border-sky-500/40 focus:bg-white/8 transition-all" />
+                </div>
+            </div>
+            <div>
+                <label htmlFor="contact-subject" className="block text-xs font-semibold text-muted uppercase tracking-wider mb-2">Subject</label>
+                <input id="contact-subject" name="subject" type="text" placeholder="What is this about? " className="w-full px-4 py-3 rounded-sm bg-surface border border-line text-sm text-ink placeholder-gray-600 focus:outline-none focus:border-sky-500/40 focus:bg-white/8 transition-all" />
+            </div>
+            <div>
+                <label htmlFor="contact-message" className="block text-xs font-semibold text-muted uppercase tracking-wider mb-2">Message</label>
+                <textarea id="contact-message" name="message" rows={5} required placeholder="Tell me about your project..." className="w-full px-4 py-3 rounded-sm bg-surface border border-line text-sm text-ink placeholder-gray-600 focus:outline-none focus:border-sky-500/40 focus:bg-white/8 transition-all resize-none" />
+            </div>
+            <button type="submit" className="w-full py-3.5 rounded-sm bg-gradient-to-r from-sky-500 to-purple-600 hover:from-sky-400 hover:to-purple-500 text-ink font-semibold text-sm transition-all duration-300 hover:shadow-[0_0_20px_rgba(56,189,248,0.3)] active:scale-[0.99]">
+                Send Message →
+            </button>
+        </form>
     );
 };
