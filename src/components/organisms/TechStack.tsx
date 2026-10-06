@@ -5,13 +5,14 @@ import { Container } from "@/components/atoms/Container";
 import { motion, AnimatePresence } from "framer-motion";
 import { containerVariants, itemVariants } from "@/lib/motion";
 
-type TabId ="all" | "frontend" | "backend" | "cms" | "tools";
+type TabId = "all" | "frontend" | "backend" | "cms" | "tracking" | "tools";
 
 const TABS: { id: TabId; label: string }[] = [
     { id: "all", label: "All" },
     { id: "frontend", label: "Frontend" },
     { id: "backend", label: "Backend" },
     { id: "cms", label: "CMS & Platforms" },
+    { id: "tracking", label: "Analytics & Tracking" },
     { id: "tools", label: "Tools" },
 ];
 
@@ -40,6 +41,8 @@ const SKILLS = [
     { name: "WordPress",      icon: "/tech/wordpress.svg",  tabs: ["all", "cms"] },
     { name: "Shopify",        icon: "/tech/shopify.svg",      tabs: ["all", "cms"] },
     { name: "Wix",            icon: "/tech/wix.svg",              tabs: ["all", "cms"] },
+    { name: "GA4",            icon: "/tech/googleanalytics.svg", tabs: ["all", "tracking"] },
+    { name: "Meta Pixel",     icon: "/tech/meta.svg",            tabs: ["all", "tracking"] },
     { name: "Git",            icon: "/tech/git.svg",              tabs: ["all", "tools"] },
     { name: "GitHub",         icon: "/tech/github.svg",        tabs: ["all", "tools"] },
     { name: "Figma",          icon: "/tech/figma.svg",          tabs: ["all", "tools"] },
