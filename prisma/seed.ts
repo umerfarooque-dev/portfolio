@@ -1,4 +1,4 @@
-import { PrismaClient } from '../src/generated/prisma';
+import { PrismaClient } from '@prisma/client';
 import { projects, getProjectStack } from '../src/data/projects';
 
 const prisma = new PrismaClient();
