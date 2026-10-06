@@ -15,25 +15,36 @@ const TABS: { id: TabId; label: string }[] = [
     { id: "tools", label: "Tools" },
 ];
 
+/**
+ * Icons are served from public/tech, not a CDN.
+ *
+ * They used to come from cdn.jsdelivr.net, which the Content-Security-Policy in
+ * next.config.ts blocks (`img-src 'self' data: blob: https://res.cloudinary.com`),
+ * so every logo silently failed in production. Two of them — Shopify and Wix —
+ * did not exist in devicon at all and were 403ing regardless.
+ *
+ * Keeping them local removes the third-party request, the CSP exception and the
+ * dependency on an upstream path that can move.
+ */
 const SKILLS = [
-    { name: "Next.js",        icon: "https://cdn.jsdelivr.net/gh/devicons/devicon@latest/icons/nextjs/nextjs-original.svg",       tabs: ["all", "frontend"] },
-    { name: "React",          icon: "https://cdn.jsdelivr.net/gh/devicons/devicon@latest/icons/react/react-original.svg",         tabs: ["all", "frontend"] },
-    { name: "TypeScript",     icon: "https://cdn.jsdelivr.net/gh/devicons/devicon@latest/icons/typescript/typescript-original.svg", tabs: ["all", "frontend"] },
-    { name: "Tailwind CSS",   icon: "https://cdn.jsdelivr.net/gh/devicons/devicon@latest/icons/tailwindcss/tailwindcss-original.svg", tabs: ["all", "frontend"] },
-    { name: "JavaScript",     icon: "https://cdn.jsdelivr.net/gh/devicons/devicon@latest/icons/javascript/javascript-original.svg", tabs: ["all", "frontend"] },
-    { name: "Bootstrap",      icon: "https://cdn.jsdelivr.net/gh/devicons/devicon@latest/icons/bootstrap/bootstrap-original.svg",  tabs: ["all", "frontend"] },
-    { name: "Laravel",        icon: "https://cdn.jsdelivr.net/gh/devicons/devicon@latest/icons/laravel/laravel-original.svg",       tabs: ["all", "backend"] },
-    { name: "PHP",            icon: "https://cdn.jsdelivr.net/gh/devicons/devicon@latest/icons/php/php-original.svg",              tabs: ["all", "backend"] },
-    { name: "MySQL",          icon: "https://cdn.jsdelivr.net/gh/devicons/devicon@latest/icons/mysql/mysql-original.svg",          tabs: ["all", "backend"] },
-    { name: "Node.js",        icon: "https://cdn.jsdelivr.net/gh/devicons/devicon@latest/icons/nodejs/nodejs-original.svg",        tabs: ["all", "backend"] },
-    { name: "WordPress",      icon: "https://cdn.jsdelivr.net/gh/devicons/devicon@latest/icons/wordpress/wordpress-original.svg",  tabs: ["all", "cms"] },
-    { name: "Shopify",        icon: "https://cdn.jsdelivr.net/gh/devicons/devicon@latest/icons/shopify/shopify-original.svg",      tabs: ["all", "cms"] },
-    { name: "Wix",            icon: "https://cdn.jsdelivr.net/gh/devicons/devicon@latest/icons/wix/wix-original.svg",              tabs: ["all", "cms"] },
-    { name: "Git",            icon: "https://cdn.jsdelivr.net/gh/devicons/devicon@latest/icons/git/git-original.svg",              tabs: ["all", "tools"] },
-    { name: "GitHub",         icon: "https://cdn.jsdelivr.net/gh/devicons/devicon@latest/icons/github/github-original.svg",        tabs: ["all", "tools"] },
-    { name: "Figma",          icon: "https://cdn.jsdelivr.net/gh/devicons/devicon@latest/icons/figma/figma-original.svg",          tabs: ["all", "tools"] },
-    { name: "Postman",        icon: "https://cdn.jsdelivr.net/gh/devicons/devicon@latest/icons/postman/postman-original.svg",      tabs: ["all", "tools"] },
-    { name: "VS Code",        icon: "https://cdn.jsdelivr.net/gh/devicons/devicon@latest/icons/vscode/vscode-original.svg",        tabs: ["all", "tools"] },
+    { name: "Next.js",        icon: "/tech/nextjs.svg",       tabs: ["all", "frontend"] },
+    { name: "React",          icon: "/tech/react.svg",         tabs: ["all", "frontend"] },
+    { name: "TypeScript",     icon: "/tech/typescript.svg", tabs: ["all", "frontend"] },
+    { name: "Tailwind CSS",   icon: "/tech/tailwindcss.svg", tabs: ["all", "frontend"] },
+    { name: "JavaScript",     icon: "/tech/javascript.svg", tabs: ["all", "frontend"] },
+    { name: "Bootstrap",      icon: "/tech/bootstrap.svg",  tabs: ["all", "frontend"] },
+    { name: "Laravel",        icon: "/tech/laravel.svg",       tabs: ["all", "backend"] },
+    { name: "PHP",            icon: "/tech/php.svg",              tabs: ["all", "backend"] },
+    { name: "MySQL",          icon: "/tech/mysql.svg",          tabs: ["all", "backend"] },
+    { name: "Node.js",        icon: "/tech/nodejs.svg",        tabs: ["all", "backend"] },
+    { name: "WordPress",      icon: "/tech/wordpress.svg",  tabs: ["all", "cms"] },
+    { name: "Shopify",        icon: "/tech/shopify.svg",      tabs: ["all", "cms"] },
+    { name: "Wix",            icon: "/tech/wix.svg",              tabs: ["all", "cms"] },
+    { name: "Git",            icon: "/tech/git.svg",              tabs: ["all", "tools"] },
+    { name: "GitHub",         icon: "/tech/github.svg",        tabs: ["all", "tools"] },
+    { name: "Figma",          icon: "/tech/figma.svg",          tabs: ["all", "tools"] },
+    { name: "Postman",        icon: "/tech/postman.svg",      tabs: ["all", "tools"] },
+    { name: "VS Code",        icon: "/tech/vscode.svg",        tabs: ["all", "tools"] },
 ];
 
 

@@ -18,18 +18,32 @@ const FitWordmark = ({ text }: { text: string }) => {
     const [size, setSize] = useState(0);
 
     useEffect(() => {
+        // `fit` temporarily rewrites the span's font size to measure it, which the
+        // span's own ResizeObserver would otherwise see as a change and report back
+        // — a feedback loop. This flag makes those self-inflicted notifications
+        // no-ops.
+        let measuring = false;
+
         const fit = () => {
+            if (measuring) return;
             const box = boxRef.current;
             const span = spanRef.current;
             if (!box || !span) return;
+
+            measuring = true;
             const BASE = 100;
             const previous = span.style.fontSize;
             span.style.fontSize = `${BASE}px`;
             const natural = span.getBoundingClientRect().width;
             span.style.fontSize = previous;
+            measuring = false;
+
             if (!natural) return;
             // A hair under 1 so the last glyph's bearing never clips.
-            setSize((box.clientWidth / natural) * BASE * 0.995);
+            const next = (box.clientWidth / natural) * BASE * 0.995;
+            // Settle on whole pixels, so a sub-pixel reflow cannot ping-pong
+            // between two values forever.
+            setSize((current) => (Math.abs(current - next) < 0.5 ? current : Math.floor(next)));
         };
 
         fit();
@@ -41,8 +55,18 @@ const FitWordmark = ({ text }: { text: string }) => {
             if (!cancelled) fit();
         });
 
+        // Observing the box alone was not enough. `document.fonts.ready` can
+        // resolve before Inter has actually been applied — most often on mobile,
+        // where the font arrives late and `display: swap` paints the fallback
+        // first. The measurement then came from the fallback's metrics and the
+        // wordmark was left at the wrong size with no second attempt.
+        //
+        // Watching the span as well means the font swap itself, which changes the
+        // span's natural width, re-triggers the fit. Self-correcting rather than
+        // dependent on one well-timed measurement.
         const observer = new ResizeObserver(fit);
         if (boxRef.current) observer.observe(boxRef.current);
+        if (spanRef.current) observer.observe(spanRef.current);
         return () => {
             cancelled = true;
             observer.disconnect();
@@ -155,10 +179,18 @@ export const Footer = ({ config }: { config?: SiteConfig }) => {
                         "linear-gradient(to right, transparent 0%, black 9%, black 91%, transparent 100%)",
                 }}
             >
-                <div
-                    className="flex motion-reduce:animate-none"
-                    style={{ animation: "marquee 28s linear infinite" }}
-                >
+                {/*
+                 * `w-max shrink-0` is load-bearing. Without it this is a flex item
+                 * with the default `flex-shrink: 1`, so it collapses to the
+                 * container's width — and because `marquee` translates by -50% of
+                 * the element's OWN width, the track then slid half a viewport and
+                 * snapped back instead of scrolling exactly one of the two copies.
+                 * Sizing to content makes -50% equal one copy, so the loop is seamless.
+                 *
+                 * The animation is a utility rather than an inline style so that
+                 * `motion-reduce:animate-none` can actually win the cascade.
+                 */}
+                <div className="flex w-max shrink-0 animate-[marquee_28s_linear_infinite] motion-reduce:animate-none">
                     {[0, 1].map((copy) => (
                         <ul key={copy} aria-hidden="true" className="flex shrink-0 items-center gap-8 pr-8">
                             <li className="flex items-center gap-8 whitespace-nowrap">
