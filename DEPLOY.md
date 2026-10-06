@@ -1,6 +1,6 @@
 # Deploy Guide — GitHub + Vercel
 
-Repo: `umerfarooque00786/next-js-updated-portfolio`
+Repo: `umerfarooque-dev/portfolio` — https://github.com/umerfarooque-dev/portfolio
 
 ## Branches
 
@@ -46,7 +46,7 @@ kabhi real values thi to **rotate** kar dein.
 ## 3. Vercel connect karein
 
 1. [vercel.com](https://vercel.com) → GitHub se sign in
-2. **Add New Project** → Import `umerfarooque00786/next-js-updated-portfolio`
+2. **Add New Project** → Import `umerfarooque-dev/portfolio`
 3. Framework: **Next.js** (auto-detect ho jayega). Build command default rakhein —
    `package.json` ka `build` script already `next build --webpack` hai
 4. **Settings → Git → Production Branch** = `deployment`
