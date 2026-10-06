@@ -1,12 +1,13 @@
 import { AnimatedText } from "@/components/atoms/AnimatedText";
 import { WorkGrid } from "@/components/organisms/WorkGrid";
 import { shippedProjects } from "@/data/projects";
+import { SITE } from "@/data/site";
 import type { Metadata } from "next";
 
 export const metadata: Metadata = {
-    title: "Work | Umer Farooque",
-    description:
-        "Live storefronts and applications built by Umer Farooque — Shopify, WordPress, Laravel and Next.js.",
+    title: `Work | ${SITE.name}`,
+    description: `Live storefronts and applications built by ${SITE.name} — Shopify, WordPress, Laravel and Next.js.`,
+    alternates: { canonical: "/work" },
 };
 
 export const revalidate = 3600;

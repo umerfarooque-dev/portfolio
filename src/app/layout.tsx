@@ -1,6 +1,7 @@
 import type { Metadata } from "next";
 import { Inter, DM_Mono } from "next/font/google";
 import { MainLayout } from "@/components/templates/MainLayout";
+import { SITE_URL } from "@/data/site";
 import "./globals.css";
 
 const inter = Inter({
@@ -16,7 +17,7 @@ const dmMono = DM_Mono({
   display: "swap",
 });
 
-const siteUrl = process.env.NEXT_PUBLIC_SITE_URL ?? "https://umer-porfolio.vercel.app";
+const siteUrl = SITE_URL;
 
 export const metadata: Metadata = {
   title: "Umer Farooque | Full Stack Developer",

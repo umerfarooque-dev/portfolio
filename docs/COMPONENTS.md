@@ -178,6 +178,13 @@ array is guarded on purpose.
 ### FaqSection `C` · 48L
 Two-column `<dl>`, **not** an accordion. Reads `faqs`.
 
+### Shared-heading note — `AboutSection`, `ContactSection`, `ProjectsSection`
+`AboutSection` and `ContactSection` render on **both** the home page and their own standalone
+page. Each takes `headingAs?: "h1" | "h2"` (default `"h2"`); `/about` and `/contact` pass
+`"h1"`. That keeps exactly one `<h1>` per page without giving the home page three of them.
+`ProjectsSection` renders `h1` directly because `/projects` is its only consumer. Only the
+tag changes — the type scale comes from the className.
+
 ### BrandsStrip `C` · 48L / ApproachSection `C` · 84L / BlogPreviewSection `C` · 108L / TechStack `C` · 111L / AboutSection `C` · 87L
 Straightforward sections reading from `projects`, `showcase.principles`, `blog.posts`, a
 local list, and `SITE`/`config` respectively.

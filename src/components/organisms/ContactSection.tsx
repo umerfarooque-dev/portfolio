@@ -36,7 +36,11 @@ const colorMap: Record<string, { icon: string; bg: string }> = {
     orange: { icon: "text-orange-400", bg: "bg-orange-500/10 border-orange-500/20" },
 };
 
-export const ContactSection = () => {
+export const ContactSection = ({ headingAs = "h2" }: { headingAs?: "h1" | "h2" } = {}) => {
+    // h2 on the home page, where the hero owns the h1; h1 on /contact, which had
+    // no h1 at all. Only the tag changes; `t-h2` still sets the type scale.
+    const Headline = headingAs === "h1" ? motion.h1 : motion.h2;
+
     return (
         <section id="contact" className="py-24 relative overflow-hidden">
             <div className="absolute inset-0 bg-gradient-to-b from-transparent via-sky-900/5 to-transparent -z-10" />
@@ -45,10 +49,10 @@ export const ContactSection = () => {
                 <motion.div variants={containerVariants} initial="hidden" whileInView="visible" viewport={{ once: true, margin: "-80px" }}>
                     <div className="mb-14">
                         <motion.span variants={itemVariants} className="t-label text-accent">07 — Contact</motion.span>
-                        <motion.h2 variants={itemVariants} className="t-h2 text-ink max-w-2xl">
+                        <Headline variants={itemVariants} className="t-h2 text-ink max-w-2xl">
                             Ready to build something{" "}
                             <span className="text-transparent bg-clip-text bg-gradient-to-r from-sky-400 to-purple-400">great?</span>
-                        </motion.h2>
+                        </Headline>
                         <motion.p variants={itemVariants} className="text-muted mt-3 max-w-xl text-sm">
                             I&apos;m available for freelance contracts and remote work. Drop me a message and I&apos;ll get back to you within 24 hours.
                         </motion.p>

@@ -12,7 +12,18 @@ import Image from "next/image";
  * The lead paragraph fills with colour as it scrolls past; the supporting line
  * under it stays muted so the two do not compete.
  */
-export const AboutSection = ({ config }: { config?: SiteConfig }) => {
+export const AboutSection = ({
+    config,
+    headingAs = "h2",
+}: {
+    config?: SiteConfig;
+    /**
+     * h2 on the home page, where the hero already owns the h1; h1 on /about,
+     * which previously had no h1 at all. Only the tag changes — the type scale
+     * comes from the className either way.
+     */
+    headingAs?: "h1" | "h2";
+}) => {
     const portrait = config?.aboutImage || "/images/professional.png";
 
     return (
@@ -24,7 +35,7 @@ export const AboutSection = ({ config }: { config?: SiteConfig }) => {
             <div className="mx-auto grid w-full max-w-[var(--container-grid)] grid-cols-1 items-start gap-12 px-[var(--gutter)] lg:grid-cols-12 lg:gap-16">
                 <div className="lg:col-span-7">
                     <AnimatedText
-                        as="h2"
+                        as={headingAs}
                         text="Code without a working handover is just a bill."
                         className="max-w-[16ch] text-h2 font-medium"
                     />

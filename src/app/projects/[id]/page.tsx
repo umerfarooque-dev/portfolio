@@ -1,3 +1,5 @@
+import type { Metadata } from "next";
+import { SITE } from "@/data/site";
 import { ProjectImage } from "@/components/atoms/ProjectImage";
 import Image from "next/image";
 import { getProjectRow, getSiteConfig } from "@/lib/site-data";
@@ -10,9 +12,43 @@ import { Text } from "@/components/atoms/Text";
 import { Button } from "@/components/atoms/Button";
 import { ArrowLeft, ExternalLink, Calendar, User, FolderOpen, CheckCircle2 } from "lucide-react";
 import Link from "next/link";
+import { notFound } from "next/navigation";
 
 
 export const revalidate = 60;
+
+/**
+ * Without this every project detail page served the site-wide default title, so
+ * all of them competed with each other and with the home page in search results.
+ */
+export async function generateMetadata({
+    params,
+}: {
+    params: Promise<{ id: string }>;
+}): Promise<Metadata> {
+    const { id } = await params;
+    const row = await getProjectRow(id);
+    const project = row ? toProject(row) : staticProjects.find((p) => p.id === id);
+
+    if (!project) {
+        return { title: `Project not found | ${SITE.name}`, robots: { index: false, follow: true } };
+    }
+
+    const description = project.tagline || project.description;
+
+    return {
+        title: `${project.title} | ${SITE.name}`,
+        description,
+        alternates: { canonical: `/projects/${project.id}` },
+        openGraph: {
+            title: `${project.title} | ${SITE.name}`,
+            description,
+            url: `/projects/${project.id}`,
+            type: "article",
+            ...(project.imageUrl ? { images: [{ url: project.imageUrl }] } : {}),
+        },
+    };
+}
 
 export default async function ProjectDetailPage({ params }: { params: Promise<{ id: string }> }) {
     const { id: projectId } = await params;
@@ -26,24 +62,11 @@ export default async function ProjectDetailPage({ params }: { params: Promise<{ 
     // no database row, so fall back to it before deciding the page is missing.
     const staticProject = staticProjects.find((p) => p.id === projectId);
 
-    if (!dbProject && !staticProject) {
-        return (
-            <div className="min-h-screen flex items-center justify-center py-24">
-                <Container className="text-center">
-                    <Heading size="xl" className="mb-4">
-                        Project Not Found
-                    </Heading>
-                    <Text className="mb-8">The project you&apos;re looking for doesn&apos;t exist.</Text>
-                    <Link href="/projects">
-                        <Button variant="primary">
-                            <ArrowLeft className="mr-2 h-4 w-4" />
-                            Back to Projects
-                        </Button>
-                    </Link>
-                </Container>
-            </div>
-        );
-    }
+    // Returns a real 404 instead of a 200 with "not found" text on it. The old
+    // hand-rolled block was a soft 404: crawlers indexed it as a live page. This
+    // also matches how blog, case-studies and services already behave.
+    if (!dbProject && !staticProject) notFound();
+
 
     // A database row wins; otherwise the project comes from the static catalogue.
     const project = dbProject ? toProject(dbProject) : staticProject!;

@@ -14,18 +14,21 @@ built HTML and live HTTP responses on 2026-10-06.
 | Dynamic page metadata | `generateMetadata()` in `[slug]`/`[id]` routes |
 | Static paths for crawlers | `generateStaticParams()` in dynamic routes |
 | Favicon | `src/app/icon.png` (App Router convention) |
-| Canonical host | `NEXT_PUBLIC_SITE_URL` env var |
-| `sitemap.xml` | ❌ not created |
-| `robots.txt` | ❌ not created |
-| Web manifest | ❌ not created |
-| Structured data | ❌ none |
+| Canonical host | `SITE_URL` in `src/data/site.ts`, from `NEXT_PUBLIC_SITE_URL` |
+| `sitemap.xml` | ✅ `src/app/sitemap.ts` — generated from the data files, 53 URLs |
+| `robots.txt` | ✅ `src/app/robots.ts` |
+| Social image | ✅ `src/app/opengraph-image.tsx` — generated via `next/og` |
+| 404 page | ✅ `src/app/not-found.tsx` |
+| Canonical origin | `SITE_URL` in `src/data/site.ts` (reads `NEXT_PUBLIC_SITE_URL`) |
+| Web manifest | ❌ not created (low priority) |
+| Structured data | ❌ none — still the biggest remaining win |
 
 ---
 
 ## 1. Site-wide metadata — `src/app/layout.tsx`
 
 ```ts
-const siteUrl = process.env.NEXT_PUBLIC_SITE_URL ?? "https://umer-porfolio.vercel.app";
+const siteUrl = SITE_URL; // src/data/site.ts — reads NEXT_PUBLIC_SITE_URL
 
 export const metadata: Metadata = {
   title: "Umer Farooque | Full Stack Developer",
@@ -44,130 +47,83 @@ export const metadata: Metadata = {
 
 ## 2. Per-page metadata — current coverage
 
-| Route | `metadata` | Canonical | Verified title |
+| Route | `metadata` | Canonical | h1 |
 |---|---|---|---|
-| `/` | ❌ inherits root | ❌ | `Umer Farooque \| Full Stack Developer` |
-| `/about` | ❌ inherits root | ❌ | *(duplicate of root)* |
-| `/work` | ✅ | ❌ | `Work \| Umer Farooque` |
-| `/services` | ✅ | ✅ | `Services \| Umer Farooque` |
-| `/services/[slug]` | ✅ `generateMetadata` | ✅ | per service |
-| `/blog` | ✅ | ✅ | `Blog \| Umer Farooque` |
-| `/blog/[slug]` | ✅ `generateMetadata` | ✅ | per post |
-| `/case-studies` | ✅ | ✅ | per page |
-| `/case-studies/[slug]` | ✅ `generateMetadata` | ✅ | per study |
-| `/contact` | ✅ | ✅ | `Contact \| Umer Farooque` |
-| `/projects` | ❌ inherits root | ❌ | *(duplicate of root)* |
-| `/projects/[id]` | ❌ | ❌ | *(duplicate of root)* |
+| `/` | ✅ (title/description inherited from layout, which is correct) | ✅ | 1 |
+| `/about` | ✅ | ✅ | 1 |
+| `/work` | ✅ | ✅ | 1 |
+| `/services` + `[slug]` | ✅ | ✅ | 1 |
+| `/blog` + `[slug]` | ✅ | ✅ | 1 |
+| `/case-studies` + `[slug]` | ✅ | ✅ | 1 |
+| `/contact` | ✅ | ✅ | 1 |
+| `/projects` | ✅ | ✅ | 1 |
+| `/projects/[id]` | ✅ `generateMetadata` | ✅ | 1 |
 
-### ⚠️ Gap: four pages share one title
+All verified against the built HTML: every page has a unique title, a description,
+one canonical and exactly one `<h1>`.
 
-`/`, `/about`, `/projects` and `/projects/[id]` all emit the root title and description.
-Duplicate titles compete with each other in search results.
-
-**Fix pattern** (matches the existing convention in `work/page.tsx`):
-```ts
-import { SITE } from "@/data/site";
-import type { Metadata } from "next";
-
-export const metadata: Metadata = {
-    title: `About | ${SITE.name}`,
-    description: `…`,
-    alternates: { canonical: "/about" },
-};
-```
-For `/projects/[id]`, add a `generateMetadata` mirroring `case-studies/[slug]/page.tsx`.
 
 ---
 
-## 3. Open Graph & Twitter cards
+## 3. Open Graph & Twitter cards — ✅ done
 
-**Status: declared but unusable.** Verified across all built pages:
+`src/app/opengraph-image.tsx` generates a 1200×630 PNG through `next/og`, and Next injects
+`og:image` and `twitter:image` on every route automatically. Verified: `/opengraph-image`
+returns **200, ~54 KB, image/png**, and all built pages carry `og:image`.
 
-```
-page           og:image  og:url  canonical  twitter:image
-/              0         1       0          0
-/about         0         1       0          0
-/work          0         1       0          0
-/services      0         1       1          0
-/blog          0         1       1          0
-/case-studies  0         1       1          0
-```
+It is generated rather than a static file so it tracks `src/data/site.ts`. Colours are the
+design tokens written literally, because Satori cannot read the stylesheet — keep them in
+sync with `--color-bg`, `--color-ink`, `--color-muted`, `--color-accent`.
 
-`twitter.card` is `summary_large_image` but **no image is supplied anywhere**, so every share
-on LinkedIn, WhatsApp, X or Slack renders as a bare text link.
-
-For a portfolio whose job is to be pasted into a client's chat window, this is the single
-highest-leverage SEO fix available.
-
-**Recommended fix** — use the App Router file convention so Next generates the image and
-injects the tags automatically:
-
-```tsx
-// src/app/opengraph-image.tsx
-import { ImageResponse } from "next/og";
-import { SITE } from "@/data/site";
-
-export const size = { width: 1200, height: 630 };
-export const contentType = "image/png";
-
-export default function OgImage() {
-    return new ImageResponse(
-        (
-            <div style={{ height: "100%", width: "100%", display: "flex",
-                          flexDirection: "column", justifyContent: "center",
-                          background: "#080808", color: "#f0eee8", padding: 80 }}>
-                <div style={{ fontSize: 28, color: "#c8ff00", letterSpacing: 4 }}>
-                    {SITE.role.toUpperCase()}
-                </div>
-                <div style={{ fontSize: 88, lineHeight: 1 }}>{SITE.name}</div>
-            </div>
-        ),
-        size
-    );
-}
-```
-
-Place a route-level `opengraph-image.tsx` inside `blog/[slug]/` etc. for per-page images.
-Check the current API in `node_modules/next/dist/docs/` before writing it — the
-`ImageResponse` import path has moved between versions.
+For a per-page image, add a route-level `opengraph-image.tsx` inside e.g. `blog/[slug]/`.
 
 ---
 
-## 4. Sitemap — ❌ missing
+## 4. Sitemap — ✅ done
 
-`curl /sitemap.xml` → **404**.
+`src/app/sitemap.ts` returns `MetadataRoute.Sitemap`, built from the same data that
+generates the routes, so new content appears without anyone remembering:
 
-58 routes with no sitemap leaves discovery to crawl luck. The App Router convention is a
-`src/app/sitemap.ts` returning `MetadataRoute.Sitemap`. It should enumerate the static
-routes plus the three generated collections:
+| Source | Count |
+|---|---|
+| Landing routes | 7 |
+| `src/data/services-pages.ts` | 13 |
+| `src/lib/case-studies.ts` | 26 |
+| `src/data/blog.ts` (with real `lastModified`) | 7 |
+| **Total** | **53** |
 
-```ts
-// shape only — verify the current API against the bundled docs
-import { posts } from "@/data/blog";
-import { caseStudies } from "@/lib/case-studies";
-import { servicePages } from "@/data/services-pages";
+`/projects` and `/projects/[id]` are deliberately excluded — they are the legacy
+database-backed pages and duplicate `/work` and `/case-studies`.
+
+Verified: `/sitemap.xml` → 200 `application/xml`, 53 `<url>` entries, and **every one of the
+53 URLs returns 200**.
+
+---
+
+## 5. robots.txt — ✅ done
+
+`src/app/robots.ts`. Verified output:
+
+```
+User-Agent: *
+Allow: /
+Disallow: /api/
+
+Host: https://umerfarooque-dev.vercel.app
+Sitemap: https://umerfarooque-dev.vercel.app/sitemap.xml
 ```
 
-Sources to pull from: `src/data/blog.ts` (7), `src/lib/case-studies.ts` (26),
-`src/data/services-pages.ts` (13), plus `/`, `/work`, `/services`, `/blog`,
-`/case-studies`, `/about`, `/contact`.
+`/api/` is disallowed because the single route there is a POST-only contact handler.
 
 ---
 
-## 5. robots.txt — ❌ missing
+## 6. 404 page and web manifest
 
-`curl /robots.txt` → **404**. The App Router convention is `src/app/robots.ts`. It should
-allow everything and point at the sitemap.
+`src/app/not-found.tsx` catches unmatched URLs and every `notFound()` call, styled with the
+current design system and marked `robots: { index: false }`.
 
-The `robots: { index: true, follow: true }` meta tag in `layout.tsx` is present and correct,
-but a meta tag is not a substitute for `robots.txt`.
-
----
-
-## 6. Web manifest — ❌ missing
-
-`curl /manifest.webmanifest` → **404**. Lower priority for a portfolio (it only affects
-installability and some mobile polish), but trivial to add via `src/app/manifest.ts`.
+Web manifest is still missing (`src/app/manifest.ts`). Low priority for a portfolio — it
+only affects installability.
 
 ---
 

@@ -12,7 +12,9 @@ The personal portfolio of **Umer Farooque**, a full-stack web developer in Karac
 (Shopify / WordPress / Laravel / Next.js). It exists to win freelance clients, so the
 work pages and the contact form are the parts that matter most.
 
-Live: `https://umer-porfolio.vercel.app` (see `NEXT_PUBLIC_SITE_URL`)
+Live: **https://umerfarooque-dev.vercel.app**
+Repo: **https://github.com/umerfarooque-dev/portfolio**
+Origin is set by `NEXT_PUBLIC_SITE_URL`; `SITE_URL` in `src/data/site.ts` is the one place it is read.
 
 ---
 
@@ -28,7 +30,7 @@ Live: `https://umer-porfolio.vercel.app` (see `NEXT_PUBLIC_SITE_URL`)
 | Icons | `lucide-react` |
 | Email | Resend (`/api/contact`) |
 | Validation | Zod 4 |
-| DB | Prisma 5.22 + **SQLite** (`prisma/dev.db`) — see *Known issues* |
+| DB | Prisma 5.22 + SQLite — **optional**. `src/lib/site-data.ts` degrades to `src/data/*` when there is no database, so the build and all routes work with no `DATABASE_URL`. |
 
 > ⚠️ **Next.js 16 is not the Next.js in your training data.** Read
 > `node_modules/next/dist/docs/` before writing framework code. `AGENTS.md` says the same.
@@ -107,20 +109,19 @@ Full detail: `DATA_MODEL.md`.
 
 ---
 
-## Known issues (as of 2026-10-06)
+## Known issues (as of 2026-10-07)
 
 Documented, deliberately **not** fixed, because each needs a product decision:
 
 | Issue | Where | Why it is still open |
 |---|---|---|
-| 🔴 **SQLite won't work on Vercel** | `prisma/schema.prisma` | `prisma/dev.db` is gitignored, so the build has no DB. Needs hosted Postgres, or drop Prisma from `/projects*`. **Blocks deployment.** |
 | 🟠 Body text fails WCAG AA | `--color-muted: #f0eee859` = **2.8:1** | Fixing it changes the visual design (125 usages) |
 | 🟠 No focus indicators | 23 inputs use `focus:outline-none` | Needs a design decision on the ring style |
-| 🟠 No `og:image`, no sitemap, no robots | `src/app/` | Not yet created |
-| 🟠 No `<h1>` on `/about`, `/contact`, `/projects` | those pages | Needs copy decisions |
 | 🟠 Loader gates first paint 1.4s | `Loader.tsx` `MIN_MS` | Intentional design choice, hurts LCP |
 | 🟡 Homepage ships 332 KB gzip JS | 3 animation libraries | Would need consolidation |
 | 🟡 Resend uses sandbox sender | `RESEND_FROM_EMAIL` unset | Only delivers to the account owner |
+| 🟡 No JSON-LD structured data | — | Biggest remaining SEO win; see `SEO.md` §7 |
+| 🟡 `/projects` duplicates `/work` | legacy DB routes | Excluded from the sitemap for now; retiring them is the cleaner fix |
 
 Full analysis with evidence: `SECURITY.md`, `SEO.md`, `DESIGN_SYSTEM.md`.
 
@@ -145,8 +146,10 @@ Full analysis with evidence: `SECURITY.md`, `SEO.md`, `DESIGN_SYSTEM.md`.
 ## Deployment
 
 Vercel. `postinstall` runs `prisma generate`. Required env vars (see `.env.example`):
-`RESEND_API_KEY`, `RESEND_FROM_EMAIL`, `CONTACT_TO_EMAIL`, `DATABASE_URL`,
-`NEXT_PUBLIC_SITE_URL`. Security headers and CSP are set in `next.config.ts`.
+`RESEND_API_KEY`, `RESEND_FROM_EMAIL`, `CONTACT_TO_EMAIL`, `NEXT_PUBLIC_SITE_URL`.
+`DATABASE_URL` is **not** required. Security headers and CSP are in `next.config.ts`.
+CI: `.github/workflows/ci.yml` runs tsc, eslint and build on master/development/deployment.
+Full guide: `DEPLOY.md`.
 
 ---
 

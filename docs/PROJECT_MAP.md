@@ -35,6 +35,11 @@ src/app/
 ├── template.tsx           ← per-navigation wrapper (page transition)
 ├── globals.css            ← ⚠️ THE design system lives here (@theme)
 ├── page.tsx               ← homepage; composes 13 sections
+├── not-found.tsx          ← site-wide 404 (unmatched URLs + every notFound() call)
+├── sitemap.ts             ← 53 URLs, generated from src/data/*
+├── robots.ts              ← allow all, disallow /api/, points at the sitemap
+├── opengraph-image.tsx    ← 1200×630 social card via next/og
+├── icon.png               ← favicon (App Router convention)
 ├── about/page.tsx
 ├── work/page.tsx
 ├── services/page.tsx + [slug]/page.tsx       (13 SSG pages)
@@ -127,6 +132,7 @@ wrong group — `getProjectGroup()` drives the `/work` filters.
 | `case-studies.ts` | Derives case studies by filtering `projects.ts` | Yes |
 | `hero-slides.ts` | Reads `public/hero/` at **build time** via `fs` | Server-only — never import from a client component |
 | `utils.ts` | `cn()` = `twMerge(clsx(...))` | Yes |
+| `site-data.ts` | `getSiteConfig()` / `getProjects()` / `getProjectRow()` — the **only** place Prisma is read from a route. Wrapped in React `cache` and degrades to `src/data/*` when there is no database | Yes — but keep the failure tolerance |
 
 Input validation for the contact form lives with the route that uses it, as a Zod schema in
 `src/app/api/contact/route.ts` — there is no shared validation module.

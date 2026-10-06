@@ -20,6 +20,17 @@ export const SITE = {
     linkedin: "https://www.linkedin.com/in/umer-farooq-296252272",
 } as const;
 
+/**
+ * Absolute origin for canonical URLs, Open Graph and the sitemap.
+ *
+ * Set NEXT_PUBLIC_SITE_URL in the deployment. The fallback only exists so a
+ * local build works; it is not a substitute for setting the variable, because a
+ * wrong origin here silently poisons every canonical link.
+ */
+export const SITE_URL = (
+    process.env.NEXT_PUBLIC_SITE_URL ?? "https://umerfarooque-dev.vercel.app"
+).replace(/\/+$/, "");
+
 /** The three-up label rows across the top of the hero. */
 export const HERO_LABEL_ROWS: string[][] = [
     ["WordPress", "Shopify", "Laravel"],

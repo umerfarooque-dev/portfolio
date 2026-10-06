@@ -8,6 +8,71 @@ content edits do not need one.
 
 ---
 
+
+## 2026-10-07
+
+### Change
+SEO metadata completed across every route, plus `sitemap.ts`, `robots.ts`,
+`opengraph-image.tsx` and a styled `not-found.tsx`. Full QA pass alongside it, which
+turned up a soft 404.
+
+**Metadata** — `/`, `/about`, `/projects` and `/projects/[id]` had no `metadata` export at
+all and were serving the site-wide default title, so four routes competed with each other
+in search. All now have their own title, description and canonical; `/projects/[id]` has a
+`generateMetadata` that also emits per-project Open Graph. `/work` gained the canonical it
+was missing. Verified in the built HTML: every page has a unique title, a description, one
+canonical, and `og:image`.
+
+**`src/app/opengraph-image.tsx`** — generated via `next/og`. `twitter:card` had been set to
+`summary_large_image` with no image, so every share rendered as a bare text link. 1200×630,
+~54 KB.
+
+**`src/app/sitemap.ts`** — 53 URLs built from the same data that generates the routes.
+`/projects*` is excluded as a duplicate of `/work`. Every one of the 53 verified to return 200.
+
+**`src/app/robots.ts`** — allows everything, disallows `/api/`, advertises the sitemap.
+
+**`src/app/not-found.tsx`** — unmatched URLs and `notFound()` calls previously fell through
+to Next's unstyled default.
+
+**Soft 404 fixed** — `/projects/nope` returned **200** with "Project Not Found" text on it,
+so crawlers would index it as a real page. It now calls `notFound()`, matching how blog,
+case-studies and services already behaved.
+
+**One `<h1>` per page** — `/about`, `/contact` and `/projects` had none. `AboutSection` and
+`ContactSection` are shared with the home page, so a blanket change would have given the
+home page three h1s. Both now take `headingAs` (default `"h2"`), and the standalone pages
+pass `"h1"`. `ProjectsSection` renders `h1` directly since `/projects` is its only consumer.
+Purely semantic — the type scale comes from the className either way.
+
+**`SITE_URL`** — the canonical origin was duplicated in `layout.tsx` with a fallback still
+pointing at the old `umer-porfolio.vercel.app` domain. Now one export in `src/data/site.ts`,
+consumed by the layout, sitemap and robots.
+
+### Reason
+These were the SEO gaps flagged in the audit and left open pending a decision. Umer asked
+for the metadata and a QA pass, which made them in scope.
+
+### Files
+Added: `src/app/sitemap.ts`, `src/app/robots.ts`, `src/app/opengraph-image.tsx`,
+`src/app/not-found.tsx`. Modified: `layout.tsx`, `page.tsx`, `about/`, `work/`, `projects/`,
+`projects/[id]/`, `contact/`, `AboutSection`, `ContactSection`, `ProjectsSection`,
+`data/site.ts`, `.env.example`, docs.
+
+### Notes
+QA results: tsc 0 errors, eslint 0 problems, build exit 0 with zero warnings. 16 routes 200,
+5 negative cases all 404 (including the fixed soft 404). Contact API 405 on GET/PUT, 400 on
+invalid email / empty message / oversized message. 7 security headers present, `x-powered-by`
+absent. Image optimizer still rejects external hosts, cloud metadata and path traversal.
+Zero images missing `alt`, zero external image hosts. Production `npm audit`: 0
+vulnerabilities. Homepage 193 KB HTML (23 KB gzip) and 332 KB gzip JS — unchanged, still the
+main performance debt.
+
+Still open: JSON-LD structured data, web manifest, body-text contrast (2.8:1), focus
+indicators, the 1.4 s loader gate, and the 332 KB JS.
+
+---
+
 ## 2026-10-06
 
 ### Change

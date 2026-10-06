@@ -1,3 +1,4 @@
+import type { Metadata } from "next";
 import dynamic from "next/dynamic";
 import { getSiteConfig } from "@/lib/site-data";
 import { getHeroSlides } from "@/lib/hero-slides";
@@ -15,6 +16,16 @@ const AboutSection = dynamic(() => import("@/components/organisms/AboutSection")
 const TechStack = dynamic(() => import("@/components/organisms/TechStack").then((m) => m.TechStack));
 const FaqSection = dynamic(() => import("@/components/organisms/FaqSection").then((m) => m.FaqSection));
 const ContactSection = dynamic(() => import("@/components/organisms/ContactSection").then((m) => m.ContactSection));
+
+/**
+ * The title and description are the site-wide defaults from layout.tsx, which is
+ * correct for the home page. What was missing is the canonical: without it the
+ * home page competed with itself across any host or query string that resolves
+ * here.
+ */
+export const metadata: Metadata = {
+  alternates: { canonical: "/" },
+};
 
 export const revalidate = 3600;
 

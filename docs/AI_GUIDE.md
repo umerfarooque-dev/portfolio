@@ -180,8 +180,6 @@ unprompted; do not report them as new findings.
 | 🔴 SQLite breaks the Vercel build | `prisma/schema.prisma`, `prisma/dev.db` gitignored | Needs hosted Postgres, or drop Prisma from public routes |
 | 🟠 Body text contrast 2.82:1 (needs 4.5:1) | `--color-muted` in `globals.css`, 125 usages | Fixing it changes every page's look |
 | 🟠 No focus indicators on 23 inputs | `focus:outline-none`, no global `:focus-visible` | Needs a ring-style decision |
-| 🟠 No `og:image`, `sitemap.xml`, `robots.txt` | `src/app/` | Not created yet — see `SEO.md` for ready-to-use patterns |
-| 🟠 No `<h1>` on `/about`, `/contact`, `/projects` | those pages | Needs copy decisions |
 | 🟠 Loader gates first paint ≥1.4 s | `Loader.tsx` `MIN_MS` | Intentional; hurts LCP |
 | 🟡 Homepage ships 332 KB gzip JS | 3 animation libraries | Needs consolidation |
 | 🟡 `alert()` for contact feedback, no loading state | `ContactSection.tsx` | Needs a UI decision |

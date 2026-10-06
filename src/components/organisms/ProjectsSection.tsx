@@ -90,7 +90,8 @@ export const ProjectsSection = ({ initialCount, projects }: ProjectsSectionProps
       <div className="absolute inset-0 bg-gradient-to-b from-transparent via-sky-900/5 to-transparent -z-10" />
       <Container>
         <div ref={headingRef} className="scroll-reveal mb-16 text-center">
-          <Heading size="xl" className="mb-4">
+          {/* /projects is the only consumer, so this is the page's h1. */}
+          <Heading as="h1" size="xl" className="mb-4">
             Featured Projects
           </Heading>
           <p className="max-w-2xl mx-auto text-muted">
