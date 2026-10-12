@@ -2,6 +2,7 @@ import { AnimatedText } from "@/components/atoms/AnimatedText";
 import { getProjectStack, projects } from "@/data/projects";
 import { SITE } from "@/data/site";
 import { getServicePage, servicePages } from "@/data/services-pages";
+import { SEO_PARTNER, seoCaseStudies } from "@/data/seo-partnership";
 import type { Metadata } from "next";
 import { ProjectImage } from "@/components/atoms/ProjectImage";
 import Link from "next/link";
@@ -141,6 +142,99 @@ export default async function ServicePage({ params }: { params: Promise<{ slug: 
                     </div>
                 </div>
             </section>
+
+            {/*
+                Partner case studies. These belong to the SEO partner, not to Umer, so
+                every card carries its credit and the section says so twice — once in
+                the lead, once per card. See src/data/seo-partnership.ts.
+            */}
+            {service.group === "seo" && (
+                <section
+                    aria-label="SEO partner case studies"
+                    className="border-t border-line py-[var(--spacing-section)]"
+                >
+                    <div className="mx-auto w-full max-w-[var(--container-grid)] px-[var(--gutter)]">
+                        <AnimatedText
+                            as="span"
+                            text="Partner case studies"
+                            className="mb-8 block font-mono uppercase tracking-wider text-muted"
+                        />
+                        <AnimatedText
+                            as="h2"
+                            text="Search results from my SEO partner."
+                            className="max-w-[20ch] text-h2 font-medium"
+                        />
+                        <p className="mt-8 max-w-[62ch] text-body leading-relaxed text-muted">
+                            The work below is{" "}
+                            <a
+                                href={SEO_PARTNER.site}
+                                target="_blank"
+                                rel="noopener noreferrer"
+                                className="text-accent underline underline-offset-4"
+                            >
+                                {SEO_PARTNER.name}
+                            </a>
+                            &rsquo;s, not mine — {SEO_PARTNER.experienceYears} years of SEO, his clients
+                            and his Search Console reports. It is here because he is who I bring in for
+                            search strategy. My side of this partnership is the technical implementation.
+                        </p>
+
+                        <ul className="mt-14 grid grid-cols-1 gap-6 lg:grid-cols-2">
+                            {seoCaseStudies.map((study) => (
+                                <li
+                                    key={study.id}
+                                    className="flex flex-col rounded-sm border border-line bg-surface/40 p-6 md:p-8"
+                                >
+                                    <p className="font-mono text-label uppercase tracking-wider text-muted">
+                                        {study.sector}
+                                    </p>
+                                    <h3 className="mt-4 text-h3 font-medium">{study.client}</h3>
+                                    <p className="mt-3 text-small text-muted">{study.headline}</p>
+
+                                    {study.metrics.length > 0 && (
+                                        <dl className="mt-8 grid grid-cols-2 gap-x-6 gap-y-5 border-y border-line py-6">
+                                            {study.metrics.map((m) => (
+                                                <div key={m.label}>
+                                                    <dt className="font-mono text-[10px] uppercase tracking-wider text-muted">
+                                                        {m.label}
+                                                    </dt>
+                                                    <dd className="mt-1 text-h3 font-medium tabular-nums text-accent">
+                                                        {m.value}
+                                                    </dd>
+                                                </div>
+                                            ))}
+                                        </dl>
+                                    )}
+
+                                    <p className="mt-6 text-small leading-relaxed text-muted">
+                                        {study.context}
+                                    </p>
+                                    <p className="mt-4 text-small leading-relaxed text-muted">
+                                        {study.performance}
+                                    </p>
+                                    <p className="mt-4 border-l-2 border-line pl-4 text-small leading-relaxed text-muted">
+                                        {study.caveat}
+                                    </p>
+
+                                    <p className="mt-auto pt-8 font-mono text-[10px] uppercase tracking-wider text-muted">
+                                        {study.credit} · {study.source}
+                                    </p>
+                                </li>
+                            ))}
+                        </ul>
+
+                        <a
+                            href={SEO_PARTNER.caseStudies}
+                            target="_blank"
+                            rel="noopener noreferrer"
+                            className="mt-12 inline-flex items-center gap-2 font-mono text-label uppercase tracking-wider text-accent"
+                        >
+                            Full reports on {SEO_PARTNER.studio}
+                            <span aria-hidden="true">&rarr;</span>
+                        </a>
+                    </div>
+                </section>
+            )}
 
             {/* Related work */}
             {related.length > 0 && (

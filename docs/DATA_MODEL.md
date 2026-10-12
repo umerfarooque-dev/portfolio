@@ -31,6 +31,8 @@ MDX. The only exception is `/projects*`, which reads from Prisma.
 | A service detail page | `src/data/services-pages.ts` | `servicePages` |
 | A blog post | `src/data/blog.ts` | `posts` |
 | Showcase carousel items | `src/data/showcase.ts` | `showcaseItems` |
+| SEO partner + partner case studies | `src/data/seo-partnership.ts` | `SEO_PARTNER`, `seoCaseStudies` |
+| Umer's own technical SEO scope | `src/data/seo-partnership.ts` | `TECHNICAL_SEO_SCOPE` |
 | "Principles" copy | `src/data/showcase.ts` | `principles` |
 | Résumé PDF | `public/resume/Umer-Farooque-Resume.pdf` |
 | Hero background images | drop files in `public/hero/` |
@@ -172,6 +174,23 @@ renderer is a plain `switch` in `blog/[slug]/page.tsx`. The cost is verbose auth
 `showcaseItems: ShowcaseItem[]` (6) and `principles: Principle[]` (4).
 `showcaseImage(item)` → `` `/projects/${item.project}.webp` `` — so a showcase item points
 at a project by id rather than storing its own image path.
+
+---
+
+## 6b. SEO partnership — `src/data/seo-partnership.ts`
+
+⚠️ **The case studies in this file are not Umer's work.** They belong to Hanif Rahimoon
+(HanifDigiLab), the SEO partner: his clients, his Search Console reports. They are published
+as evidence of what the partnership delivers, and **every entry carries a `credit` field that
+must be rendered**. `/services/seo-and-search-visibility` prints it on each card and says so
+again in the section lead.
+
+Figures are transcribed verbatim from `hanifdigilab.com/hanif-case-studies/` — not rounded,
+not reinterpreted. The `caveat` on each entry is the partner's own honest reading (for example
+that average position is an aggregate, not one keyword's ranking). **Keep the caveats.**
+
+`TECHNICAL_SEO_SCOPE` is the separate, genuinely-Umer list: metadata, sitemap, robots, JSON-LD,
+heading order, Core Web Vitals, crawlability. Do not blur the two.
 
 ---
 

@@ -16,6 +16,7 @@ export const metadata: Metadata = {
 export default function ServicesIndexPage() {
     const builds = servicePages.filter((s) => s.group === "build");
     const migrations = servicePages.filter((s) => s.group === "migration");
+    const search = servicePages.filter((s) => s.group === "seo");
 
     return (
         <>
@@ -47,6 +48,11 @@ export default function ServicesIndexPage() {
 
             <ServiceList heading="Build" services={builds} startIndex={1} />
             <ServiceList heading="Migrations to Shopify" services={migrations} startIndex={builds.length + 1} />
+            <ServiceList
+                heading="Search"
+                services={search}
+                startIndex={builds.length + migrations.length + 1}
+            />
         </>
     );
 }

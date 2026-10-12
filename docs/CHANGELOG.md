@@ -9,6 +9,50 @@ content edits do not need one.
 ---
 
 
+## 2026-10-13
+
+### Change
+Added an SEO service page built around the partnership with Hanif Rahimoon
+(HanifDigiLab), plus his four case studies, credited to him on every card.
+
+- `src/data/seo-partnership.ts` — `SEO_PARTNER`, `seoCaseStudies` (MGN Ventures, The Dental
+  Land, The Real-estate Law Group, Giftflys) and `TECHNICAL_SEO_SCOPE`.
+- `src/data/services-pages.ts` — new `seo-and-search-visibility` entry; the `group` union
+  gains `"seo"` alongside `"build"` and `"migration"`.
+- `src/app/services/page.tsx` — a third "Search" group on the index.
+- `src/app/services/[slug]/page.tsx` — renders the partner case studies for `group === "seo"`.
+
+### Reason
+Umer asked for the SEO projects and case studies from hanifdigilab.com. That site is Hanif
+Rahimoon's own portfolio — his clients, his nine years of SEO, his Search Console reports —
+so copying them across as Umer's work would have been exactly the fabrication this project
+has had to undo once already. Umer confirmed the two are partners and that the credit should
+be explicit, and that his own search work is technical SEO on the sites he builds.
+
+So the page sells the partnership rather than borrowing a CV: the section lead names Hanif and
+links to his site, every card carries `SEO by Hanif Rahimoon, HanifDigiLab` plus the report
+type, and the deliverables separate his half (strategy, keyword work, Search Console
+reporting) from Umer's (metadata, sitemap, robots, JSON-LD, heading order, Core Web Vitals,
+crawlability).
+
+### Files
+Added `src/data/seo-partnership.ts`. Modified `services-pages.ts`, `services/page.tsx`,
+`services/[slug]/page.tsx`, `docs/DATA_MODEL.md`, `docs/PROJECT_MAP.md`.
+
+### Notes
+- Figures are transcribed verbatim from the partner's case-studies page — not rounded or
+  reinterpreted. Each entry keeps his own caveat (average position is an aggregate, not one
+  keyword's ranking; Search Console clicks do not establish enquiries or clients). Those
+  caveats make the page more credible, not less — keep them.
+- Giftflys has no Search Console export, only search-result screenshots, so its `metrics`
+  array is empty and the card says no click or impression figures are claimed.
+- **Open:** publishing a partner's client names and Search Console numbers on this domain
+  needs Hanif's explicit OK. Umer has been asked to confirm it.
+- tsc 0 errors, eslint 0 problems, build exit 0 with zero warnings. The new route returns 200
+  with one h1, a unique title and a canonical, and appears in the sitemap (now 54 URLs).
+
+---
+
 ## 2026-10-07
 
 ### Change

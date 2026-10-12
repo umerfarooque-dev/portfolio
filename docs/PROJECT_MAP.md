@@ -103,6 +103,7 @@ src/data/
 ├── services-pages.ts  ← 13 service detail pages
 ├── blog.ts            ← 7 posts as structured Block[] (no MDX)
 ├── showcase.ts        ← showcase carousel items + principles
+├── seo-partnership.ts ← SEO partner's credited case studies — NOT Umer's work
 └── navLinks.ts        ← header navigation
 ```
 

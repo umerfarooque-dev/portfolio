@@ -16,8 +16,8 @@ export interface ServicePage {
     intro: string;
     /** Short line for the services index card. */
     summary: string;
-    /** Group the page belongs to. */
-    group: "build" | "migration";
+    /** Group the page belongs to. "seo" pages render the partner case studies. */
+    group: "build" | "migration" | "seo";
     /** What the client actually receives. */
     deliverables: string[];
     /** The problem this service exists to solve. */
@@ -318,6 +318,31 @@ export const servicePages: ServicePage[] = [
         ],
         relatedStacks: ["shopify"],
         stack: ["Shopify", "Magento", "Liquid", "CSV / API import"],
+    },
+    {
+        slug: "seo-and-search-visibility",
+        name: "SEO & Search Visibility",
+        group: "seo",
+        headline: "Built to be found, not just built.",
+        intro:
+            "Technical SEO on the build, with search strategy and reporting from a dedicated SEO partner.",
+        summary:
+            "Technical SEO foundations from me, search strategy and Search Console reporting from my SEO partner.",
+        problem:
+            "A site can be fast, clean and completely invisible. The technical groundwork and the search strategy are two different jobs, and a build that skips either one quietly costs you traffic you never see.",
+        approach:
+            "I handle the part that lives in the code: metadata, sitemap, robots, structured data, heading order, crawlability and Core Web Vitals. Search strategy, keyword work and Search Console reporting come from Hanif Rahimoon of HanifDigiLab, who has spent nine years on SEO alone. The case studies below are his client work, credited to him — my side of the partnership is the implementation.",
+        deliverables: [
+            "Metadata, canonical URLs and Open Graph on every route",
+            "Generated sitemap.xml and robots.txt",
+            "JSON-LD structured data where the page type supports it",
+            "Heading structure audited — one H1 per page",
+            "Core Web Vitals pass: image formats, sizing, layout shift",
+            "Search Console and GA4 connected and verified",
+            "Search strategy and reporting through my SEO partner",
+        ],
+        relatedStacks: ["nextjs", "shopify", "wordpress"],
+        stack: ["Next.js Metadata API", "Search Console", "GA4", "JSON-LD", "Core Web Vitals", "Lighthouse"],
     },
 ];
 
