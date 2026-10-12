@@ -5,68 +5,57 @@ import type { SiteConfig } from "@/types/site";
 import Link from "next/link";
 import { useEffect, useRef, useState } from "react";
 
+/** Font size the hidden probe is measured at. */
+const MEASURE_PX = 100;
+
 /**
  * Wordmark that scales to fill the footer's width exactly.
  *
- * The glyphs are measured once at a known size, then the ratio gives the font
- * size that fits the container — cheaper and sharper than an SVG viewBox trick,
- * and it re-fits on resize.
+ * Measurement happens on a separate hidden copy pinned at a fixed 100px, and
+ * `fit` never writes to it. That matters: the previous version measured the
+ * visible span by temporarily setting its font size to 100px and back, while a
+ * ResizeObserver watched that same span. ResizeObserver callbacks are async, so
+ * the re-entrancy flag guarding the swap was always `false` again by the time
+ * one arrived — every fit queued another fit, forever. Desktop browsers swallow
+ * that; iOS Safari painted it, which is the glyph tearing Umer saw on an
+ * iPhone 11 Pro.
+ *
+ * The hidden copy only changes width when the webfont actually swaps in, which
+ * is exactly the signal worth re-fitting on, so observing it is self-correcting
+ * instead of self-perpetuating.
  */
 const FitWordmark = ({ text }: { text: string }) => {
     const boxRef = useRef<HTMLDivElement>(null);
-    const spanRef = useRef<HTMLSpanElement>(null);
+    const measureRef = useRef<HTMLSpanElement>(null);
     const [size, setSize] = useState(0);
 
     useEffect(() => {
-        // `fit` temporarily rewrites the span's font size to measure it, which the
-        // span's own ResizeObserver would otherwise see as a change and report back
-        // — a feedback loop. This flag makes those self-inflicted notifications
-        // no-ops.
-        let measuring = false;
-
         const fit = () => {
-            if (measuring) return;
             const box = boxRef.current;
-            const span = spanRef.current;
-            if (!box || !span) return;
+            const probe = measureRef.current;
+            if (!box || !probe) return;
 
-            measuring = true;
-            const BASE = 100;
-            const previous = span.style.fontSize;
-            span.style.fontSize = `${BASE}px`;
-            const natural = span.getBoundingClientRect().width;
-            span.style.fontSize = previous;
-            measuring = false;
-
+            const natural = probe.getBoundingClientRect().width;
             if (!natural) return;
+
             // A hair under 1 so the last glyph's bearing never clips.
-            const next = (box.clientWidth / natural) * BASE * 0.995;
-            // Settle on whole pixels, so a sub-pixel reflow cannot ping-pong
-            // between two values forever.
-            setSize((current) => (Math.abs(current - next) < 0.5 ? current : Math.floor(next)));
+            const next = Math.floor((box.clientWidth / natural) * MEASURE_PX * 0.995);
+            setSize((current) => (current === next ? current : next));
         };
 
         fit();
 
-        // Measuring before the webfont lands gives the fallback's metrics, which
-        // is what made the wordmark overflow its container.
+        // The font can land after mount; re-fit when it does.
         let cancelled = false;
         document.fonts?.ready.then(() => {
             if (!cancelled) fit();
         });
 
-        // Observing the box alone was not enough. `document.fonts.ready` can
-        // resolve before Inter has actually been applied — most often on mobile,
-        // where the font arrives late and `display: swap` paints the fallback
-        // first. The measurement then came from the fallback's metrics and the
-        // wordmark was left at the wrong size with no second attempt.
-        //
-        // Watching the span as well means the font swap itself, which changes the
-        // span's natural width, re-triggers the fit. Self-correcting rather than
-        // dependent on one well-timed measurement.
+        // Neither observed element is ever written to by `fit`, so this cannot
+        // feed itself: the box changes on resize, the probe changes on font swap.
         const observer = new ResizeObserver(fit);
         if (boxRef.current) observer.observe(boxRef.current);
-        if (spanRef.current) observer.observe(spanRef.current);
+        if (measureRef.current) observer.observe(measureRef.current);
         return () => {
             cancelled = true;
             observer.disconnect();
@@ -77,13 +66,21 @@ const FitWordmark = ({ text }: { text: string }) => {
         <div aria-hidden="true" className="relative mt-8 max-w-full select-none overflow-hidden">
             <div ref={boxRef} className="w-full font-bold uppercase leading-none tracking-tight text-ink">
                 <span
-                    ref={spanRef}
                     className="inline-block whitespace-nowrap align-top"
-                    style={size ? { fontSize: `${size}px` } : { fontSize: "100px", visibility: "hidden" }}
+                    style={size ? { fontSize: `${size}px` } : { fontSize: `${MEASURE_PX}px`, visibility: "hidden" }}
                 >
                     {text}
                 </span>
             </div>
+
+            {/* Measured, never shown, never mutated. */}
+            <span
+                ref={measureRef}
+                className="pointer-events-none absolute left-0 top-0 -z-10 inline-block whitespace-nowrap font-bold uppercase tracking-tight opacity-0"
+                style={{ fontSize: `${MEASURE_PX}px` }}
+            >
+                {text}
+            </span>
         </div>
     );
 };
@@ -171,13 +168,7 @@ export const Footer = ({ config }: { config?: SiteConfig }) => {
             {/* Availability marquee */}
             <div
                 role="group"
-                className="relative flex w-full overflow-hidden border-y border-line py-4 text-[clamp(32px,6vw,84px)] font-medium uppercase leading-none tracking-tight"
-                style={{
-                    maskImage:
-                        "linear-gradient(to right, transparent 0%, black 9%, black 91%, transparent 100%)",
-                    WebkitMaskImage:
-                        "linear-gradient(to right, transparent 0%, black 9%, black 91%, transparent 100%)",
-                }}
+                className="marquee-mask relative flex w-full select-none overflow-hidden border-y border-line py-4 text-[clamp(32px,6vw,84px)] font-medium uppercase leading-none tracking-tight"
             >
                 {/*
                  * `w-max shrink-0` is load-bearing. Without it this is a flex item
@@ -190,7 +181,7 @@ export const Footer = ({ config }: { config?: SiteConfig }) => {
                  * The animation is a utility rather than an inline style so that
                  * `motion-reduce:animate-none` can actually win the cascade.
                  */}
-                <div className="flex w-max shrink-0 animate-[marquee_28s_linear_infinite] motion-reduce:animate-none">
+                <div className="marquee-track flex w-max shrink-0 animate-[marquee_28s_linear_infinite] motion-reduce:hidden">
                     {[0, 1].map((copy) => (
                         <ul key={copy} aria-hidden="true" className="flex shrink-0 items-center gap-8 pr-8">
                             <li className="flex items-center gap-8 whitespace-nowrap">
@@ -200,7 +191,17 @@ export const Footer = ({ config }: { config?: SiteConfig }) => {
                         </ul>
                     ))}
                 </div>
-                {/* The animated copies are hidden from assistive tech; this is the readable one. */}
+                {/*
+                 * Reduced motion gets a single centred copy instead of the scrolling
+                 * pair. Simply stopping the animation left the track parked at
+                 * translateX(0) with the mask over it, so the line read as cut off
+                 * rather than deliberately still.
+                 */}
+                <p className="hidden w-full justify-center whitespace-nowrap px-[var(--gutter)] motion-reduce:flex">
+                    <span aria-hidden="true">Available for freelance or fulltime</span>
+                </p>
+
+                {/* The visible copies are hidden from assistive tech; this is the readable one. */}
                 <ul className="sr-only">
                     <li>Available for freelance or fulltime</li>
                 </ul>

@@ -9,6 +9,55 @@ content edits do not need one.
 ---
 
 
+## 2026-10-13 (b)
+
+### Change
+Fixed both footer bugs Umer reported from an iPhone 11 Pro: the "UMER" wordmark
+tearing, and the availability marquee not scrolling.
+
+**Wordmark — a regression I introduced.** The earlier fix had a ResizeObserver
+watching the same span that `fit()` mutated: `fit()` set the span to 100px to
+measure it and set it back, which is itself a size change. ResizeObserver
+callbacks are asynchronous, so the re-entrancy flag meant to suppress that was
+always `false` again by the time one arrived — every fit queued another fit, every
+frame, forever. Desktop browsers swallow the loop; iOS Safari painted it, which is
+the RGB fringing on the glyphs.
+
+Measurement now happens on a separate hidden probe pinned at 100px that `fit()`
+never writes to. The observer watches the probe (changes only when the webfont
+swaps in — exactly the signal worth re-fitting on) and the container (resize).
+Neither is mutated, so it cannot feed itself.
+
+**Marquee.** Two causes covered, since Umer had not checked whether iOS Reduce
+Motion was on:
+- `-webkit-mask-image` creates a compositing context on iOS Safari that can leave a
+  child's CSS animation unpainted. The track now gets its own layer via
+  `.marquee-track` (`translateZ(0)`, `will-change: transform`).
+- Under reduced motion the animation simply stopped, parking the track at
+  translateX(0) behind the edge mask, so the line read as clipped rather than
+  deliberately still. Reduced motion now hides the scrolling pair and shows a
+  single centred copy, and the mask is switched off because a fade on static text
+  just looks like clipping.
+
+The mask moved from an inline style to `.marquee-mask` in globals.css so a media
+query can switch it off. The strip also gained `select-none` — the accent-coloured
+boxes in Umer's screenshot were `::selection` on text nobody means to select.
+
+### Files
+`src/components/organisms/Footer.tsx`, `src/app/globals.css`.
+
+### Notes
+tsc 0 errors, eslint 0 problems, build exit 0 with zero warnings. Verified in the
+emitted CSS that `.marquee-mask`, `.marquee-track`, their reduced-motion overrides,
+the `marquee` keyframes and the `animate-[...]`, `motion-reduce:hidden` and
+`motion-reduce:flex` utilities are all present, and in the rendered HTML that both
+wordmark spans exist with the probe untouched.
+
+Neither fix could be confirmed on real iOS from here — Umer needs to recheck on the
+phone.
+
+---
+
 ## 2026-10-13
 
 ### Change

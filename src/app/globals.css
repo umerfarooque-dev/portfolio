@@ -173,6 +173,40 @@ body {
   cursor: none;
 }
 
+/*
+ * Footer availability strip.
+ *
+ * The edge fade only makes sense while the text is moving. Under reduced motion
+ * the strip is static, and a fade there just reads as clipped text — so the mask
+ * is dropped.
+ *
+ * `translateZ(0)` is not decoration: on iOS Safari a -webkit-mask-image creates a
+ * compositing context that can leave a child's CSS animation unpainted. Giving the
+ * track its own layer is the standard way out.
+ */
+.marquee-mask {
+  -webkit-mask-image: linear-gradient(to right, transparent 0%, black 9%, black 91%, transparent 100%);
+  mask-image: linear-gradient(to right, transparent 0%, black 9%, black 91%, transparent 100%);
+}
+
+.marquee-track {
+  transform: translateZ(0);
+  will-change: transform;
+  backface-visibility: hidden;
+}
+
+@media (prefers-reduced-motion: reduce) {
+  .marquee-mask {
+    -webkit-mask-image: none;
+    mask-image: none;
+  }
+
+  .marquee-track {
+    transform: none;
+    will-change: auto;
+  }
+}
+
 @media (prefers-reduced-motion: reduce) {
   *, *::before, *::after {
     animation-duration: 0.01ms !important;
