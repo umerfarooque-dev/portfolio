@@ -13,10 +13,10 @@ content edits do not need one.
 
 ### Change
 Added an SEO service page built around the partnership with Hanif Rahimoon
-(HanifDigiLab), plus his four case studies, credited to him on every card.
+(HanifDigiLab), plus three of his case studies, credited to him on every card.
 
-- `src/data/seo-partnership.ts` — `SEO_PARTNER`, `seoCaseStudies` (MGN Ventures, The Dental
-  Land, The Real-estate Law Group, Giftflys) and `TECHNICAL_SEO_SCOPE`.
+- `src/data/seo-partnership.ts` — `SEO_PARTNER`, `seoCaseStudies` (The Dental Land,
+  The Real-estate Law Group, Giftflys) and `TECHNICAL_SEO_SCOPE`.
 - `src/data/services-pages.ts` — new `seo-and-search-visibility` entry; the `group` union
   gains `"seo"` alongside `"build"` and `"migration"`.
 - `src/app/services/page.tsx` — a third "Search" group on the index.
@@ -46,8 +46,9 @@ Added `src/data/seo-partnership.ts`. Modified `services-pages.ts`, `services/pag
   caveats make the page more credible, not less — keep them.
 - Giftflys has no Search Console export, only search-result screenshots, so its `metrics`
   array is empty and the card says no click or impression figures are claimed.
-- **Open:** publishing a partner's client names and Search Console numbers on this domain
-  needs Hanif's explicit OK. Umer has been asked to confirm it.
+- Hanif's permission to publish his client names and Search Console figures here was
+  confirmed by Umer. MGN Ventures was then dropped at Umer's instruction, so three case
+  studies ship.
 - tsc 0 errors, eslint 0 problems, build exit 0 with zero warnings. The new route returns 200
   with one h1, a unique title and a canonical, and appears in the sitemap (now 54 URLs).
 

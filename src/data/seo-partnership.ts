@@ -62,26 +62,6 @@ export const TECHNICAL_SEO_SCOPE: string[] = [
 
 export const seoCaseStudies: SeoCaseStudy[] = [
     {
-        id: "mgn-ventures",
-        client: "MGN Ventures",
-        sector: "Digital & software agency",
-        headline: "Search visibility for an agency business.",
-        context:
-            "A digital and software agency, where search visibility helps potential clients find the firm while they are researching services and comparing providers.",
-        performance:
-            "The supplied Google Search Console report records 400 clicks from 4.04K impressions across a six-month window, at a 9.9% click-through rate.",
-        caveat:
-            "Average position is an aggregate across the whole report, not the ranking of any single keyword.",
-        source: "Google Search Console — web search, 6-month view",
-        metrics: [
-            { label: "Clicks", value: "400" },
-            { label: "Impressions", value: "4.04K" },
-            { label: "Average CTR", value: "9.9%" },
-            { label: "Average position", value: "9.6" },
-        ],
-        credit: `SEO by ${SEO_PARTNER.name}, ${SEO_PARTNER.studio}`,
-    },
-    {
         id: "the-dental-land",
         client: "The Dental Land",
         sector: "Dental practice",
