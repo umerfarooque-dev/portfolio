@@ -76,7 +76,7 @@ export default async function ServicePage({ params }: { params: Promise<{ slug: 
 
                     <div className="mt-10 flex flex-wrap items-center gap-4">
                         <Link
-                            href="/#contact"
+                            href="/contact"
                             className="inline-flex items-center rounded-full bg-accent px-7 py-3.5 font-mono uppercase tracking-wider text-bg transition-colors duration-[var(--duration-normal)] hover:bg-ink"
                         >
                             Get a free proposal

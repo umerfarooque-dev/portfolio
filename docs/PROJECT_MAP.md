@@ -42,10 +42,11 @@ src/app/
 ├── icon.png               ← favicon (App Router convention)
 ├── about/page.tsx
 ├── work/page.tsx
+├── process/page.tsx       ← the five steps, long-form (home page has the pinned version)
 ├── services/page.tsx + [slug]/page.tsx       (13 SSG pages)
 ├── blog/page.tsx + [slug]/page.tsx           (7 SSG pages)
 ├── case-studies/page.tsx + [slug]/page.tsx   (26 SSG pages)
-├── contact/page.tsx
+├── contact/page.tsx       ← ContactPanel (current design system)
 ├── projects/page.tsx + [id]/page.tsx         ← LEGACY, DB-driven
 └── api/contact/route.ts   ← the only API route
 ```

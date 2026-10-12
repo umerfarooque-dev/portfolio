@@ -195,6 +195,18 @@ local list, and `SITE`/`config` respectively.
 **Props:** `projects: Project[]`, `initialCount?`
 **Uses:** `ProjectCard`, `Button`, `Heading`, `Container`, `useScrollReveal`
 
+### ContactPanel `C`
+**Path:** `src/components/organisms/ContactPanel.tsx`
+**Purpose:** The whole `/contact` body — direct channels on the left, form on the right.
+**Design:** Current system (lime on black). Used **only** by `/contact`.
+**The form:** validates before posting, surfaces the route's own error message, announces
+state through one `aria-live` region, cannot be double-submitted, swaps to a success panel,
+and has real `focus-visible` rings. No `alert()`.
+**Important:** `LIMITS` mirrors the Zod schema in `api/contact/route.ts` — **change both together.**
+**Why it duplicates `ContactSection`:** the home page section is still the legacy design and was
+deliberately left alone. When that section is converted it should adopt this form and the old
+inline one should be deleted.
+
 ### ContactSection `C` · 133L
 **Legacy styling** (sky→purple gradients) but it is the live `/contact` page *and* the
 homepage contact section.

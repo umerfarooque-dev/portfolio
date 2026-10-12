@@ -9,6 +9,48 @@ content edits do not need one.
 ---
 
 
+## 2026-10-13 (c)
+
+### Change
+Rebuilt `/contact`, added `/process`, and fixed a menu that could not reach either.
+
+**The menu was pointing at the wrong places.** `navLinks` mixed real routes with home-page
+anchors — `/#process`, `/#showcase`, `/#faq` and `/#contact`. From anywhere other than the
+home page those threw you back to it, and **"Contact" went to the home-page section even
+though a `/contact` page existed**, so the page Umer asked to improve was unreachable from the
+nav. The menu is now routes only: Work, Services, Process, Case Studies, Blog, Contact,
+Resume. Showcase and FAQ stay as home-page sections — neither has enough content for a page.
+
+The same `/#contact` link was repeated in `blog/[slug]`, `services/[slug]` and five
+`FOOTER_COLUMNS` entries. All now point at `/contact`.
+
+**`/process`** — the five `processSteps` long-form. The home page runs them as a pinned
+horizontal scroll, which is good at being noticed and bad at being read; this is the readable
+version, and a real URL to send a client who asked how the work runs.
+
+**`ContactPanel`** — a new `/contact` body in the current design system. The home page's
+legacy `ContactSection` was left untouched on purpose. The form now validates before posting,
+shows the route's own error text instead of a generic line, announces state through one
+`aria-live` region, cannot be double-submitted, swaps to a success panel with a "send another"
+path, and has real `focus-visible` rings. `alert()` is gone.
+
+### Files
+Added `src/app/process/page.tsx`, `src/components/organisms/ContactPanel.tsx`. Rewrote
+`src/app/contact/page.tsx`, `src/data/navLinks.ts`. Modified `src/app/sitemap.ts`,
+`src/data/site.ts`, `blog/[slug]/page.tsx`, `services/[slug]/page.tsx`, docs.
+
+### Notes
+- `LIMITS` in `ContactPanel` mirrors the Zod schema in `api/contact/route.ts`. Keep them in step.
+- Two contact forms now exist. That is deliberate while the home page stays on the legacy
+  design; when it is converted, it should adopt `ContactPanel`'s form and the inline one in
+  `ContactSection` should go.
+- tsc 0 errors, eslint 0 problems, build exit 0 with zero warnings. Every nav link resolves
+  200, `/process` and `/contact` each carry one h1 and a unique title, sitemap is 55 URLs with
+  `/process` in it, and the contact API still returns 400 on bad input and 405 on GET.
+- The new contact page renders zero legacy sky/purple classes and contains no `alert(`.
+
+---
+
 ## 2026-10-13 (b)
 
 ### Change

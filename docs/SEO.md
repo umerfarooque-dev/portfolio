@@ -15,7 +15,7 @@ built HTML and live HTTP responses on 2026-10-06.
 | Static paths for crawlers | `generateStaticParams()` in dynamic routes |
 | Favicon | `src/app/icon.png` (App Router convention) |
 | Canonical host | `SITE_URL` in `src/data/site.ts`, from `NEXT_PUBLIC_SITE_URL` |
-| `sitemap.xml` | ✅ `src/app/sitemap.ts` — generated from the data files, 53 URLs |
+| `sitemap.xml` | ✅ `src/app/sitemap.ts` — generated from the data files, 55 URLs |
 | `robots.txt` | ✅ `src/app/robots.ts` |
 | Social image | ✅ `src/app/opengraph-image.tsx` — generated via `next/og` |
 | 404 page | ✅ `src/app/not-found.tsx` |
@@ -86,17 +86,17 @@ generates the routes, so new content appears without anyone remembering:
 
 | Source | Count |
 |---|---|
-| Landing routes | 7 |
+| Landing routes | 8 |
 | `src/data/services-pages.ts` | 13 |
 | `src/lib/case-studies.ts` | 26 |
 | `src/data/blog.ts` (with real `lastModified`) | 7 |
-| **Total** | **53** |
+| **Total** | **55** |
 
 `/projects` and `/projects/[id]` are deliberately excluded — they are the legacy
 database-backed pages and duplicate `/work` and `/case-studies`.
 
-Verified: `/sitemap.xml` → 200 `application/xml`, 53 `<url>` entries, and **every one of the
-53 URLs returns 200**.
+Verified: `/sitemap.xml` → 200 `application/xml`, 55 `<url>` entries, and **every one of the
+55 URLs returns 200**.
 
 ---
 

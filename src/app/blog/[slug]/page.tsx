@@ -137,7 +137,7 @@ export default async function BlogPostPage({ params }: { params: Promise<{ slug:
 
                     <div className="mt-12 flex flex-wrap items-center gap-4">
                         <Link
-                            href="/#contact"
+                            href="/contact"
                             className="inline-flex items-center rounded-full bg-accent px-7 py-3.5 font-mono uppercase tracking-wider text-bg transition-colors hover:bg-ink"
                         >
                             Get a free proposal

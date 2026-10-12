@@ -93,16 +93,16 @@ export const FOOTER_COLUMNS: FooterColumn[] = [
             { name: "Case Studies", href: "/case-studies" },
             { name: "Blog", href: "/blog" },
             { name: "About", href: "/about" },
-            { name: "Contact", href: "/#contact" },
+            { name: "Contact", href: "/contact" },
         ],
     },
     {
         heading: "Locations",
         links: [
-            { name: "Karachi", href: "/#contact" },
-            { name: "Pakistan", href: "/#contact" },
-            { name: "United Kingdom", href: "/#contact" },
-            { name: "United States", href: "/#contact" },
+            { name: "Karachi", href: "/contact" },
+            { name: "Pakistan", href: "/contact" },
+            { name: "United Kingdom", href: "/contact" },
+            { name: "United States", href: "/contact" },
         ],
     },
     {
