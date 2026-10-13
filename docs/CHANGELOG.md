@@ -9,6 +9,43 @@ content edits do not need one.
 ---
 
 
+## 2026-10-13 (d)
+
+### Change
+Added `ContactPopup` — a contact prompt that opens 15 seconds after arrival, mounted once in
+`MainLayout`.
+
+Built as a prompt, not a third copy of the form. Two already exist (`ContactPanel` on
+/contact, and the legacy inline one in `ContactSection`); a third would mean a third set of
+validation and error states to keep in step with the Zod schema, for no gain over two buttons.
+
+Restraint, because a timed popup is intrusive by default:
+- once per browser session (`sessionStorage`), and never again once dismissed
+- never on `/contact`, where it would be telling someone to do what they are already doing
+- reduced motion still gets it, just without the scale — hiding content from those users
+  would be the wrong trade
+
+Accessibility: `role="dialog"` + `aria-modal`, labelled and described, Escape closes, Tab
+trapped inside, focus moved in on open and returned to its origin on close, backdrop click
+dismisses.
+
+### Files
+Added `src/components/organisms/ContactPopup.tsx`. Modified
+`src/components/templates/MainLayout.tsx`, `docs/COMPONENTS.md`, `docs/ARCHITECTURE.md`.
+
+### Notes
+- Delay lives in `DELAY_MS`.
+- A first attempt had a "close on route change" effect; the `react-hooks/set-state-in-effect`
+  rule rejected it and it was useless anyway — the backdrop covers the page, so the only way
+  to navigate is to dismiss first.
+- tsc 0 errors, eslint 0 problems, build exit 0 with zero warnings. Verified the popup is
+  absent from the server-rendered HTML (it is timer-gated on the client) and that all routes
+  still return 200.
+- **Not verified from here:** the 15-second appearance, the focus trap and the dismissal
+  memory all need a real browser. Worth one pass on desktop and on the iPhone.
+
+---
+
 ## 2026-10-13 (c)
 
 ### Change

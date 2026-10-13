@@ -195,6 +195,20 @@ local list, and `SITE`/`config` respectively.
 **Props:** `projects: Project[]`, `initialCount?`
 **Uses:** `ProjectCard`, `Button`, `Heading`, `Container`, `useScrollReveal`
 
+### ContactPopup `C`
+**Path:** `src/components/organisms/ContactPopup.tsx`
+**Purpose:** Contact prompt that opens 15 s after arrival. Mounted once, in `MainLayout`.
+**Restraint:** once per browser session (`sessionStorage` key `contact-popup-seen`), never
+again once dismissed, and never on `/contact`.
+**Accessibility:** `role="dialog"` + `aria-modal`, labelled and described, Escape closes,
+Tab is trapped inside, focus moves in on open and returns to wherever it was on close.
+**Reduced motion:** still shown — only the scale is dropped. Hiding content from
+reduced-motion users would be the wrong trade.
+**Important:** it is a prompt, **not a third form**. Two contact forms already exist
+(`ContactPanel`, and the legacy inline one in `ContactSection`); a third would need its own
+validation kept in step with the Zod schema.
+**To change the delay:** `DELAY_MS` at the top of the file.
+
 ### ContactPanel `C`
 **Path:** `src/components/organisms/ContactPanel.tsx`
 **Purpose:** The whole `/contact` body — direct channels on the left, form on the right.

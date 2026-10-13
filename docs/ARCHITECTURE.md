@@ -69,7 +69,8 @@ layout.tsx  (server)
               ├─ Navbar          (client)
               ├─ <main id="main">  ← template.tsx → page.tsx
               ├─ Footer          (client)
-              └─ FloatingWhatsApp (client)
+              ├─ FloatingWhatsApp (client)
+              └─ ContactPopup    (client, opens after 15s, once per session)
 ```
 
 `template.tsx` sits between layout and page, so it remounts on every navigation — that is

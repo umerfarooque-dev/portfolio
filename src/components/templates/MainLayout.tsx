@@ -3,6 +3,7 @@ import { Navbar } from "@/components/organisms/Navbar";
 import { ScrollProgress } from "@/components/atoms/ScrollProgress";
 import { Cursor } from "@/components/atoms/Cursor";
 import { Loader } from "@/components/organisms/Loader";
+import { ContactPopup } from "@/components/organisms/ContactPopup";
 import { FloatingWhatsApp } from "@/components/molecules/FloatingWhatsApp";
 import { MotionProvider } from "@/components/providers/MotionProvider";
 import { SmoothScroll } from "@/components/providers/SmoothScroll";
@@ -29,6 +30,7 @@ export const MainLayout = async ({ children }: MainLayoutProps) => {
                 <main id="main" className="flex-1">{children}</main>
                 <Footer config={config} />
                 <FloatingWhatsApp />
+                <ContactPopup />
             </div>
         </MotionProvider>
     );
