@@ -1,8 +1,5 @@
-"use client";
-
-import { springSnappy } from "@/lib/motion";
-import { AnimatePresence, motion, useScroll, useMotionValueEvent } from "framer-motion";
-import { useState } from "react";
+import { SITE } from "@/data/site";
+import { REFERENCE_UI } from "@/data/page-content";
 
 const WhatsAppIcon = () => (
     <svg width="24" height="24" viewBox="0 0 24 24" fill="currentColor" aria-hidden>
@@ -10,47 +7,9 @@ const WhatsAppIcon = () => (
     </svg>
 );
 
-/**
- * Floating WhatsApp action. Stays hidden over the hero so it does not compete
- * with the hero's own WhatsApp button, then springs in once the visitor has
- * started reading.
- */
-export const FloatingWhatsApp = () => {
-    const { scrollY } = useScroll();
-    const [visible, setVisible] = useState(false);
-
-    useMotionValueEvent(scrollY, "change", (latest) => {
-        setVisible(latest > 600);
-    });
-
-    return (
-        <AnimatePresence>
-            {visible && (
-                <motion.a
-                    href="https://wa.me/923003024283"
-                    target="_blank"
-                    rel="noopener noreferrer"
-                    aria-label="Chat on WhatsApp"
-                    initial={{ opacity: 0, scale: 0.5, y: 20 }}
-                    animate={{ opacity: 1, scale: 1, y: 0 }}
-                    exit={{ opacity: 0, scale: 0.5, y: 20 }}
-                    whileHover={{ scale: 1.08 }}
-                    whileTap={{ scale: 0.92 }}
-                    transition={springSnappy}
-                    className="group fixed bottom-6 right-6 z-50 flex h-14 w-14 items-center justify-center rounded-full bg-emerald-500 text-ink shadow-2xl focus:outline-none focus-visible:ring-2 focus-visible:ring-emerald-400 focus-visible:ring-offset-2 focus-visible:ring-offset-black"
-                >
-                    {/* Pulse ring */}
-                    <motion.span
-                        aria-hidden="true"
-                        className="absolute inset-0 rounded-full bg-emerald-500"
-                        animate={{ scale: [1, 1.4], opacity: [0.5, 0] }}
-                        transition={{ duration: 2, repeat: Infinity, ease: "easeOut" }}
-                    />
-                    <span className="relative">
-                        <WhatsAppIcon />
-                    </span>
-                </motion.a>
-            )}
-        </AnimatePresence>
-    );
-};
+/** Persistent, compact WhatsApp pill with safe-area spacing. */
+export const FloatingWhatsApp = () => (
+    <a href={`https://wa.me/${SITE.whatsapp}`} target="_blank" rel="noopener noreferrer" aria-label={REFERENCE_UI.whatsappLabel} className="fixed bottom-[calc(1.25rem_+_env(safe-area-inset-bottom))] right-5 z-30 flex h-13 items-center gap-2.5 rounded-full bg-[#25D366] px-4 text-[#062d14] shadow-[0_10px_30px_rgba(0,0,0,0.55)] transition-transform motion-safe:hover:-translate-y-0.5 focus-visible:outline-2 focus-visible:outline-offset-4 focus-visible:outline-accent sm:right-6">
+        <WhatsAppIcon /><span className="hidden font-mono text-label font-medium uppercase tracking-wider sm:inline">{REFERENCE_UI.whatsapp}</span>
+    </a>
+);

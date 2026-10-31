@@ -1,6 +1,7 @@
 "use client";
 
-import { FOOTER_COLUMNS, SITE } from "@/data/site";
+import { FooterDots } from "@/components/atoms/FooterDots";
+import { FOOTER_COLUMNS, FOOTER_CONTENT, SITE } from "@/data/site";
 import type { SiteConfig } from "@/types/site";
 import Link from "next/link";
 import { useEffect, useRef, useState } from "react";
@@ -89,26 +90,25 @@ export const Footer = ({ config }: { config?: SiteConfig }) => {
     const year = new Date().getFullYear();
     const email = config?.email || SITE.email;
     const fullName = SITE.name;
-    // The oversized wordmark reads better as the first name alone.
-    const mark = fullName.split(" ").filter(Boolean)[0] ?? fullName;
+    const mark = FOOTER_CONTENT.wordmark;
 
     return (
         <footer id="footer" className="relative w-full max-w-full overflow-hidden border-t border-line">
+            <FooterDots />
             <div className="relative mx-auto w-full max-w-[var(--container-grid)] px-[var(--gutter)] pb-12 pt-[clamp(56px,7vw,96px)]">
                 <div className="grid grid-cols-1 gap-14 lg:grid-cols-12 lg:gap-12 xl:gap-16">
                     {/* Pitch + email */}
                     <div className="lg:col-span-4">
                         <p className="max-w-[34ch] text-body leading-snug">
-                            {SITE.role} with 3 years of experience, crafting web and eCommerce
-                            experiences that load fast and convert better.
+                            {FOOTER_CONTENT.pitch}
                         </p>
                         <p className="mt-10 font-mono text-label uppercase tracking-wider text-muted">
-                            Let&rsquo;s make an impact together.
+                            {FOOTER_CONTENT.invitation}
                         </p>
                         <a
                             href={`mailto:${email}`}
                             data-cursor-text="Email"
-                            className="mt-4 inline-block text-h3 font-medium transition-colors hover:text-accent"
+                            className="mt-4 inline-block max-w-full break-words text-[clamp(22px,2.2vw,36px)] font-medium transition-colors hover:text-accent focus-visible:outline-2 focus-visible:outline-offset-4 focus-visible:outline-accent"
                         >
                             {email}
                         </a>
@@ -185,7 +185,7 @@ export const Footer = ({ config }: { config?: SiteConfig }) => {
                     {[0, 1].map((copy) => (
                         <ul key={copy} aria-hidden="true" className="flex shrink-0 items-center gap-8 pr-8">
                             <li className="flex items-center gap-8 whitespace-nowrap">
-                                <span>Available for freelance or fulltime</span>
+                                <span>{FOOTER_CONTENT.availability}</span>
                                 <span className="text-accent">·</span>
                             </li>
                         </ul>
@@ -197,13 +197,13 @@ export const Footer = ({ config }: { config?: SiteConfig }) => {
                  * translateX(0) with the mask over it, so the line read as cut off
                  * rather than deliberately still.
                  */}
-                <p className="hidden w-full justify-center whitespace-nowrap px-[var(--gutter)] motion-reduce:flex">
-                    <span aria-hidden="true">Available for freelance or fulltime</span>
+                <p className="hidden w-full justify-center px-[var(--gutter)] text-center motion-reduce:flex">
+                    <span aria-hidden="true">{FOOTER_CONTENT.availability}</span>
                 </p>
 
                 {/* The visible copies are hidden from assistive tech; this is the readable one. */}
                 <ul className="sr-only">
-                    <li>Available for freelance or fulltime</li>
+                    <li>{FOOTER_CONTENT.availability}</li>
                 </ul>
             </div>
 
@@ -211,7 +211,7 @@ export const Footer = ({ config }: { config?: SiteConfig }) => {
 
             <div className="relative mx-auto w-full max-w-[var(--container-grid)] px-[var(--gutter)] pb-7 pt-7">
                 <p className="font-mono text-[10px] uppercase tracking-wider text-muted">
-                    © {year} {fullName}. All rights reserved.
+                    © {year} {fullName}. {FOOTER_CONTENT.copyright}
                 </p>
             </div>
         </footer>

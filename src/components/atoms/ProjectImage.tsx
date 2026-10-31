@@ -1,4 +1,6 @@
 import Image from "next/image";
+import { PROJECT_IMAGE_CONTENT } from "@/data/site";
+import { UNAVAILABLE_PROJECT_IMAGES } from "@/data/project-previews";
 
 /**
  * A project's cover, with a designed stand-in when there is no screenshot.
@@ -16,6 +18,9 @@ interface ProjectImageProps {
     /** Passed through to next/image. */
     sizes?: string;
     priority?: boolean;
+    loading?: "eager" | "lazy";
+    /** Small pre-encoded hover captures can bypass on-demand optimization. */
+    unoptimized?: boolean;
     /** Classes for the <Image> itself, so callers keep their hover transforms. */
     className?: string;
 }
@@ -35,10 +40,12 @@ export const ProjectImage = ({
     title,
     sizes,
     priority,
+    loading,
+    unoptimized,
     className = "object-cover object-top",
 }: ProjectImageProps) => {
-    if (src) {
-        return <Image src={src} alt={alt} fill priority={priority} sizes={sizes} className={className} />;
+    if (src && !UNAVAILABLE_PROJECT_IMAGES.includes(src)) {
+        return <Image src={src} alt={alt} fill priority={priority} loading={loading} unoptimized={unoptimized} sizes={sizes} className={className} />;
     }
 
     return (
@@ -50,7 +57,7 @@ export const ProjectImage = ({
                 {monogram(title)}
             </span>
             <span className="font-mono text-[10px] uppercase tracking-wider text-muted">
-                Private build
+                {PROJECT_IMAGE_CONTENT.unavailable}
             </span>
             {/* The alt text still reaches assistive tech. */}
             <span className="sr-only">{alt}</span>

@@ -1,5 +1,12 @@
 # CONTEXT — read this first
 
+## Current reference alignment (2026-10-14)
+
+The user-authorized reference redesign now applies the lime-on-black system to every public page, including `/projects*` and `/contact`. Legacy atoms remain available but no longer define those page layouts. `/work/[slug]` prerenders shipped projects, supports optional database overrides, and shares `ProjectDetail` with case studies and legacy project URLs. `/showcase` and `/free-speed-audit` are dedicated routes. About uses static editorial content; optional database access remains in MainLayout and project loaders. Route counts below predate this expansion; derive current counts from the build. There are 19 service detail pages.
+
+Page introductions and UI copy live in `src/data/page-content.ts`; homepage content in `homepage.ts`; contact copy/options in `contact.ts`. `ContactPanel` is shared between `/contact` and a native dialog. The old two-system and contact-feedback descriptions below are historical.
+
+
 Quick orientation for an AI or human developer. Everything here is verified against the
 code, not assumed. If something below contradicts the code, the code is right and this
 file needs updating.
@@ -43,11 +50,11 @@ Origin is set by `NEXT_PUBLIC_SITE_URL`; `SITE_URL` in `src/data/site.ts` is the
 |---|---|---|
 | `/` | Static, `revalidate 3600` | `src/data/*` + 1 Prisma read |
 | `/work` | Static | `src/data/projects.ts` |
-| `/services` + `/services/[slug]` | Static + 13 SSG | `src/data/services-pages.ts` |
+| `/services` + `/services/[slug]` | Static + 19 SSG | `src/data/services-pages.ts` |
 | `/blog` + `/blog/[slug]` | Static + 7 SSG | `src/data/blog.ts` |
 | `/case-studies` + `/case-studies/[slug]` | Static + 26 SSG | `src/lib/case-studies.ts` (filters `projects.ts`) |
 | `/about` | Static, `revalidate 60` | `src/data/site.ts` + 1 Prisma read |
-| `/contact` | Static | hardcoded in `ContactSection` |
+| `/contact` | Static | `ContactPanel`; homepage `ContactSection` links to it |
 | `/projects` | Static, `revalidate 60` | **Prisma DB** |
 | `/projects/[id]` | **Dynamic** | **Prisma DB**, falls back to `projects.ts` |
 | `/api/contact` | Dynamic | POST only |

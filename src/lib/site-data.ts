@@ -3,6 +3,9 @@ import { prisma } from "@/lib/prisma";
 import { shippedProjects, type Project } from "@/data/projects";
 import { cache } from "react";
 
+/** Public project URLs use lowercase, hyphen-separated catalogue slugs. */
+const isPublicSlug = (slug: string) => /^[a-z0-9]+(?:-[a-z0-9]+)*$/.test(slug) && !slug.includes("placeholder");
+
 /**
  * Database reads for the two routes that still use one, with the database
  * treated as optional.
@@ -33,6 +36,7 @@ export const getSiteConfig = cache(async () => {
  * Shopify storefronts live anyway.
  */
 export const getProjectRow = cache(async (slug: string) => {
+    if (!isPublicSlug(slug)) return null;
     try {
         return await prisma.project.findUnique({ where: { slug } });
     } catch {
@@ -44,7 +48,8 @@ export const getProjectRow = cache(async (slug: string) => {
 export const getProjects = cache(async (): Promise<Project[]> => {
     try {
         const rows = await prisma.project.findMany({ orderBy: { createdAt: "desc" } });
-        if (rows.length) return rows.map(toProject);
+        const publicRows = rows.filter(row => isPublicSlug(row.slug));
+        if (publicRows.length) return publicRows.map(toProject);
     } catch {
         // fall through to the static catalogue
     }

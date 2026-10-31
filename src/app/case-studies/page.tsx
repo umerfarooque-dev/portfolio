@@ -1,3 +1,4 @@
+import { ContactSection } from "@/components/organisms/ContactSection";
 import { AnimatedText } from "@/components/atoms/AnimatedText";
 import { caseStudies } from "@/lib/case-studies";
 import { SITE } from "@/data/site";
@@ -65,7 +66,7 @@ export default function CaseStudiesPage() {
                                         alt={`${project.title} — ${project.category ?? "web build"}`}
                                         sizes={wide ? "100vw" : "(min-width: 768px) 50vw, 100vw"}
                                         className="object-cover object-top transition-transform duration-[1.2s] ease-[var(--ease-out)] group-hover:scale-[1.04]"
-                                        priority
+                                        priority={i === 0}
                                         />
                                             <span className="absolute left-4 top-4 rounded-full border border-line bg-bg/80 px-3 py-1 font-mono text-[10px] uppercase tracking-wider backdrop-blur-sm">
                                                 Case study {String(i + 1).padStart(2, "0")}
@@ -102,6 +103,7 @@ export default function CaseStudiesPage() {
                     </div>
                 </div>
             </section>
+            <ContactSection />
         </>
     );
 }

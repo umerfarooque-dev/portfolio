@@ -70,7 +70,7 @@ export const WorkGrid = ({ projects }: { projects: Project[] }) => {
                                 className={`group relative overflow-hidden ${wide ? "md:col-span-2" : ""}`}
                             >
                                 <Link
-                                    href={`/projects/${project.id}`}
+                                    href={`/work/${project.id}`}
                                     data-cursor-text="View"
                                     className="block focus-visible:outline-offset-8"
                                 >
@@ -83,8 +83,8 @@ export const WorkGrid = ({ projects }: { projects: Project[] }) => {
                                                 title={project.title}
                                                 alt={`${project.title} — ${project.category ?? "web build"}`}
                                                 sizes={wide ? "100vw" : "(min-width: 768px) 50vw, 100vw"}
-                                                className="object-cover transition-transform duration-[1.2s] ease-[var(--ease-out)] group-hover:scale-[1.04]"
-                                                priority
+                                                className="object-cover transition-transform duration-[1.2s] ease-[var(--ease-out)] motion-safe:group-hover:scale-[1.04]"
+                                                priority={i === 0}
                                             />
                                         </MediaReveal>
                                         {project.category && (

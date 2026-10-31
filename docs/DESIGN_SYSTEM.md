@@ -1,5 +1,33 @@
 # DESIGN SYSTEM
 
+## Keyboard focus update (2026-10-31)
+
+Global `:focus-visible` now uses a 2px accent outline with a 4px offset.
+This supersedes historical statements below that no global focus indicator
+exists. Palette, type, layout and the deliberately open muted-text contrast
+decision remain unchanged.
+
+## Current reference alignment (2026-10-14)
+
+The complete-site redesign was explicitly requested. Public /projects and /contact pages now share the current near-black/lime system; old gradient primitives remain unused by those layouts. Shared page openers, borderless article cards, project detail panels, native enquiry dialog, persistent WhatsApp pill and six-column footer follow the reference composition. The footer wordmark remains UMER as explicitly requested. Footer dots move as a wave field, with a static reduced-motion rendering.
+
+
+Contact update (2026-10-14): the form uses a bordered surface panel, 14px field
+text, clear labels, dark native service select and a full-width lime submit
+button. The sidebar holds direct channels and availability. Form and popup
+zones restore native cursors. Loader uses a centered lime BrandMark, compact
+name/percentage row and thin progress line, based on the supplied reference.
+
+Homepage update (2026-10-14): services follow the supplied reference accordion,
+ApproachSection uses a three-card/two-card benefits grid, and ContactSection now
+uses the current lime-on-black system with a compact invitation. The legacy
+homepage inline form was removed; `/contact` continues to use ContactPanel.
+
+Footer update (2026-10-14): following the requested bilalburney.com reference,
+the shared footer has a subtle lime dot field and a full-width UMER first-name
+wordmark (shortened at the user's request). Existing link columns and availability marquee remain. Email wraps on
+narrow screens; the reduced-motion availability line can wrap too.
+
 **Reverse-engineered from the existing code.** Nothing here is invented or aspirational —
 every value is read from `src/app/globals.css` or from the components that use it.
 

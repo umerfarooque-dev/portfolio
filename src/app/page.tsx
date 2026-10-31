@@ -4,6 +4,7 @@ import { getSiteConfig } from "@/lib/site-data";
 import { getHeroSlides } from "@/lib/hero-slides";
 import { HeroSection } from "@/components/organisms/HeroSection";
 import { BrandsStrip } from "@/components/organisms/BrandsStrip";
+import { CaseStudyHighlights } from "@/components/organisms/CaseStudyHighlights";
 
 const ServicesSection = dynamic(() => import("@/components/organisms/ServicesSection").then((m) => m.ServicesSection));
 const ProcessSection = dynamic(() => import("@/components/organisms/ProcessSection").then((m) => m.ProcessSection));
@@ -13,7 +14,6 @@ const BlogPreviewSection = dynamic(() => import("@/components/organisms/BlogPrev
 const ApproachSection = dynamic(() => import("@/components/organisms/ApproachSection").then((m) => m.ApproachSection));
 const TestimonialsSection = dynamic(() => import("@/components/organisms/TestimonialsSection").then((m) => m.TestimonialsSection));
 const AboutSection = dynamic(() => import("@/components/organisms/AboutSection").then((m) => m.AboutSection));
-const TechStack = dynamic(() => import("@/components/organisms/TechStack").then((m) => m.TechStack));
 const FaqSection = dynamic(() => import("@/components/organisms/FaqSection").then((m) => m.FaqSection));
 const ContactSection = dynamic(() => import("@/components/organisms/ContactSection").then((m) => m.ContactSection));
 
@@ -38,16 +38,16 @@ export default async function Home() {
     <>
       <HeroSection config={siteConfig} slides={heroSlides} />
       <BrandsStrip />
-      <WorkSection />
       <ServicesSection />
       <ProcessSection />
+      <WorkSection />
       <ApproachSection />
       <TestimonialsSection />
+      <CaseStudyHighlights />
       <ShowcaseSection />
-      <TechStack />
+      <BlogPreviewSection />
       <AboutSection config={siteConfig} />
       <FaqSection />
-      <BlogPreviewSection />
       <ContactSection />
     </>
   );

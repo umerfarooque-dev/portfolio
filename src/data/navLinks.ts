@@ -3,23 +3,16 @@ export interface NavLink {
     href: string;
 }
 
-/**
- * Header navigation.
- *
- * Every entry points at a real route. The menu used to mix pages with home-page
- * anchors (`/#process`, `/#showcase`, `/#faq`, `/#contact`), which meant that
- * from anywhere other than the home page those items threw you back to it — and
- * "Contact" went to the home-page section even though a /contact page existed.
- *
- * Showcase and FAQ stay as home-page sections; they are reachable by scrolling,
- * and neither has enough content to carry a page of its own yet.
- */
+export const START_PROJECT_LINK: NavLink = { name: "Start project", href: "/contact" };
+
+/** Shared page navigation; Showcase and Free Assessment have dedicated routes. */
 export const navLinks: NavLink[] = [
+    { name: "Home", href: "/" },
     { name: "Work", href: "/work" },
     { name: "Services", href: "/services" },
-    { name: "Process", href: "/process" },
-    { name: "Case Studies", href: "/case-studies" },
     { name: "Blog", href: "/blog" },
+    { name: "Showcase", href: "/showcase" },
+    { name: "About", href: "/about" },
+    { name: "Free Assessment", href: "/free-speed-audit" },
     { name: "Contact", href: "/contact" },
-    { name: "Resume", href: "/resume/Umer-Farooque-Resume.pdf" },
 ];

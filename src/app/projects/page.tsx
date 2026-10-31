@@ -1,4 +1,7 @@
-import { ProjectsSection } from "@/components/organisms/ProjectsSection";
+import { WorkGrid } from "@/components/organisms/WorkGrid";
+import { PageIntro } from "@/components/atoms/PageIntro";
+import { PAGE_CONTENT } from "@/data/page-content";
+import { ContactSection } from "@/components/organisms/ContactSection";
 import { SITE } from "@/data/site";
 import { getProjects } from "@/lib/site-data";
 import type { Metadata } from "next";
@@ -16,8 +19,10 @@ export default async function ProjectsPage() {
     const projects = await getProjects();
 
     return (
-        <div className="pt-24">
-            <ProjectsSection projects={projects} />
-        </div>
+        <>
+            <PageIntro {...PAGE_CONTENT.work} />
+            <section className="shell py-[clamp(48px,6vw,96px)]"><WorkGrid projects={projects} /></section>
+            <ContactSection />
+        </>
     );
 }

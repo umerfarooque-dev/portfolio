@@ -163,7 +163,7 @@ export const ShowcaseSection = () => {
                 </p>
 
                 <Link
-                    href="/work"
+                    href="/showcase"
                     className="mt-10 inline-flex items-center justify-center gap-2 rounded-full bg-accent px-7 py-3.5 font-mono uppercase tracking-wider text-bg transition-colors duration-[var(--duration-normal)] ease-[var(--ease-out)] hover:bg-ink"
                 >
                     View showcase →
@@ -187,7 +187,7 @@ export const ShowcaseSection = () => {
                         className="absolute left-1/2 top-4 -ml-[16%] w-[32%] will-change-transform"
                     >
                         <a
-                            href="/work"
+                            href="/showcase"
                             data-cursor-text="View"
                             className="block w-full text-left focus-visible:outline-offset-8"
                         >

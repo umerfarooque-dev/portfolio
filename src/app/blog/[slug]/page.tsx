@@ -1,3 +1,4 @@
+import { ContactSection } from "@/components/organisms/ContactSection";
 import { AnimatedText } from "@/components/atoms/AnimatedText";
 import { formatDate, getPost, posts, type Block } from "@/data/blog";
 import { SITE } from "@/data/site";
@@ -178,6 +179,7 @@ export default async function BlogPostPage({ params }: { params: Promise<{ slug:
                     </div>
                 </section>
             )}
+            <ContactSection />
         </>
     );
 }

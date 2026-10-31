@@ -1,6 +1,133 @@
 # CHANGELOG
 
+## 2026-10-31 - Confirmed employment titles and availability
+
+- Corrected MGN to Web Developer (Apr 2026–Aug 2026), and Tafsol to Web Developer /
+  Front-End Developer (Jan 2024–Apr 2026). Both are marked Previous.
+- Recorded MGN's approximate April start month and confirmed 24 August 2026 last
+  working day, with a clarification on About. Updated homepage career summary.
+- Shared "Available for new opportunities" across hero, contact and footer;
+  retained approximately three years as the portfolio experience summary.
+- Verification: TypeScript, ESLint, production build and whitespace checks
+  passed. Browser checks confirmed two experience entries and no overflow at
+  320/768/1280/1920px; production HTML assertions verified titles, date ranges,
+  Previous status, availability and the joining/last-working-day clarification.
+
+## 2026-10-31 - Employment history
+
+- Added MGN Ventures (April–August 2026) and Tafsol Technology Pvt. Ltd.
+  (January 2024–April 2026), using the user's updated dates and Full-Stack Web
+  Developer responsibilities. Both roles have ended; no current role is claimed.
+- Added the two roles, dates, location and user-confirmed responsibilities to
+  About; homepage summary/facts now show both employers. Removed stale database
+  About-text overrides while retaining the portrait override.
+- Kept all employment content in the data layer and retained the dark/lime design.
+- Updated the professional summary and core technologies from the user's text.
+  These details supersede the older PDF's dates; the PDF remains unchanged.
+- Browser verification: both roles and dates render on About; homepage facts
+  show most-recent/previous teams with no old current-Tafsol claim. Both pages
+  had no document overflow at 320/768/1280/1920px. TypeScript, ESLint and
+  whitespace checks passed. Production build passed (110 generated pages);
+  final HTML assertions verified both jobs, updated dates and core technologies.
+
+## 2026-10-31 - Resume replacement and site review fixes
+
+- Replaced the public resume with the supplied PDF; verified matching SHA-256.
+  Centralized its URL in SITE and prevented stale database resume overrides.
+- Added global lime keyboard focus outlines, menu focus cycling/restoration,
+  and native overlay scrolling without changing the visual layout.
+- Excluded malformed/placeholder database project slugs, preserving the static
+  catalogue fallback. Rejected protocol-relative/backslash image paths.
+- Browser checks: homepage at 320px and contact at 320/768/1280/1920px had no
+  document overflow. Menu entry, Tab wrap and Escape passed. Empty contact
+  submission focused email and marked email/service/message invalid without
+  sending email. Email delivery and external project availability were not tested.
+- Verification: TypeScript and ESLint passed; mocked database/image boundary
+  assertions passed. Production HTML audit covered 104 content pages and 4,042
+  internal link occurrences with no missing destinations and one h1 per page.
+  The browser reported an existing lazy-loading warning for a later hero slide;
+  slideshow loading and the documented contrast/loader decisions remain open.
+
+## 2026-10-14 - Popup cancel cursor
+
+Popup cursor fix: while ContactPopup is open, CSS restores native cursors across the document and dialog backdrop and hides the decorative cursor. Interactive descendants retain pointer styling, including close-button icons. The close target is now 44px with a non-intercepting icon. This avoids relying on z-index for a cursor beneath the native dialog top layer.
+
+
+## 2026-10-14 - Complete reference alignment
+
+Validation: `npx.cmd tsc --noEmit`, `npx.cmd eslint src`, `npm.cmd run build` and `git diff --check` passed. Production build generated 110 static pages. Parsed production HTML confirmed one h1, canonical URL, native dialog and enquiry triggers on 11 main routes; contact has 19 services plus placeholder; all 40 prerendered work details have a heading and canonical. These artifact/source checks do not replace desktop/mobile browser verification.
+
+- Unified public page introductions, blog cards, project details and legacy project layouts; added dedicated Showcase and Free Assessment routes and canonical work detail URLs.
+- Aligned homepage service exploration, work rows, project-story carousel, About facts, contact invitation, navigation and WhatsApp pill. Retained Umer identity, actual services and documented project narratives.
+- Replaced footer brightness-only animation with a moving three-wave dot field; retained UMER wordmark and reduced-motion behavior.
+- Reused the validated 19-service contact form inside a native dialog with service preselection, keyboard dismissal, scroll restoration and native pointer controls.
+- Generated 34 local hover previews (577 KB total); suppressed three existing capture-service spinner images using a generated hash manifest.
+- Source behavior checks passed for moving footer geometry, reduced motion, observer cleanup, dialog triggers, modifier clicks, service preselection, dismissal and session timer. Browser rendering remains unverified: after explicit user authorization, the browser tool still rejected localhost access. No alternative local-browser access was attempted.
+
+
 Architectural decisions and notable changes. Newest first.
+
+## 2026-10-14 — Contact form, native modal pointer and reference loader
+
+- Redesigned ContactPanel with a clearer form panel and direct-contact sidebar.
+  Added a required native service dropdown sourced from all 19 service pages.
+- Moved contact copy/limits/options to `data/contact.ts`, and moved validation
+  from the API to `lib/contact-validation.ts`, shared with the form. Selected
+  service labels now reach plain-text and HTML emails. Unknown/missing service
+  slugs are rejected; HTML escaping and existing throttle behavior remain.
+- Fixed invisible popup pointer using scoped native-cursor zones for popup and
+  form. The custom cursor is suppressed inside these zones, with pointer/text
+  cursors restored by CSS, including native selects.
+- Extracted the existing Navbar mark into BrandMark and reused it in Loader.
+  Replaced the corner-name/large-counter loader with the reference's centered
+  mark, compact percentage and thin bar using Umer branding. Lazy images no
+  longer stall completion; a single 3-second deadline and complete timer cleanup
+  replace the previous competing finish timers. Reduced motion skips it.
+- Mock-provider checks verified all 19 service selections reach both email
+  formats, invalid input never sends mail, escaping and throttling remain intact.
+  A controlled timer check verified stalled assets cannot trap the loader and
+  that previous body overflow is restored. No real email was sent.
+
+## 2026-10-14 — Homepage sections and service exploration
+
+- Reordered the homepage to the requested reference sequence: services and
+  process before work; blog after showcase; contact invitation at the end.
+  Removed TechStack from homepage composition and added case-study highlights.
+- Added Explore links to all six service accordions and fixed View all services
+  to navigate to `/services`. Six platform-service links expose Umer's full stack.
+- Added five detail hubs using the existing service-page template and generated
+  sitemap: speed, migration overview, CRO, native features and store management.
+  The service count is data-derived (19). No reference-site pricing is borrowed.
+- Replaced the approach rail with five benefit cards and a proposal CTA.
+- Removed the legacy homepage inline form and gradient contact layout, replacing
+  them with a compact current-system invitation. `/contact` is the single form;
+  the hero proposal link opens it directly.
+- New copy lives in `src/data/homepage.ts`. Existing case studies supply evidence
+  while approved client testimonials remain unavailable; no quotes are fabricated.
+
+## 2026-10-14 — Reference footer and fast hover screenshots
+
+- Matched the requested reference footer treatment with a decorative lime dot
+  field and a full-width FAROOQUE surname wordmark. Footer copy lives in
+  `FOOTER_CONTENT`; existing link groups and marquee are retained.
+- Generated 34 local 680×480 WebP preview assets (577 KB total) from existing
+  website screenshots. `npm run images:previews` regenerates assets and their
+  data mapping. The homepage loads these eagerly as the work section approaches,
+  only on desktop pointers, and bypasses the runtime image optimizer.
+- Excluded three capture-service spinner images from hover previews (Elan,
+  OutriderX, Hajiq). Missing captures use a labelled fallback.
+- Fresh captures and browser visual QA could not be completed: Elan's live
+  domain returned a certificate error; browser access to Zero Lifestyle and the
+  local preview was denied. No fresh capture is claimed.
+
+## 2026-10-14 — QA fixes
+
+- Navbar's shared Start project CTA now uses `/contact` from `src/data/navLinks.ts`
+  and closes the menu. Its previous `#contact` target did not exist on other pages.
+- ContactPanel focuses the first invalid field using the current validation result,
+  rather than querying `aria-invalid` before React commits the error state.
+- Contact API returns 400 for malformed or empty JSON bodies before validation or
+  rate limiting; provider and unexpected failures retain their existing responses.
 
 Add an entry whenever you change architecture, delete code, consolidate duplication, or
 make a decision a future developer would otherwise have to reverse-engineer. Routine

@@ -1,4 +1,8 @@
-import { AnimatedText } from "@/components/atoms/AnimatedText";
+import { PageIntro } from "@/components/atoms/PageIntro";
+import { PAGE_CONTENT, REFERENCE_UI } from "@/data/page-content";
+import { ProcessSection } from "@/components/organisms/ProcessSection";
+import { FaqSection } from "@/components/organisms/FaqSection";
+import { ContactSection } from "@/components/organisms/ContactSection";
 import { SITE } from "@/data/site";
 import { servicePages } from "@/data/services-pages";
 import type { Metadata } from "next";
@@ -20,39 +24,18 @@ export default function ServicesIndexPage() {
 
     return (
         <>
-            <header className="w-full max-w-full overflow-hidden pb-[clamp(48px,6vw,96px)] pt-40 md:pt-56">
-                <div className="mx-auto w-full max-w-[var(--container-grid)] px-[var(--gutter)]">
-                    <AnimatedText
-                        as="span"
-                        immediate
-                        text="Services"
-                        className="mb-8 block font-mono uppercase tracking-wider text-muted"
-                    />
-                    <AnimatedText
-                        as="h1"
-                        immediate
-                        delay={0.1}
-                        text="What I build, and what it costs you to find out."
-                        className="max-w-[18ch] text-balance text-h1 font-medium"
-                    />
-                    <AnimatedText
-                        as="p"
-                        immediate
-                        muted
-                        delay={0.25}
-                        text="The assessment is free. If what you have asked for is the wrong fix, that is the cheapest possible moment for me to say so."
-                        className="mt-8 max-w-[56ch] text-muted"
-                    />
-                </div>
-            </header>
+            <PageIntro {...PAGE_CONTENT.services} />
 
-            <ServiceList heading="Build" services={builds} startIndex={1} />
-            <ServiceList heading="Migrations to Shopify" services={migrations} startIndex={builds.length + 1} />
+            <ServiceList heading={REFERENCE_UI.serviceGroups.build} services={builds} startIndex={1} />
+            <ServiceList heading={REFERENCE_UI.serviceGroups.migration} services={migrations} startIndex={builds.length + 1} />
             <ServiceList
-                heading="Search"
+                heading={REFERENCE_UI.serviceGroups.seo}
                 services={search}
                 startIndex={builds.length + migrations.length + 1}
             />
+            <ProcessSection />
+            <FaqSection />
+            <ContactSection />
         </>
     );
 }
@@ -66,9 +49,9 @@ const ServiceList = ({
     services: typeof servicePages;
     startIndex: number;
 }) => (
-    <section aria-label={heading} className="border-t border-line py-[clamp(48px,6vw,96px)]">
+    <section aria-label={heading} className="relative py-[clamp(48px,6vw,96px)] even:bg-surface">
         <div className="mx-auto w-full max-w-[var(--container-grid)] px-[var(--gutter)]">
-            <h2 className="font-mono text-label uppercase tracking-wider text-accent">{heading}</h2>
+            <h2 className="text-h3 font-medium">{heading}</h2>
 
             <div className="mt-10 border-t border-line">
                 {services.map((service, i) => (

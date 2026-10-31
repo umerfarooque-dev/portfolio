@@ -33,10 +33,13 @@ export const Cursor = () => {
         const onMove = (e: PointerEvent) => {
             rawX.set(e.clientX);
             rawY.set(e.clientY);
-            setVisible(true);
+            // Native controls and modal prompts need their platform cursor,
+            // including the pointer above the modal's higher stacking layer.
+            const native = Boolean((e.target as HTMLElement | null)?.closest?.("[data-native-cursor]"));
+            setVisible(!native);
 
             const target = (e.target as HTMLElement | null)?.closest?.("[data-cursor-text]");
-            setLabel(target?.getAttribute("data-cursor-text") ?? null);
+            setLabel(native ? null : target?.getAttribute("data-cursor-text") ?? null);
         };
 
         const onLeave = () => setVisible(false);
@@ -66,6 +69,7 @@ export const Cursor = () => {
     return (
         <motion.div
             aria-hidden="true"
+            data-custom-cursor
             style={{ x, y }}
             className="pointer-events-none fixed left-0 top-0 z-[100]"
         >

@@ -1,5 +1,10 @@
 # SEO
 
+## Current reference alignment (2026-10-14)
+
+The sitemap now includes /showcase and /free-speed-audit. /work/[slug] generates shipped project pages. Existing case studies retain their /case-studies/[slug] canonical; work pages without a case study use /work/[slug] as canonical and are added to the sitemap. Legacy /projects detail URLs use the same canonical choices and remain excluded from the sitemap. Unknown work slugs return notFound; database-only projects can resolve on demand.
+
+
 What is configured, where it is controlled, and what is missing. Status verified against the
 built HTML and live HTTP responses on 2026-10-06.
 

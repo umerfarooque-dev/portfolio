@@ -1,5 +1,18 @@
 # ANIMATIONS
 
+## Current reference alignment (2026-10-14)
+
+FooterDots: 18px grid; three superimposed waves displace vertical positions by up to 22% of footer height. Density changes radius and alpha; canvas opacity is 40%, frame rate capped at 30, DPR capped at 2. ResizeObserver updates geometry; IntersectionObserver and visibility changes pause offscreen/hidden work. Reduced motion draws one static field with no animation frame loop.
+
+CaseStudyHighlights advances every eight seconds, pauses on hover/focus/hidden tabs, supports explicit pause/play and disables auto advance for reduced motion. BrandMark nodes pulse only under motion-safe. Dialog entrance is covered by the global reduced-motion override. These supersede earlier fixed-position footer-dot descriptions.
+
+
+Footer dot field (2026-10-14): `atoms/FooterDots.tsx` draws a lime wave over a
+24px dot grid. Painting is capped at 20fps and pauses outside the viewport or
+when the document is hidden. Reduced motion draws a still field. The work-list
+preview uses direct pointer coordinates instead of spring following under
+reduced motion.
+
 Three libraries, each doing a different job. This file explains what each animation is,
 what triggers it, and how to change it without breaking the others.
 
@@ -76,8 +89,11 @@ navigation, which re-fires the entrance. Uses `pageVariants` from `lib/motion.ts
 ### 2. Loader
 **Where:** `organisms/Loader.tsx` · **Trigger:** first paint · **Tech:** Framer `AnimatePresence`
 SSR-visible (`useState(true)`) so the page is covered from the first paint instead of
-flashing content. Counts **real image decodes**, holds for `MIN_MS = 1400`, hard ceiling 3 s,
-exits with a clip-path wipe. Sets `document.body.style.overflow = "hidden"` while up.
+flashing content. Shows a centered shared BrandMark, percentage and thin progress
+line. Counts completed initially requested images (excluding lazy images), with
+progress paced over `MIN_MS = 1400` and a hard ceiling of 3 s. Exits with a clip-path
+wipe. Sets `document.body.style.overflow = "hidden"` while up, then restores its
+previous value. All polling/deadline timers are cleaned up on unmount or dismissal.
 **Skipped entirely under reduced motion**, and the `<noscript>` rule in `layout.tsx` hides it
 when JS never runs.
 **To change:** `MIN_MS` at the top. ⚠️ This is the main reason LCP is poor — it gates

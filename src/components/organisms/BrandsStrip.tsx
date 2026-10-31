@@ -30,7 +30,7 @@ export const BrandsStrip = () => {
                     {brands.map((brand) => (
                         <Link
                             key={brand.id}
-                            href={`/projects/${brand.id}`}
+                            href={`/work/${brand.id}`}
                             className="group flex flex-col justify-between rounded-sm border border-line/60 bg-surface/30 px-4 py-3 transition-colors hover:border-accent hover:bg-surface"
                         >
                             <span className="text-small font-medium text-ink transition-colors group-hover:text-accent">

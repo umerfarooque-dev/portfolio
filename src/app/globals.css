@@ -85,6 +85,20 @@
   @keyframes pulse {
     50% { opacity: 0.5; }
   }
+
+  @keyframes brand-node {
+    from { opacity: 1; }
+    to { opacity: 0.35; }
+  }
+
+  @keyframes dialog-enter {
+    from { opacity: 0; transform: translateY(12px); }
+    to { opacity: 1; transform: translateY(0); }
+  }
+}
+
+.contact-dialog[open] {
+  animation: dialog-enter 0.25s var(--ease-out);
 }
 
 :root {
@@ -112,6 +126,11 @@ body {
 ::selection {
   background: var(--color-accent);
   color: var(--color-bg);
+}
+
+:focus-visible {
+  outline: 2px solid var(--color-accent);
+  outline-offset: 4px;
 }
 
 /* Type utilities matching the reference scale */
@@ -171,6 +190,46 @@ body {
 .has-custom-cursor button,
 .has-custom-cursor [role="button"] {
   cursor: none;
+}
+
+/* Keep native pointers visible in dialogs, forms and native select menus. */
+.has-custom-cursor [data-native-cursor],
+.has-custom-cursor [data-native-cursor] * {
+  cursor: auto;
+}
+.has-custom-cursor [data-native-cursor] :is(a, button, select, [role="button"]),
+.has-custom-cursor [data-native-cursor] :is(a, button, [role="button"]) * {
+  cursor: pointer;
+}
+.has-custom-cursor [data-native-cursor] :is(input, textarea) {
+  cursor: text;
+}
+.has-custom-cursor [data-native-cursor] :disabled {
+  cursor: not-allowed;
+}
+
+/* Native dialogs occupy the browser top layer, above every z-index cursor.
+   Restore a system cursor for the entire modal session, including its backdrop. */
+.has-custom-cursor:has(.contact-dialog[open]),
+.has-custom-cursor:has(.contact-dialog[open]) * {
+  cursor: auto;
+}
+.has-custom-cursor:has(.contact-dialog[open]) :is(a, button, select, [role="button"]),
+.has-custom-cursor:has(.contact-dialog[open]) :is(a, button, [role="button"]) * {
+  cursor: pointer;
+}
+.has-custom-cursor:has(.contact-dialog[open]) :is(input, textarea) {
+  cursor: text;
+}
+.has-custom-cursor:has(.contact-dialog[open]) :disabled,
+.has-custom-cursor:has(.contact-dialog[open]) :disabled * {
+  cursor: not-allowed;
+}
+.contact-dialog::backdrop {
+  cursor: auto;
+}
+.has-custom-cursor:has(.contact-dialog[open]) [data-custom-cursor] {
+  visibility: hidden;
 }
 
 /*

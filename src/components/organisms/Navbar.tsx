@@ -1,65 +1,16 @@
 "use client";
 
+import { BrandMark } from "@/components/atoms/BrandMark";
 import { Magnetic } from "@/components/atoms/Magnetic";
-import { navLinks } from "@/data/navLinks";
+import { navLinks, START_PROJECT_LINK } from "@/data/navLinks";
 import { SITE } from "@/data/site";
+import { NAVBAR_CONTENT } from "@/data/page-content";
 import { AnimatePresence, motion } from "framer-motion";
 import Link from "next/link";
 import { usePathname } from "next/navigation";
 import { useCallback, useEffect, useRef, useState } from "react";
 
 const EASE_OUT = [0.16, 1, 0.3, 1] as const;
-
-/** Node-graph mark: five outer points wired to a centre. */
-const LogoMark = () => {
-    const outer: [number, number, number][] = [
-        [50, 16, 5],
-        [82, 36, 4],
-        [76, 72, 5],
-        [24, 72, 4],
-        [18, 36, 5],
-    ];
-
-    return (
-        <svg viewBox="0 0 100 100" aria-hidden="true" className="h-9 w-9 text-accent sm:h-7 sm:w-7">
-            {/* Spokes */}
-            {outer.map(([x, y]) => (
-                <line
-                    key={`s-${x}-${y}`}
-                    x1="50"
-                    y1="50"
-                    x2={x}
-                    y2={y}
-                    stroke="currentColor"
-                    vectorEffect="non-scaling-stroke"
-                    strokeWidth="1"
-                    opacity="0.45"
-                />
-            ))}
-            {/* Perimeter */}
-            {outer.map(([x, y], i) => {
-                const [nx, ny] = outer[(i + 1) % outer.length];
-                return (
-                    <line
-                        key={`p-${x}-${y}`}
-                        x1={x}
-                        y1={y}
-                        x2={nx}
-                        y2={ny}
-                        stroke="currentColor"
-                        vectorEffect="non-scaling-stroke"
-                        strokeWidth="1"
-                        opacity="0.45"
-                    />
-                );
-            })}
-            {outer.map(([x, y, r]) => (
-                <circle key={`c-${x}-${y}`} cx={x} cy={y} r={r} fill="currentColor" />
-            ))}
-            <circle cx="50" cy="50" r="7" fill="currentColor" />
-        </svg>
-    );
-};
 
 /**
  * Equalizer toggle for interface sound. The bars animate only while sound is
@@ -99,6 +50,8 @@ export const Navbar = ({ siteName }: { siteName?: string }) => {
     const [sound, setSound] = useState(false);
     const [scrolled, setScrolled] = useState(false);
     const audioRef = useRef<AudioContext | null>(null);
+    const headerRef = useRef<HTMLElement>(null);
+    const menuRef = useRef<HTMLDivElement>(null);
     const pathname = usePathname();
 
     useEffect(() => setOpen(false), [pathname]);
@@ -151,18 +104,34 @@ export const Navbar = ({ siteName }: { siteName?: string }) => {
     useEffect(() => {
         if (!open) return;
         const previous = document.body.style.overflow;
+        const previousFocus = document.activeElement;
         document.body.style.overflow = "hidden";
-        const onKey = (e: KeyboardEvent) => e.key === "Escape" && setOpen(false);
+        menuRef.current?.querySelector<HTMLElement>("a[href]")?.focus();
+        const onKey = (e: KeyboardEvent) => {
+            if (e.key === "Escape") setOpen(false);
+            if (e.key !== "Tab" || document.querySelector("dialog[open]")) return;
+            const selector = 'a[href], button:not(:disabled), [tabindex="0"]';
+            const controls = [headerRef.current, menuRef.current].flatMap(root =>
+                Array.from(root?.querySelectorAll<HTMLElement>(selector) ?? [])
+            ).filter(element => element.getClientRects().length > 0);
+            const index = controls.indexOf(document.activeElement as HTMLElement);
+            if (index === -1 || (!e.shiftKey && index === controls.length - 1) || (e.shiftKey && index === 0)) {
+                e.preventDefault();
+                (e.shiftKey ? controls.at(-1) : controls[0])?.focus();
+            }
+        };
         window.addEventListener("keydown", onKey);
         return () => {
             document.body.style.overflow = previous;
             window.removeEventListener("keydown", onKey);
+            if (previousFocus instanceof HTMLElement && previousFocus.isConnected) previousFocus.focus();
         };
     }, [open]);
 
     return (
         <>
             <header
+                ref={headerRef}
                 className={`fixed inset-x-0 top-0 z-50 transition-colors duration-[var(--duration-normal)] ${
                     scrolled && !open ? "bg-bg/80 backdrop-blur-md" : "bg-transparent"
                 }`}
@@ -170,15 +139,14 @@ export const Navbar = ({ siteName }: { siteName?: string }) => {
                 <div className="mx-auto flex w-full max-w-[var(--container-grid)] items-center justify-between gap-8 px-[var(--gutter)] py-5 md:py-6">
                     <div className="flex items-center gap-8 lg:gap-12">
                         <Link href="/" className="flex shrink-0 items-center gap-2.5 transition-colors hover:text-accent">
-                            <LogoMark />
+                            <BrandMark className="h-9 w-9 text-accent sm:h-7 sm:w-7" />
                             <span className="sr-only text-h3 font-medium leading-none tracking-tight sm:not-sr-only">
                                 {siteName || SITE.name}
                             </span>
                         </Link>
 
                         <p className="hidden max-w-[34ch] text-small leading-snug text-ink/80 lg:block">
-                            <span className="block">3 years of experience. Custom WordPress, Shopify and Laravel builds.</span>
-                            <span className="block">Production sites for e-commerce, SaaS and corporate.</span>
+                            {NAVBAR_CONTENT.summary.map(line => <span key={line} className="block">{line}</span>)}
                         </p>
                     </div>
 
@@ -187,17 +155,19 @@ export const Navbar = ({ siteName }: { siteName?: string }) => {
                             <a href={`mailto:${SITE.email}`} className="transition-colors hover:text-accent">
                                 {SITE.email}
                             </a>
-                            <span className="text-muted">{SITE.location}</span>
+                            <span className="text-muted">{NAVBAR_CONTENT.location}</span>
                         </div>
 
                         <SoundToggle on={sound} onToggle={toggleSound} />
 
                         <Magnetic className="shrink-0" strength={0.25}>
                             <Link
-                                href="#contact"
+                                href={START_PROJECT_LINK.href}
+                                data-contact-trigger
+                                onClick={() => setOpen(false)}
                                 className="inline-flex rounded-full bg-accent px-5 py-2.5 font-mono text-label uppercase tracking-wider text-bg transition-colors hover:bg-ink md:px-7"
                             >
-                                Start project
+                                {START_PROJECT_LINK.name}
                             </Link>
                         </Magnetic>
 
@@ -234,6 +204,8 @@ export const Navbar = ({ siteName }: { siteName?: string }) => {
             <AnimatePresence>
                 {open && (
                     <motion.div
+                        ref={menuRef}
+                        data-lenis-prevent
                         id="overlay-nav"
                         initial={{ clipPath: "inset(0px 0px 100%)" }}
                         animate={{ clipPath: "inset(0px 0px 0%)" }}

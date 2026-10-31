@@ -4,6 +4,7 @@ import { AnimatedText } from "@/components/atoms/AnimatedText";
 import { Magnetic } from "@/components/atoms/Magnetic";
 import { HeroSlideshow } from "@/components/organisms/HeroSlideshow";
 import { HERO_LABEL_ROWS, SITE } from "@/data/site";
+import { HOME_CONTACT } from "@/data/homepage";
 import type { SiteConfig } from "@/types/site";
 import Link from "next/link";
 import { useEffect, useState } from "react";
@@ -70,7 +71,7 @@ export const HeroSection = ({ config, slides = [] }: { config?: SiteConfig; slid
                     <div className="mb-5 flex flex-wrap items-center gap-3">
                         <span className="inline-flex items-center gap-2 rounded-full border border-accent/30 bg-accent/10 px-3 py-1 font-mono text-[11px] uppercase tracking-wider text-accent">
                             <span className="h-1.5 w-1.5 animate-pulse rounded-full bg-accent" />
-                            Available for freelance &amp; fulltime
+                            {SITE.availability}
                         </span>
                         <span className="hidden font-mono text-[11px] uppercase tracking-wider text-muted sm:inline">
                             · 3 Years Experience
@@ -103,10 +104,11 @@ export const HeroSection = ({ config, slides = [] }: { config?: SiteConfig; slid
                     <div className="mt-8 flex flex-wrap items-center gap-4">
                         <Magnetic>
                             <Link
-                                href="#contact"
+                                href={HOME_CONTACT.href}
+                                data-contact-trigger
                                 className="inline-flex items-center justify-center gap-2 rounded-full bg-accent px-7 py-3.5 font-mono uppercase tracking-wider text-bg transition-colors duration-[var(--duration-normal)] ease-[var(--ease-out)] hover:bg-ink"
                             >
-                                Get a free proposal
+                                {HOME_CONTACT.cta}
                             </Link>
                         </Magnetic>
 

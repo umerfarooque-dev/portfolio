@@ -1,6 +1,5 @@
-import { AboutSection } from "@/components/organisms/AboutSection";
+import { AboutPageBody } from "@/components/organisms/AboutPageBody";
 import { SITE } from "@/data/site";
-import { getSiteConfig } from "@/lib/site-data";
 import type { Metadata } from "next";
 
 export const metadata: Metadata = {
@@ -12,11 +11,5 @@ export const metadata: Metadata = {
 export const revalidate = 60;
 
 export default async function AboutPage() {
-    const siteConfig = await getSiteConfig();
-
-    return (
-        <div className="pt-24">
-            <AboutSection config={siteConfig} headingAs="h1" />
-        </div>
-    );
+    return <AboutPageBody />;
 }

@@ -2,6 +2,7 @@
 
 import { AnimatedText } from "@/components/atoms/AnimatedText";
 import { ScrollRevealText } from "@/components/atoms/ScrollRevealText";
+import { REFERENCE_UI } from "@/data/page-content";
 import { faqs } from "@/data/site-content";
 
 /**
@@ -16,12 +17,12 @@ export const FaqSection = () => {
         <section
             id="faq"
             aria-label="Frequently asked questions"
-            className="border-t border-line py-[var(--spacing-section)]"
+            className="relative bg-surface py-[clamp(48px,6vw,96px)]"
         >
             <div className="mx-auto w-full max-w-[var(--container-grid)] px-[var(--gutter)]">
                 <AnimatedText
                     as="h2"
-                    text="Common questions before kickoff"
+                    text={REFERENCE_UI.faqHeading}
                     className="max-w-[20ch] text-h2 font-medium"
                 />
 

@@ -32,7 +32,7 @@ const ALLOWED_IMAGE_HOSTS = new Set(["res.cloudinary.com"]);
  */
 function safeImageUrl(value: string): string {
     if (!value) return "";
-    if (value.startsWith("/")) return value;
+    if (value.startsWith("/") && !value.startsWith("//") && !value.includes("\\")) return value;
     try {
         const url = new URL(value);
         if (url.protocol === "https:" && ALLOWED_IMAGE_HOSTS.has(url.hostname)) return value;

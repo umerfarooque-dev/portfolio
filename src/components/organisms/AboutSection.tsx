@@ -3,6 +3,7 @@
 import { AnimatedText } from "@/components/atoms/AnimatedText";
 import { ScrollRevealText } from "@/components/atoms/ScrollRevealText";
 import { SITE } from "@/data/site";
+import { HOME_ABOUT_CONTENT, HOME_ABOUT_FACTS } from "@/data/homepage";
 import type { SiteConfig } from "@/types/site";
 import Image from "next/image";
 
@@ -30,27 +31,23 @@ export const AboutSection = ({
         <section
             id="about"
             aria-label="About"
-            className="border-t border-line py-[var(--spacing-section)]"
+            className="relative py-[var(--spacing-section)]"
         >
             <div className="mx-auto grid w-full max-w-[var(--container-grid)] grid-cols-1 items-start gap-12 px-[var(--gutter)] lg:grid-cols-12 lg:gap-16">
                 <div className="lg:col-span-7">
                     <AnimatedText
                         as={headingAs}
-                        text="Code without a working handover is just a bill."
+                        text={HOME_ABOUT_CONTENT.heading}
                         className="max-w-[16ch] text-h2 font-medium"
                     />
 
                     <ScrollRevealText
-                        text={
-                            config?.aboutText1 ||
-                            "3 years of experience building production websites, currently at Tafsol Technology in Karachi — custom WordPress themes and plugins, Shopify storefronts, Laravel back ends and React interfaces, with Stripe and PayPal wired in end to end."
-                        }
+                        text={HOME_ABOUT_CONTENT.introduction}
                         className="mt-10 max-w-[56ch] text-body leading-relaxed"
                     />
 
                     <p className="mt-8 max-w-[46ch] text-small leading-relaxed text-muted">
-                        {config?.aboutText2 ||
-                            "One person from the brief through to launch. You get commented code, a written summary of what changed, and an editor your team can use without calling me for a copy change."}
+                        {HOME_ABOUT_CONTENT.supporting}
                     </p>
 
                     <div className="mt-10 flex flex-wrap items-center gap-x-8 gap-y-4">
@@ -71,7 +68,7 @@ export const AboutSection = ({
                             LinkedIn ↗
                         </a>
                         <a
-                            href={config?.resumeUrl || "/resume/Umer-Farooque-Resume.pdf"}
+                            href={SITE.resumeUrl}
                             target="_blank"
                             rel="noopener noreferrer"
                             className="font-mono text-label uppercase tracking-wider text-muted transition-colors hover:text-accent"
@@ -93,6 +90,7 @@ export const AboutSection = ({
                     </div>
                 </div>
             </div>
+            <dl className="shell mt-14 grid grid-cols-1 gap-8 border-t border-line pt-8 sm:grid-cols-2 lg:grid-cols-4">{HOME_ABOUT_FACTS.map(fact => <div key={fact.label}><dt className="font-mono text-label uppercase tracking-wider text-muted">{fact.label}</dt><dd className="mt-3 text-xl font-medium text-ink">{fact.value}</dd></div>)}</dl>
         </section>
     );
 };

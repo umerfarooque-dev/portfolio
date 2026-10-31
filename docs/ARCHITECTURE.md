@@ -1,6 +1,26 @@
 # ARCHITECTURE
 
+## Public database project guard (2026-10-31)
+
+`site-data.ts` excludes malformed and placeholder slugs from public database
+reads and falls back to the shipped catalogue when no valid listing rows
+remain. It does not alter stored data. `db-project.ts` rejects protocol-relative
+and backslash-containing image paths so stale rows cannot bypass the intended
+local-path/allow-listed-HTTPS image boundary.
+
+## Current reference alignment (2026-10-14)
+
+PageIntro shares page headers; BlogCards shares home/index article presentation; ProjectDetail shares work, case-study and legacy detail rendering. Work detail loaders preserve database overrides and static fallback. AboutPageBody is static editorial content. Showcase and Free Assessment have dedicated routes. The homepage case-study story carousel is client-side, using real project narratives rather than invented testimonials.
+
+ContactPopup is a native top-layer dialog with capture-phase delegated `[data-contact-trigger]` links, optional `data-service` preselection, Escape/backdrop close, body-scroll restoration and once-per-session 15-second automatic opening outside /contact. ContactPanel is dynamically loaded when opened and reused in compact mode. Normal links still provide /contact fallback; modifier clicks retain native navigation.
+
+
 How the application is put together and why.
+
+Contact update (2026-10-14): ContactPanel and `/api/contact` share the Zod schema
+in `lib/contact-validation.ts`. Options and form copy live in `data/contact.ts`;
+all service slugs come from `servicePages`. The selected service is validated and
+included in both email formats. Navbar and Loader share `atoms/BrandMark.tsx`.
 
 ---
 
@@ -48,7 +68,7 @@ graph TD
 | `/projects/[id]` | **Dynamic (`ƒ`)** | — | `project.findUnique()` + `siteContent` |
 | `/api/contact` | Dynamic | — | POST body |
 
-`generateStaticParams` produces 13 service pages, 7 blog posts and 26 case studies.
+`generateStaticParams` produces 19 service pages, 7 blog posts and 26 case studies.
 
 ---
 
@@ -77,18 +97,25 @@ layout.tsx  (server)
 what gives page transitions.
 
 ### Homepage composition
-`src/app/page.tsx` renders 13 sections in order. Eleven are wrapped in `next/dynamic` for
-code-splitting:
+`src/app/page.tsx` composes 13 sections in order (the testimonials component stays
+empty until approved quotes are available). Ten use the existing `next/dynamic`
+pattern; case-study highlights are a server component:
 
 ```
-HeroSection → BrandsStrip → WorkSection → ServicesSection → ProcessSection
-→ ApproachSection → TestimonialsSection → ShowcaseSection → TechStack
-→ AboutSection → FaqSection → BlogPreviewSection → ContactSection
+HeroSection → BrandsStrip → ServicesSection → ProcessSection → WorkSection
+→ ApproachSection → TestimonialsSection → CaseStudyHighlights → ShowcaseSection
+→ BlogPreviewSection → AboutSection → FaqSection → ContactSection
 ```
 
 > Note: `next/dynamic` inside a server component still server-renders the section and
 > still ships it in the first-load graph, so the win here is modest. Do not expect it to
 > reduce initial JS much.
+
+ApproachSection is now a server-rendered five-card benefits grid. ContactSection
+is a server-rendered invitation with email, WhatsApp and proposal links; the old
+inline homepage form was removed. ContactPanel on `/contact` is the only form.
+Service accordion rows use `Service.slug` to link to dedicated hubs. New hubs
+are data entries consumed by the existing route template and sitemap generator.
 
 ---
 

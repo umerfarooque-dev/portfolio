@@ -1,5 +1,10 @@
 # Portfolio AI Development Guide
 
+## Current reference alignment (2026-10-14)
+
+The user explicitly authorized a complete reference redesign. All public pages now use the current dark/lime system; do not restore the legacy gradients on projects/contact. Shared form validation is in `lib/contact-validation.ts`; ContactPanel provides inline feedback and is reused in a native dialog. Optional database fallback already handles absent SQLite. Historical known-issue entries about alert feedback, broken no-database builds and legacy page design are superseded. Preserve the remaining deliberately open contrast, sender configuration and animation-library decisions.
+
+
 The operating manual for an AI agent working on this codebase. Read this before touching
 anything.
 

@@ -1,3 +1,7 @@
+import { REFERENCE_UI } from "@/data/page-content";
+import { FooterDots } from "@/components/atoms/FooterDots";
+import { FaqSection } from "@/components/organisms/FaqSection";
+import { ContactSection } from "@/components/organisms/ContactSection";
 import { AnimatedText } from "@/components/atoms/AnimatedText";
 import { getProjectStack, projects } from "@/data/projects";
 import { SITE } from "@/data/site";
@@ -45,8 +49,9 @@ export default async function ServicePage({ params }: { params: Promise<{ slug: 
     return (
         <>
             {/* Hero */}
-            <header className="w-full max-w-full overflow-hidden pb-[clamp(48px,6vw,96px)] pt-40 md:pt-56">
-                <div className="mx-auto w-full max-w-[var(--container-grid)] px-[var(--gutter)]">
+            <header className="relative w-full max-w-full overflow-hidden pb-[clamp(48px,6vw,96px)] pt-32 md:pt-40">
+                <FooterDots />
+                <div className="relative mx-auto w-full max-w-[var(--container-grid)] px-[var(--gutter)]">
                     <nav aria-label="Breadcrumb" className="mb-8">
                         <ol className="flex flex-wrap items-center gap-2 font-mono text-label uppercase tracking-wider text-muted">
                             <li>
@@ -76,7 +81,7 @@ export default async function ServicePage({ params }: { params: Promise<{ slug: 
 
                     <div className="mt-10 flex flex-wrap items-center gap-4">
                         <Link
-                            href="/contact"
+                            data-contact-trigger data-service={service.slug} href="/contact"
                             className="inline-flex items-center rounded-full bg-accent px-7 py-3.5 font-mono uppercase tracking-wider text-bg transition-colors duration-[var(--duration-normal)] hover:bg-ink"
                         >
                             Get a free proposal
@@ -94,52 +99,16 @@ export default async function ServicePage({ params }: { params: Promise<{ slug: 
                 </div>
             </header>
 
-            {/* Problem / approach + deliverables */}
-            <section aria-label="What this covers" className="border-t border-line bg-surface py-[var(--spacing-section)]">
-                <div className="mx-auto grid w-full max-w-[var(--container-grid)] grid-cols-1 gap-14 px-[var(--gutter)] lg:grid-cols-12 lg:gap-16">
-                    <div className="lg:col-span-7">
-                        <h2 className="font-mono text-label uppercase tracking-wider text-accent">
-                            The problem
-                        </h2>
-                        <p className="mt-5 max-w-[60ch] text-body leading-relaxed">{service.problem}</p>
-
-                        <h2 className="mt-14 font-mono text-label uppercase tracking-wider text-accent">
-                            How I approach it
-                        </h2>
-                        <p className="mt-5 max-w-[60ch] text-body leading-relaxed text-muted">
-                            {service.approach}
-                        </p>
-                    </div>
-
-                    <div className="lg:col-span-5">
-                        <h2 className="font-mono text-label uppercase tracking-wider text-muted">
-                            What you get
-                        </h2>
-                        <ul className="mt-5 divide-y divide-line border-y border-line">
-                            {service.deliverables.map((item) => (
-                                <li key={item} className="flex gap-4 py-4 text-small">
-                                    <span aria-hidden="true" className="text-accent">
-                                        ›
-                                    </span>
-                                    <span className="text-muted">{item}</span>
-                                </li>
-                            ))}
-                        </ul>
-
-                        <h2 className="mt-12 font-mono text-label uppercase tracking-wider text-muted">
-                            Stack
-                        </h2>
-                        <ul className="mt-5 flex flex-wrap gap-2">
-                            {service.stack.map((tech) => (
-                                <li
-                                    key={tech}
-                                    className="rounded-full border border-line px-3 py-1 font-mono text-[10px] uppercase tracking-wider text-muted"
-                                >
-                                    {tech}
-                                </li>
-                            ))}
-                        </ul>
-                    </div>
+            <section aria-label="What this is" className="bg-surface py-[clamp(48px,6vw,96px)]">
+                <div className="shell grid grid-cols-1 gap-8 md:grid-cols-[1fr_2fr] md:gap-16">
+                    <h2 className="font-mono text-label uppercase tracking-wider text-accent">{REFERENCE_UI.serviceApproach}</h2>
+                    <div className="max-w-[66ch] space-y-7 text-body leading-relaxed text-muted"><p>{service.problem}</p><p>{service.approach}</p></div>
+                </div>
+            </section>
+            <section aria-label="What is included" className="py-[clamp(48px,6vw,96px)]">
+                <div className="shell grid grid-cols-1 gap-8 md:grid-cols-[1fr_2fr] md:gap-16">
+                    <h2 className="font-mono text-label uppercase tracking-wider text-accent">{REFERENCE_UI.serviceDeliverables}</h2>
+                    <div><ul className="space-y-5">{service.deliverables.map(item => <li key={item} className="flex gap-4 text-body text-muted"><span aria-hidden="true" className="text-accent">&rsaquo;</span>{item}</li>)}</ul><ul className="mt-9 flex flex-wrap gap-2">{service.stack.map(tech => <li key={tech} className="rounded-full border border-line px-3 py-1 font-mono text-[10px] uppercase tracking-wider text-muted">{tech}</li>)}</ul></div>
                 </div>
             </section>
 
@@ -253,7 +222,7 @@ export default async function ServicePage({ params }: { params: Promise<{ slug: 
                         <div className="grid gap-x-6 gap-y-12 sm:grid-cols-2 lg:grid-cols-3">
                             {related.map((project) => (
                                 <article key={project.id} className="group">
-                                    <Link href={`/projects/${project.id}`} className="block">
+                                    <Link href={`/work/${project.id}`} className="block">
                                         <div className="relative aspect-[16/10] overflow-hidden rounded-sm border border-line bg-surface">
                                             <ProjectImage
                                         src={project.imageUrl}
@@ -274,6 +243,8 @@ export default async function ServicePage({ params }: { params: Promise<{ slug: 
                     </div>
                 </section>
             )}
+
+            <FaqSection />
 
             {/* Other services */}
             <section aria-label="Other services" className="border-t border-line py-[var(--spacing-section)]">
@@ -305,6 +276,7 @@ export default async function ServicePage({ params }: { params: Promise<{ slug: 
                     </div>
                 </div>
             </section>
+            <ContactSection />
         </>
     );
 }

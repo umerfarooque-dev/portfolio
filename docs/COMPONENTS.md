@@ -1,6 +1,74 @@
 # COMPONENT REGISTRY
 
+## Employment history (2026-10-31)
+
+AboutPageBody now renders the user-confirmed `WORK_EXPERIENCE` list and core
+technologies between Background and How I work. Both roles have ended. AboutSection
+uses `HOME_ABOUT_CONTENT` instead of database text overrides and displays
+most-recent/previous team facts in a responsive one/two/four-column grid.
+
+## Keyboard navigation (2026-10-31)
+
+Navbar focuses the first navigation link when opened, cycles Tab/Shift+Tab
+within the header and overlay, and restores previous focus when closed.
+An open native dialog retains its own focus handling. The overlay uses
+`data-lenis-prevent` for native scrolling. Global keyboard focus outlines use
+the existing lime accent. AboutSection and Footer share `SITE.resumeUrl`.
+
+## 2026-10-14 - Popup cancel cursor
+
+Popup cursor fix: while ContactPopup is open, CSS restores native cursors across the document and dialog backdrop and hides the decorative cursor. Interactive descendants retain pointer styling, including close-button icons. The close target is now 44px with a non-intercepting icon. This avoids relying on z-index for a cursor beneath the native dialog top layer.
+
+
+## Current reference alignment (2026-10-14)
+
+PageIntro provides a shared editorial opener. BlogCards renders uniform borderless cards. AboutPageBody renders background and working principles. ShowcaseGrid renders existing showcase items. ProjectDetail owns dotted project hero, actual metadata/results, narrative, scope, gallery and related work. CaseStudyHighlights is an accessible project-story carousel with tab/arrow navigation, pause/play and eight-second auto advance; it pauses during hover, focus, hidden tabs and reduced motion.
+
+FooterDots now animates dot positions, radius and brightness with a three-wave field rather than brightness alone. ContactPopup now contains the actual shared ContactPanel in a native dialog. FloatingWhatsApp is a persistent pill. Navbar and proposal CTAs open the dialog while retaining link fallback. WorkSection uses ten shipped projects with local prewarmed hover previews; full category filtering remains on /work.
+
+
+## Contact form, pointer and loader update — 2026-10-14
+
+- ContactPanel now uses a larger panel, clear field labels, direct-contact sidebar
+  and a native service select containing all 19 services from the service catalogue.
+  `data/contact.ts` owns copy, limits, channels and options; validation is shared
+  with the API through `lib/contact-validation.ts`. The service is required.
+- ContactPopup and ContactPanel use `data-native-cursor`. Scoped CSS restores
+  native pointer/text cursors; Cursor hides its decorative disc inside these zones.
+  This fixes the popup layer covering the custom cursor while the native one
+  was hidden globally. It also preserves native select-menu behavior.
+- BrandMark extracts the existing Navbar logo into a shared atom for Navbar and
+  Loader. Loader now has a centered 80px mark, name/percentage and a thin progress
+  line, matching the reference composition with Umer's branding. Lazy images do
+  not block it; the hard deadline is 3 seconds. Cleanup restores previous overflow
+  and clears all timers. Reduced motion skips the loader.
+
+These entries supersede older ContactPanel/Loader descriptions below.
+
+## Homepage update — 2026-10-14
+
+- ServicesSection: six accessible accordion rows, dedicated Explore links, the
+  correct `/services` overview link and six platform links. New copy lives in
+  `homepage.ts`; reduced motion skips height/fade transitions.
+- ApproachSection is now a server component with five benefit cards and a
+  proposal CTA. It no longer uses the scroll-progress rail or showcase principles.
+- CaseStudyHighlights is a server component used by the homepage, after client
+  feedback and before ShowcaseSection. Three existing projects link to their
+  real case-study pages; no testimonial quotes are introduced.
+- ContactSection is now a server component used only on the homepage: a compact
+  invitation with email, WhatsApp and `/contact` links. Its old inline form and
+  headingAs prop were removed; ContactPanel is the single contact form.
+- TechStack is no longer mounted on the homepage. BlogPreviewSection now comes
+  between ShowcaseSection and AboutSection, following the reference order.
+
+These entries supersede older ContactSection/ApproachSection descriptions below.
+
 Every component worth knowing about. `C` = client component, `S` = server component.
+
+QA note (2026-10-14): Navbar's Start project CTA reads `START_PROJECT_LINK` from
+`src/data/navLinks.ts`, reaches `/contact` from every route, and closes the menu.
+ContactPanel focuses the first invalid field from its newly computed validation
+errors, without waiting for `aria-invalid` to render.
 
 Read only the entries you need — that is the point of this file.
 
@@ -127,6 +195,10 @@ the overlay animation. If you touch it, extract rather than rewrite.
 
 ### WorkSection `C` · 162L
 Homepage work list with a 340×240 preview that follows the cursor.
+Hover images use the 680×480 local captures in `PROJECT_PREVIEWS`. They mount
+eagerly when the section is within 600px on a desktop with a fine pointer, and
+bypass runtime image optimization. Touch devices do not download these previews.
+Reduced motion removes spring-following and preview fades.
 **Reads:** `projects`
 **Important:** the hover preview uses `key` + `style` to position itself — both were
 accidentally dropped once and had to be restored. The preview `<Image>` has `alt=""`
@@ -163,6 +235,10 @@ Six nav columns from `FOOTER_COLUMNS`, an availability marquee (`marquee 28s lin
 `mask-image`), a `FitWordmark` that measures text after `document.fonts.ready` and scales
 to ×0.995, and a copyright line.
 **Props:** `config?: SiteConfig`
+
+Footer uses `FOOTER_CONTENT` for its pitch, availability and first-name wordmark
+(`Umer`). `FooterDots` draws a decorative lime dot field, capped at 20fps;
+it pauses offscreen and in hidden tabs, and is static under reduced motion.
 
 ### Loader `C` · 146L
 SSR-visible page loader (`useState(true)`) with a real image-decode counter,

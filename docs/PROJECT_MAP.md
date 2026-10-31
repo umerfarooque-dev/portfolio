@@ -1,5 +1,12 @@
 # PROJECT MAP
 
+## Current reference alignment (2026-10-14)
+
+New routes: `work/[slug]`, `showcase`, `free-speed-audit`. New shared atoms: `PageIntro`, `BrandMark`, `FooterDots`. New organisms: `ProjectDetail`, `BlogCards`, `AboutPageBody`, `ShowcaseGrid`, `CaseStudyHighlights`. ProjectDetail replaces duplicated detail presentation across work, case-study and legacy project routes while retaining database fallback.
+
+New content modules: `homepage.ts`, `page-content.ts`, `contact.ts`, generated `project-previews.ts`. Contact fields are implemented once in ContactPanel and validated by `src/lib/contact-validation.ts` on client and server. Run `npm run images:previews` to regenerate local 680x480 WebP previews and the invalid-capture manifest. Older route/component counts below are historical.
+
+
 What every directory is for, what belongs there, and what must not be touched.
 
 ---

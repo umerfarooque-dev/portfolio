@@ -2,6 +2,7 @@ import { posts } from "@/data/blog";
 import { servicePages } from "@/data/services-pages";
 import { SITE_URL } from "@/data/site";
 import { caseStudies } from "@/lib/case-studies";
+import { shippedProjects } from "@/data/projects";
 import type { MetadataRoute } from "next";
 
 /**
@@ -19,6 +20,8 @@ export default function sitemap(): MetadataRoute.Sitemap {
         { url: url("/"), changeFrequency: "monthly", priority: 1 },
         { url: url("/work"), changeFrequency: "monthly", priority: 0.9 },
         { url: url("/services"), changeFrequency: "monthly", priority: 0.9 },
+        { url: url("/showcase"), changeFrequency: "monthly", priority: 0.8 },
+        { url: url("/free-speed-audit"), changeFrequency: "monthly", priority: 0.8 },
         { url: url("/process"), changeFrequency: "yearly", priority: 0.7 },
         { url: url("/case-studies"), changeFrequency: "monthly", priority: 0.8 },
         { url: url("/blog"), changeFrequency: "weekly", priority: 0.7 },
@@ -46,5 +49,6 @@ export default function sitemap(): MetadataRoute.Sitemap {
         priority: 0.6,
     }));
 
-    return [...landing, ...services, ...studies, ...articles];
+    const work: MetadataRoute.Sitemap = shippedProjects.filter(project => !caseStudies.some(study => study.id === project.id)).map(project => ({ url: url(`/work/${project.id}`), changeFrequency: "monthly", priority: 0.8 }));
+    return [...landing, ...services, ...work, ...studies, ...articles];
 }

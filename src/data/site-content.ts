@@ -11,6 +11,7 @@ export interface Service {
   /** Bullets shown in the accordion panel. */
   points: string[];
   accent: AccentKey;
+  slug: string;
 }
 
 export type AccentKey = "sapphire" | "emerald" | "violet" | "amber";
@@ -18,6 +19,7 @@ export type AccentKey = "sapphire" | "emerald" | "violet" | "amber";
 export const services: Service[] = [
   {
     num: "01",
+    slug: "shopify-development",
     title: "Custom Shopify & Theme Redesign",
     meta: "Custom builds",
     description:
@@ -32,10 +34,11 @@ export const services: Service[] = [
   },
   {
     num: "02",
+    slug: "speed-optimization",
     title: "Speed Tuning & Core Web Vitals",
-    meta: "GTmetrix D → A · LCP < 1.4s",
+    meta: "Measured before & after",
     description:
-      "Stores get slow as apps, tracking tags and unoptimized media accumulate. I audit the real shopper experience, defer render-blocking scripts and prune third-party bloat to reach Grade A speeds.",
+      "Stores get slow as apps, tracking tags and unoptimized media accumulate. I audit the real shopper experience, defer render-blocking scripts and prune third-party bloat, with measurements before and after the changes.",
     points: [
       "Core Web Vitals field-data audit",
       "Script deferral and app bloat pruning",
@@ -46,6 +49,7 @@ export const services: Service[] = [
   },
   {
     num: "03",
+    slug: "shopify-migrations",
     title: "Platform Migrations to Shopify",
     meta: "Zero downtime · 301 redirects",
     description:
@@ -60,6 +64,7 @@ export const services: Service[] = [
   },
   {
     num: "04",
+    slug: "conversion-rate-optimization",
     title: "Conversion Rate Optimization",
     meta: "UX sprints",
     description:
@@ -74,6 +79,7 @@ export const services: Service[] = [
   },
   {
     num: "05",
+    slug: "native-shopify-features",
     title: "Native Features Without Paid Apps",
     meta: "Zero monthly apps · Liquid 2.0",
     description:
@@ -88,6 +94,7 @@ export const services: Service[] = [
   },
   {
     num: "06",
+    slug: "store-management",
     title: "Ongoing Store Management",
     meta: "Monthly retainer",
     description:

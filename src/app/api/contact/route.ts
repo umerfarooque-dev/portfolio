@@ -1,25 +1,13 @@
 import { SITE } from "@/data/site";
+import { CONTACT_SERVICES } from "@/data/contact";
+import { contactSchema } from "@/lib/contact-validation";
 import { NextResponse } from "next/server";
 import { Resend } from "resend";
-import { z } from "zod";
 
 /** Where submissions land. Falls back to the address shown on the site. */
 const TO_EMAIL = process.env.CONTACT_TO_EMAIL ?? SITE.email;
 /** Resend requires a verified sender; its sandbox address is the default. */
 const FROM_EMAIL = process.env.RESEND_FROM_EMAIL ?? "onboarding@resend.dev";
-
-/**
- * Caps exist because this endpoint is public and unauthenticated: without them
- * a single request can post megabytes, and the whole body ends up in an email.
- */
-const contactSchema = z.object({
-    name: z.string().trim().max(120).optional(),
-    email: z.string().trim().email("Enter a valid email address").max(254),
-    // The form sends a subject. Zod strips unknown keys silently, so leaving this
-    // out of the schema meant the visitor typed one and it never reached the inbox.
-    subject: z.string().trim().max(200).optional(),
-    message: z.string().trim().min(1, "Message cannot be empty").max(5000),
-});
 
 /**
  * Per-IP throttle.
@@ -77,7 +65,16 @@ export async function POST(request: Request) {
         // Validate before throttling. Checking the limit first meant a visitor who
         // mistyped their email three times was locked out for a minute without ever
         // having sent anything. Rejected input costs a JSON parse, nothing more.
-        const parsed = contactSchema.safeParse(await request.json());
+        let body: unknown;
+        try {
+            body = await request.json();
+        } catch {
+            return NextResponse.json(
+                { error: "Please send a valid JSON request." },
+                { status: 400 }
+            );
+        }
+        const parsed = contactSchema.safeParse(body);
         if (!parsed.success) {
             return NextResponse.json(
                 { error: parsed.error.issues[0]?.message ?? "Please check the form and try again." },
@@ -92,7 +89,8 @@ export async function POST(request: Request) {
             );
         }
 
-        const { name, email, subject, message } = parsed.data;
+        const { name, email, subject, message, service } = parsed.data;
+        const serviceName = CONTACT_SERVICES.find(option => option.value === service)!.label;
 
         const apiKey = process.env.RESEND_API_KEY;
         if (!apiKey) {
@@ -119,11 +117,13 @@ export async function POST(request: Request) {
             text:
                 `Name: ${name ?? "(not provided)"}\n` +
                 `Email: ${email}\n` +
+                `Service: ${serviceName}\n` +
                 `Subject: ${subject ?? "(not provided)"}\n\n` +
                 `Message:\n${message}`,
             html: `
                 <p><strong>Name:</strong> ${escapeHtml(name ?? "(not provided)")}</p>
                 <p><strong>Email:</strong> ${escapeHtml(email)}</p>
+                <p><strong>Service:</strong> ${escapeHtml(serviceName)}</p>
                 <p><strong>Subject:</strong> ${escapeHtml(subject ?? "(not provided)")}</p>
                 <hr />
                 <p><strong>Message:</strong></p>

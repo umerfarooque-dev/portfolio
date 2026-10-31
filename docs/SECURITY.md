@@ -3,6 +3,15 @@
 Verified by inspection and by live probing of a local production server on 2026-10-06.
 **No secret values appear in this file.**
 
+Contact update (2026-10-14): the API and form share `lib/contact-validation.ts`.
+The required `service` must match the catalogue's slug allow-list. Its label is
+included in both mail formats and HTML-escaped. Unknown/missing services return
+400 before rate limiting or provider calls. Existing length limits remain.
+
+QA update (2026-10-14): malformed or empty JSON contact requests return 400.
+Schema validation runs before rate limiting, so invalid input does not consume
+the submission quota. Older rate-limit observations below are historical.
+
 ---
 
 ## Environment variables
