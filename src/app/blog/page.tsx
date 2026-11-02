@@ -1,3 +1,4 @@
+import { withPageSeo } from "@/lib/seo";
 import { PageIntro } from "@/components/atoms/PageIntro";
 import { BlogCards } from "@/components/organisms/BlogCards";
 import { PAGE_CONTENT } from "@/data/page-content";
@@ -7,12 +8,12 @@ import type { Metadata } from "next";
 
 export const revalidate = 3600;
 
-export const metadata: Metadata = {
+export const metadata: Metadata = withPageSeo({
     title: `Blog | ${SITE.name}`,
     description:
         "Notes on Shopify, WordPress and Laravel development — migrations, performance and the decisions that cost you later.",
     alternates: { canonical: "/blog" },
-};
+});
 
 export default function BlogIndexPage() {
     const sorted = [...posts].sort((a, b) => b.date.localeCompare(a.date));

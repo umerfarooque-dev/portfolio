@@ -1,5 +1,46 @@
 # DATA MODEL
 
+## CMBT Nutrition case study (2026-11-02)
+
+`store-projects.ts` leads with `cmbt-nutrition`, a Shopify project and case study
+at /work/cmbt-nutrition and /case-studies/cmbt-nutrition. Content comes from the
+user-supplied SEO campaign report. Its four headline search metrics are reported
+totals/averages, not uplifts; average position is not a single keyword's ranking.
+No agency, individual role, delivery duration or exact reporting dates were
+inferred. GA4 engagement/purchase figures are not mixed with search results.
+
+The cover is official CMBT product artwork from the live store, not a website
+screenshot: https://cmbt.com.au/cdn/shop/files/WIN_8_1_1.webp?v=1790096666&width=1400.
+The source responds with PNG bytes despite its extension; the image optimizer
+re-encodes the local cover as real WebP and the preview generator derives a
+680x480 hover cover. Existing optional credit/resultsNote rendering is reused.
+
+## Sprout Organic case study (2026-11-02)
+
+`store-projects.ts` now leads with `sprout-organic`, a Shopify project and case
+study at /work/sprout-organic and /case-studies/sprout-organic. Narrative and
+reported headline results come from the user-supplied MGN Ventures case study.
+The agency/team credit and resultsNote are rendered by ProjectDetail. Paid
+growth is excluded; separate five-month engagement statistics are not mixed
+with the source's 12-month headline results. No exact reporting dates or project
+duration were supplied or inferred. The subsequent full design-system rebuild
+is described as a future phase, not completed work.
+
+The local cover is Sprout's official social-share brand artwork downloaded
+from https://sproutorganic.com.au/cdn/shop/files/sprout-organic-share.png?v=1604095039,
+converted to WebP; it is a brand cover, not a website screenshot. Its hover
+preview is generated through the existing previews script.
+
+Project has optional credit/resultsNote fields for attribution and reporting
+limits. They do not alter projects without those fields.
+
+## Search metadata (2026-11-02)
+
+`data/seo.ts` owns global SEO title/description, site name, breadcrumb labels and
+Person/WebSite data. Identity comes from SITE; article/service structured data
+comes from the same blog/service entries rendered to visitors. Dates, employers,
+ratings and performance results are never fabricated for structured data.
+
 ## Header display name (2026-11-02)
 
 `SITE.shortName` owns the visible Navbar wordmark (Umer). Database siteName

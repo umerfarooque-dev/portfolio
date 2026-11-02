@@ -1,4 +1,7 @@
+import { withPageSeo } from "@/lib/seo";
 import { REFERENCE_UI } from "@/data/page-content";
+import { JsonLd } from "@/components/atoms/JsonLd";
+import { serviceStructuredData } from "@/lib/structured-data";
 import { FooterDots } from "@/components/atoms/FooterDots";
 import { FaqSection } from "@/components/organisms/FaqSection";
 import { ContactSection } from "@/components/organisms/ContactSection";
@@ -25,13 +28,13 @@ export async function generateMetadata({
 }): Promise<Metadata> {
     const { slug } = await params;
     const service = getServicePage(slug);
-    if (!service) return { title: "Service not found" };
+    if (!service) return withPageSeo({ title: "Service not found" });
 
-    return {
+    return withPageSeo({
         title: `${service.name} | ${SITE.name}`,
         description: service.intro,
         alternates: { canonical: `/services/${service.slug}` },
-    };
+    });
 }
 
 export default async function ServicePage({ params }: { params: Promise<{ slug: string }> }) {
@@ -48,6 +51,7 @@ export default async function ServicePage({ params }: { params: Promise<{ slug: 
 
     return (
         <>
+            <JsonLd data={serviceStructuredData(service)} />
             {/* Hero */}
             <header className="relative w-full max-w-full overflow-hidden pb-[clamp(48px,6vw,96px)] pt-32 md:pt-40">
                 <FooterDots />

@@ -1,3 +1,4 @@
+import { withPageSeo } from "@/lib/seo";
 import { ContactSection } from "@/components/organisms/ContactSection";
 import { AnimatedText } from "@/components/atoms/AnimatedText";
 import { caseStudies } from "@/lib/case-studies";
@@ -8,12 +9,12 @@ import Link from "next/link";
 
 export const revalidate = 3600;
 
-export const metadata: Metadata = {
+export const metadata: Metadata = withPageSeo({
     title: `Case Studies | ${SITE.name}`,
     description:
         "What was actually wrong, what changed, and what it was built with — on live Shopify, WordPress and Laravel projects.",
     alternates: { canonical: "/case-studies" },
-};
+});
 
 export default function CaseStudiesPage() {
     return (

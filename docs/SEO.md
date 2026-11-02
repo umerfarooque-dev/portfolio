@@ -1,5 +1,48 @@
 # SEO
 
+## Technical SEO update (2026-11-02)
+
+Live baseline: homepage, robots.txt and sitemap.xml returned HTTP 200; the live
+sitemap contained 76 URLs. Homepage had no JSON-LD before this change.
+
+- `data/seo.ts` owns the targeted homepage title/description, Person and WebSite
+  data. No current employer, ratings, prices or invented business claims appear.
+- `lib/seo.ts` aligns Open Graph/Twitter titles, descriptions and URL with each
+  route's metadata/canonical. All public page metadata uses this helper. Canonical
+  choices for duplicate work/case-study URLs remain unchanged.
+  A fallback to /opengraph-image preserves preview images when nested metadata
+  replaces the root Open Graph object. Twitter has the same explicit fallback.
+- `atoms/JsonLd` renders server-side JSON-LD and escapes `<` to prevent script
+  termination by content. Layout renders Person/WebSite; About renders ProfilePage;
+  seven articles render BlogPosting/BreadcrumbList; 19 services render
+  Service/BreadcrumbList. Real article dates and cover paths come from blog data.
+  Service schema describes the offer; it does not promise a Google rich result.
+- `/projects` is now noindex/follow; its useful detail pages retain their existing
+  canonical destinations. Robots still allows crawling, so noindex can be read.
+- Optional `GOOGLE_SITE_VERIFICATION` adds Google's HTML verification meta tag.
+  Set its content value in Vercel; never paste the whole HTML tag into the value.
+
+Owner steps after deployment:
+
+1. Add `https://umerfarooque-dev.vercel.app/` as a URL-prefix property in
+   [Search Console](https://search.google.com/search-console). Use HTML-tag
+   verification with the env variable above, redeploy, then click Verify.
+2. Submit `https://umerfarooque-dev.vercel.app/sitemap.xml` once verified.
+3. Inspect the homepage and key service URLs, check the selected canonical and
+   request indexing. Check the About/blog structured data in
+   [Rich Results Test](https://search.google.com/test/rich-results).
+4. Monitor actual queries, impressions, clicks, indexing and Core Web Vitals.
+   Expand useful first-hand case studies/articles from those findings; avoid
+   duplicate location pages or fabricated results. Ranking is not guaranteed.
+
+Official references: [Google SEO basics](https://developers.google.com/search/docs/fundamentals/seo-starter-guide),
+[ProfilePage](https://developers.google.com/search/docs/appearance/structured-data/profile-page),
+[Article](https://developers.google.com/search/docs/appearance/structured-data/article).
+
+This section supersedes historical missing-schema and inherited-share-metadata
+descriptions below. Search Console access, verification and submission have not
+been performed by the agent. Deliberately open loader/animation decisions remain.
+
 ## Current reference alignment (2026-10-14)
 
 The sitemap now includes /showcase and /free-speed-audit. /work/[slug] generates shipped project pages. Existing case studies retain their /case-studies/[slug] canonical; work pages without a case study use /work/[slug] as canonical and are added to the sitemap. Legacy /projects detail URLs use the same canonical choices and remain excluded from the sitemap. Unknown work slugs return notFound; database-only projects can resolve on demand.

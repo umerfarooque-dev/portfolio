@@ -1,3 +1,4 @@
+import { withPageSeo } from "@/lib/seo";
 import { ProjectDetail } from "@/components/organisms/ProjectDetail";
 import type { Metadata } from "next";
 import { SITE } from "@/data/site";
@@ -23,12 +24,12 @@ export async function generateMetadata({
     const project = row ? toProject(row) : staticProjects.find((p) => p.id === id);
 
     if (!project) {
-        return { title: `Project not found | ${SITE.name}`, robots: { index: false, follow: true } };
+        return withPageSeo({ title: `Project not found | ${SITE.name}`, robots: { index: false, follow: true } });
     }
 
     const description = project.tagline || project.description;
 
-    return {
+    return withPageSeo({
         title: `${project.title} | ${SITE.name}`,
         description,
         alternates: { canonical: project.challenge && project.approach ? `/case-studies/${project.id}` : `/work/${project.id}` },
@@ -39,7 +40,7 @@ export async function generateMetadata({
             type: "article",
             ...(project.imageUrl ? { images: [{ url: project.imageUrl }] } : {}),
         },
-    };
+    });
 }
 
 export default async function ProjectDetailPage({ params }: { params: Promise<{ id: string }> }) {

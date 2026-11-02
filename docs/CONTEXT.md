@@ -1,5 +1,15 @@
 # CONTEXT — read this first
 
+## Technical SEO (2026-11-02)
+
+Person/WebSite JSON-LD is now emitted globally; About, blog details and services
+add ProfilePage, BlogPosting and Service/breadcrumb schema. Route metadata uses
+lib/seo.ts for aligned social previews and image fallback. GOOGLE_SITE_VERIFICATION
+supports owner Search Console setup; legacy /projects is noindex/follow. See
+SEO.md for current status and owner actions; historical missing-schema entries
+below are superseded. WhatsApp remains a wa.me link; WHATSAPP_CHATBOT.md describes
+the proposed API-based chatbot, not an activated integration.
+
 ## Current reference alignment (2026-10-14)
 
 The user-authorized reference redesign now applies the lime-on-black system to every public page, including `/projects*` and `/contact`. Legacy atoms remain available but no longer define those page layouts. `/work/[slug]` prerenders shipped projects, supports optional database overrides, and shares `ProjectDetail` with case studies and legacy project URLs. `/showcase` and `/free-speed-audit` are dedicated routes. About uses static editorial content; optional database access remains in MainLayout and project loaders. Route counts below predate this expansion; derive current counts from the build. There are 19 service detail pages.

@@ -1,3 +1,4 @@
+import { withPageSeo } from "@/lib/seo";
 import { ProjectDetail } from "@/components/organisms/ProjectDetail";
 import { shippedProjects } from "@/data/projects";
 import { SITE } from "@/data/site";
@@ -15,7 +16,7 @@ export function generateStaticParams() { return shippedProjects.map(project => (
 export async function generateMetadata({ params }: { params: Promise<{ slug: string }> }): Promise<Metadata> {
     const { slug } = await params;
     const project = await getProject(slug);
-    return project ? { title: `${project.title} | ${SITE.name}`, description: project.tagline || project.description, alternates: { canonical: project.challenge && project.approach ? `/case-studies/${project.id}` : `/work/${project.id}` } } : {};
+    return withPageSeo(project ? { title: `${project.title} | ${SITE.name}`, description: project.tagline || project.description, alternates: { canonical: project.challenge && project.approach ? `/case-studies/${project.id}` : `/work/${project.id}` } } : {});
 }
 export default async function WorkDetailPage({ params }: { params: Promise<{ slug: string }> }) {
     const { slug } = await params;

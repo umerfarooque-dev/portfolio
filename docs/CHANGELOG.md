@@ -1,5 +1,58 @@
 # CHANGELOG
 
+## 2026-11-02 - CMBT Nutrition project and SEO case study
+
+- Added CMBT Nutrition to the Shopify catalogue, homepage selected work and
+  case-study listing using its verified live URL and official product artwork.
+- Added technical/on-page SEO, collection/product optimization, linking, image
+  audit and analytics scope from the supplied report. Kept the four search
+  metrics as reported campaign totals/averages, with source, reporting-window
+  and aggregate-position notes. No agency or personal results attribution inferred.
+- Reused the existing detail template and data-derived routes/metadata/sitemap.
+- Checks: TypeScript, ESLint and whitespace checks passed. Production HTML
+  assertions confirmed both detail routes, homepage/work/case-study links,
+  reported metrics and caveat, canonical choice and sitemap entry. SEO audit
+  passed for 107 content pages and 78 sitemap URLs. WebP cover/preview formats
+  verified (980x702 and 680x480). Browser preview timed out twice despite recovery;
+  visual/responsive verification for CMBT remains unconfirmed.
+  Production build passed and generated 114 pages.
+
+## 2026-11-02 - Sprout Organic Shopify project and case study
+
+- Added Sprout Organic to the Shopify catalogue, homepage selected work and
+  derived case-study listing, with live URL and official local brand cover.
+- Added its storefront/subscription, SEO, attribution and lifecycle narrative
+  from the supplied MGN Ventures report. Preserved team attribution and reported
+  results caveats, excluding paid-channel growth and separate reporting windows.
+- Added optional Project credit/resultsNote fields and shared detail rendering.
+  Project/case-study routes, metadata and sitemap derive from the existing data.
+- Checks: TypeScript, ESLint and whitespace checks passed. Production HTML
+  assertions confirmed both Sprout detail routes, homepage/work/case-study links,
+  agency credit, reported figures, canonical choice and sitemap entry. The SEO
+  audit passed across 105 content pages and 77 sitemap URLs. Browser checks at
+  320/768/1280/1920px confirmed a loaded cover and no horizontal overflow; mobile
+  visual inspection passed. Main/preview WebP files are 1200x630 and 680x480.
+
+## 2026-11-02 - Technical SEO and WhatsApp setup guide
+
+- Added safe Person/WebSite, ProfilePage, BlogPosting, Service and breadcrumb
+  JSON-LD based on real site content. Improved global search copy and aligned
+  route-level Open Graph/Twitter metadata with canonical URLs.
+- Marked duplicate legacy project listing noindex/follow; retained its detail
+  canonicals and existing sitemap/robots behavior.
+- Added optional Search Console verification env support and owner instructions
+  for verification, sitemap submission and monitoring in SEO.md.
+- Documented the proposed official WhatsApp auto-reply integration, account
+  requirements, conversation flow, durable message processing and human handoff.
+  No WhatsApp bot was activated or external message sent.
+- Validation: TypeScript, ESLint, production build and git diff --check passed.
+  `node scripts/check-seo.mjs` checked 103 content pages, 130 JSON-LD blocks,
+  one ProfilePage, seven BlogPosting entries, 19 services and 76 sitemap
+  canonicals, including share images, titles/descriptions, one h1 and noindex.
+  Separate assertions verified JSON-LD script-breakout protection and metadata
+  preservation of article fields/noindex. Google Rich Results/Search Console
+  verification and deployment remain owner steps; rankings were not measured.
+
 ## 2026-11-02 - Short header name
 
 - Set the visible Navbar wordmark to Umer via SITE.shortName on every route,

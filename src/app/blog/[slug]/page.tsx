@@ -1,4 +1,7 @@
+import { withPageSeo } from "@/lib/seo";
 import { ContactSection } from "@/components/organisms/ContactSection";
+import { JsonLd } from "@/components/atoms/JsonLd";
+import { blogStructuredData } from "@/lib/structured-data";
 import { AnimatedText } from "@/components/atoms/AnimatedText";
 import { formatDate, getPost, posts, type Block } from "@/data/blog";
 import { SITE } from "@/data/site";
@@ -20,9 +23,9 @@ export async function generateMetadata({
 }): Promise<Metadata> {
     const { slug } = await params;
     const post = getPost(slug);
-    if (!post) return { title: "Post not found" };
+    if (!post) return withPageSeo({ title: "Post not found" });
 
-    return {
+    return withPageSeo({
         title: `${post.title} | ${SITE.name}`,
         description: post.excerpt,
         alternates: { canonical: `/blog/${post.slug}` },
@@ -32,7 +35,7 @@ export async function generateMetadata({
             description: post.excerpt,
             publishedTime: post.date,
         },
-    };
+    });
 }
 
 /** Renders one content block in the site's type scale. */
@@ -73,6 +76,7 @@ export default async function BlogPostPage({ params }: { params: Promise<{ slug:
 
     return (
         <>
+            <JsonLd data={blogStructuredData(post)} />
             <header className="w-full max-w-full overflow-hidden pb-[clamp(40px,5vw,72px)] pt-40 md:pt-56">
                 <div className="mx-auto w-full max-w-[860px] px-[var(--gutter)]">
                     <nav aria-label="Breadcrumb" className="mb-8">

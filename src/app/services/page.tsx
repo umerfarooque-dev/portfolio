@@ -1,3 +1,4 @@
+import { withPageSeo } from "@/lib/seo";
 import { PageIntro } from "@/components/atoms/PageIntro";
 import { PAGE_CONTENT, REFERENCE_UI } from "@/data/page-content";
 import { ProcessSection } from "@/components/organisms/ProcessSection";
@@ -10,12 +11,12 @@ import Link from "next/link";
 
 export const revalidate = 3600;
 
-export const metadata: Metadata = {
+export const metadata: Metadata = withPageSeo({
     title: `Services | ${SITE.name}`,
     description:
         "WordPress, WooCommerce, Shopify, Laravel, React and Next.js development, plus platform migrations to Shopify.",
     alternates: { canonical: "/services" },
-};
+});
 
 export default function ServicesIndexPage() {
     const builds = servicePages.filter((s) => s.group === "build");

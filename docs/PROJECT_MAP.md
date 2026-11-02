@@ -1,5 +1,12 @@
 # PROJECT MAP
 
+## Search metadata (2026-11-02)
+
+`src/data/seo.ts` owns global SEO copy and schema identity. `src/lib/seo.ts`
+aligns route social metadata; `src/lib/structured-data.ts` derives schema from
+blog/service data; `src/components/atoms/JsonLd.tsx` safely renders it on the
+server. `node scripts/check-seo.mjs` audits production HTML after a build.
+
 ## Current reference alignment (2026-10-14)
 
 New routes: `work/[slug]`, `showcase`, `free-speed-audit`. New shared atoms: `PageIntro`, `BrandMark`, `FooterDots`. New organisms: `ProjectDetail`, `BlogCards`, `AboutPageBody`, `ShowcaseGrid`, `CaseStudyHighlights`. ProjectDetail replaces duplicated detail presentation across work, case-study and legacy project routes while retaining database fallback.

@@ -1,3 +1,4 @@
+import { withPageSeo } from "@/lib/seo";
 import type { Metadata } from "next";
 import dynamic from "next/dynamic";
 import { getSiteConfig } from "@/lib/site-data";
@@ -23,9 +24,9 @@ const ContactSection = dynamic(() => import("@/components/organisms/ContactSecti
  * home page competed with itself across any host or query string that resolves
  * here.
  */
-export const metadata: Metadata = {
+export const metadata: Metadata = withPageSeo({
   alternates: { canonical: "/" },
-};
+});
 
 export const revalidate = 3600;
 

@@ -1,5 +1,14 @@
 # ARCHITECTURE
 
+## SEO data flow (2026-11-02)
+
+`data/seo.ts` supplies identity and site schema plus global SEO copy.
+`lib/seo.ts` builds route-specific social metadata from each canonical.
+`lib/structured-data.ts` derives ProfilePage, BlogPosting and Service schema
+from existing data; the server-only JsonLd atom safely serializes it. Root
+layout supplies the common Person/WebSite graph, and About/blog/service pages
+supply their own specific graph. No new client JS or dependency was introduced.
+
 ## Public database project guard (2026-10-31)
 
 `site-data.ts` excludes malformed and placeholder slugs from public database

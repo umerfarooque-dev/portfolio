@@ -1,3 +1,4 @@
+import { withPageSeo } from "@/lib/seo";
 import { AnimatedText } from "@/components/atoms/AnimatedText";
 import { ScrollRevealText } from "@/components/atoms/ScrollRevealText";
 import { processSteps } from "@/data/site-content";
@@ -5,12 +6,12 @@ import { SITE } from "@/data/site";
 import type { Metadata } from "next";
 import Link from "next/link";
 
-export const metadata: Metadata = {
+export const metadata: Metadata = withPageSeo({
     title: `Process | ${SITE.name}`,
     description:
         "How a project actually runs: what gets checked before quoting, what gets measured first, and what you are handed at the end.",
     alternates: { canonical: "/process" },
-};
+});
 
 export const revalidate = 3600;
 

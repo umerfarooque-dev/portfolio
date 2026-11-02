@@ -26,6 +26,10 @@ export interface Project {
   challenge?: string;
   approach?: string;
   results?: { value: string; label: string }[];
+  /** Team/agency attribution when a case study describes a shared engagement. */
+  credit?: string;
+  /** Reporting window and attribution limits for any supplied result figures. */
+  resultsNote?: string;
   codeUrl?: string;
 }
 

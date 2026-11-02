@@ -1,3 +1,4 @@
+import { withPageSeo } from "@/lib/seo";
 import { WorkGrid } from "@/components/organisms/WorkGrid";
 import { PageIntro } from "@/components/atoms/PageIntro";
 import { PAGE_CONTENT } from "@/data/page-content";
@@ -6,12 +7,13 @@ import { SITE } from "@/data/site";
 import { getProjects } from "@/lib/site-data";
 import type { Metadata } from "next";
 
-export const metadata: Metadata = {
+export const metadata: Metadata = withPageSeo({
     title: `Projects | ${SITE.name}`,
     description:
         "Shopify storefronts, WordPress builds and Laravel applications — each one live and handling real traffic.",
     alternates: { canonical: "/projects" },
-};
+    robots: { index: false, follow: true },
+});
 
 export const revalidate = 60;
 

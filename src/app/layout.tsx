@@ -2,6 +2,8 @@ import type { Metadata } from "next";
 import { Inter, DM_Mono } from "next/font/google";
 import { MainLayout } from "@/components/templates/MainLayout";
 import { SITE_URL } from "@/data/site";
+import { SEO_CONTENT, WEBSITE_SCHEMA } from "@/data/seo";
+import { JsonLd } from "@/components/atoms/JsonLd";
 import "./globals.css";
 
 const inter = Inter({
@@ -20,22 +22,23 @@ const dmMono = DM_Mono({
 const siteUrl = SITE_URL;
 
 export const metadata: Metadata = {
-  title: "Umer Farooque | Full Stack Developer",
-  description: "Portfolio of Umer Farooque, a Full Stack Developer building fast, scalable web apps - from Laravel backends to React/Next.js frontends.",
+  title: SEO_CONTENT.title,
+  description: SEO_CONTENT.description,
   metadataBase: new URL(siteUrl),
   openGraph: {
-    title: "Umer Farooque | Full Stack Developer",
-    description: "Portfolio of Umer Farooque, a Full Stack Developer building fast, scalable web apps - from Laravel backends to React/Next.js frontends.",
+    title: SEO_CONTENT.title,
+    description: SEO_CONTENT.description,
     url: siteUrl,
-    siteName: "Umer Portfolio",
+    siteName: SEO_CONTENT.siteName,
     type: "website",
   },
   twitter: {
     card: "summary_large_image",
-    title: "Umer Farooque | Full Stack Developer",
-    description: "Portfolio of Umer Farooque, a Full Stack Developer building fast, scalable web apps - from Laravel backends to React/Next.js frontends.",
+    title: SEO_CONTENT.title,
+    description: SEO_CONTENT.description,
   },
   robots: { index: true, follow: true },
+  verification: { google: process.env.GOOGLE_SITE_VERIFICATION },
 };
 
 export default function RootLayout({
@@ -55,6 +58,7 @@ export default function RootLayout({
       <body
         className={`${inter.variable} ${dmMono.variable} flex min-h-screen w-full max-w-full flex-col overflow-x-hidden bg-bg text-ink antialiased`}
       >
+        <JsonLd data={WEBSITE_SCHEMA} />
         <a
           href="#main"
           className="sr-only focus:not-sr-only focus:fixed focus:left-4 focus:top-4 focus:z-[200] focus:rounded-sm focus:bg-accent focus:px-4 focus:py-2 focus:text-bg"

@@ -1,3 +1,4 @@
+import { withPageSeo } from "@/lib/seo";
 import { PageIntro } from "@/components/atoms/PageIntro";
 import { PAGE_CONTENT } from "@/data/page-content";
 import { ContactSection } from "@/components/organisms/ContactSection";
@@ -6,11 +7,11 @@ import { shippedProjects } from "@/data/projects";
 import { SITE } from "@/data/site";
 import type { Metadata } from "next";
 
-export const metadata: Metadata = {
+export const metadata: Metadata = withPageSeo({
     title: `Work | ${SITE.name}`,
     description: `Live storefronts and applications built by ${SITE.name} — Shopify, WordPress, Laravel and Next.js.`,
     alternates: { canonical: "/work" },
-};
+});
 
 export const revalidate = 3600;
 

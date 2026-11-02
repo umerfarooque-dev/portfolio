@@ -1,5 +1,19 @@
 # COMPONENT REGISTRY
 
+## Project attribution (2026-11-02)
+
+ProjectDetail renders optional Project.credit below the hero introduction and
+Project.resultsNote below the metrics. Sprout uses these to preserve agency
+credit, reporting-window limits and the paid-channel exclusion from the supplied
+MGN Ventures case study. Work, case-study and legacy detail routes all share
+this rendering; other project layouts remain unchanged.
+
+## JsonLd (2026-11-02)
+
+`atoms/JsonLd.tsx` is a server component rendering an application/ld+json script.
+It serializes plain schema objects with `<` escaping. Used by root layout and
+About, blog detail and service detail pages; it adds no visible UI or client JS.
+
 ## Employment history (2026-10-31)
 
 AboutPageBody now renders the user-confirmed `WORK_EXPERIENCE` list and core
