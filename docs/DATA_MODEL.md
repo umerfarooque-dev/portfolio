@@ -1,5 +1,10 @@
 # DATA MODEL
 
+## Header display name (2026-11-02)
+
+`SITE.shortName` owns the visible Navbar wordmark (Umer). Database siteName
+continues to supply the home link's accessible label, with SITE.name as fallback.
+
 ## Employment history (2026-10-31)
 
 Latest user correction: MGN role is Web Developer; Tafsol role is Web Developer /

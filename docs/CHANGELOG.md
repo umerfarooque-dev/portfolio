@@ -1,5 +1,10 @@
 # CHANGELOG
 
+## 2026-11-02 - Short header name
+
+- Set the visible Navbar wordmark to Umer via SITE.shortName on every route,
+  including deployments with a full-name database override.
+
 ## 2026-10-31 - Confirmed employment titles and availability
 
 - Corrected MGN to Web Developer (Apr 2026–Aug 2026), and Tafsol to Web Developer /

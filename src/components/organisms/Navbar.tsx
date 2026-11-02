@@ -138,10 +138,10 @@ export const Navbar = ({ siteName }: { siteName?: string }) => {
             >
                 <div className="mx-auto flex w-full max-w-[var(--container-grid)] items-center justify-between gap-8 px-[var(--gutter)] py-5 md:py-6">
                     <div className="flex items-center gap-8 lg:gap-12">
-                        <Link href="/" className="flex shrink-0 items-center gap-2.5 transition-colors hover:text-accent">
+                        <Link href="/" aria-label={siteName || SITE.name} className="flex shrink-0 items-center gap-2.5 transition-colors hover:text-accent">
                             <BrandMark className="h-9 w-9 text-accent sm:h-7 sm:w-7" />
                             <span className="sr-only text-h3 font-medium leading-none tracking-tight sm:not-sr-only">
-                                {siteName || SITE.name}
+                                {SITE.shortName}
                             </span>
                         </Link>
 

@@ -3,6 +3,7 @@
  */
 export const SITE = {
     name: "Umer Farooque",
+    shortName: "Umer",
     role: "Full-Stack Web Developer",
     tagline: "Full-Stack Web Developer with approximately 3 years of professional experience building responsive websites, eCommerce platforms and custom web applications using WordPress, Shopify, PHP, Laravel, React.js, Next.js, JavaScript and MySQL.",
     experienceYears: 3,
