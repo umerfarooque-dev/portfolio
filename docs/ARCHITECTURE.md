@@ -1,5 +1,12 @@
 # ARCHITECTURE
 
+## Positioning data boundary (2026-11-03)
+
+HeroSection uses HOME_HERO instead of database text overrides. Only aboutImage
+is passed from Home to AboutSection and only email from MainLayout to Footer;
+nullable config support is preserved. Unused database marketing fields no
+longer ship inside client-component props or restore old branding claims.
+
 ## SEO data flow (2026-11-02)
 
 `data/seo.ts` supplies identity and site schema plus global SEO copy.

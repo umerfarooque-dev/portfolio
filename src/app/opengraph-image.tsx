@@ -75,7 +75,7 @@ export default function OpengraphImage() {
                             lineHeight: 1.4,
                         }}
                     >
-                        {`${SITE.experienceYears} years building WordPress, Shopify and Laravel sites that load fast and convert.`}
+                        {SITE.socialSummary}
                     </div>
                 </div>
 

@@ -1,5 +1,14 @@
 # CONTEXT — read this first
 
+## Positioning (2026-11-03)
+
+The portfolio now leads with Software Engineer and AI Automation, alongside
+existing web-development work. Public copy no longer claims a numeric duration
+of experience; historical jobs/projects retain their actual roles and dates.
+The AI Automation service is a new offering, not an invented case study.
+There are 20 service pages; homepage hero text comes from HOME_HERO and cannot
+be overridden by stale database content. Downloadable resume is unchanged.
+
 ## Technical SEO (2026-11-02)
 
 Person/WebSite JSON-LD is now emitted globally; About, blog details and services

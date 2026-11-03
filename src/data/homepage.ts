@@ -1,10 +1,16 @@
 import { servicePages } from "./services-pages";
 import { SITE, WORK_EXPERIENCE } from "./site";
 
+export const HOME_HERO = {
+    title: `${SITE.role} AI Automation & Web Development`,
+    description: "Build web applications and connect the work around them. AI-assisted workflows, API integrations and business automation, alongside Shopify, WordPress, Laravel, React and Next.js development.",
+    focus: SITE.focus,
+} as const;
+
 export const HOME_SERVICES = {
     label: "Capabilities & Services",
-    title: "Engineered for revenue, built for speed.",
-    description: "Six specialisms covering custom builds, performance, migrations and ongoing improvements—plus WordPress, Laravel, React and Next.js development.",
+    title: "AI Automation, CRO & Speed Optimization.",
+    description: "Connect business tools with AI automation, improve customer journeys with Conversion Rate Optimization, and make websites faster with performance and Core Web Vitals work. Web application, Shopify and WordPress development remain available too.",
     href: "/services",
     allLabel: `View all ${servicePages.length} service hubs`,
     exploreLabel: "Explore",
@@ -17,7 +23,7 @@ export const HOME_APPROACH = {
     cta: "Get a free proposal",
     href: "/contact",
     cards: [
-        { label: "Across your stack", title: "Storefront to back office", description: "Shopify and WordPress on the storefront, Laravel for business logic, and React or Next.js for custom interfaces. The build follows your requirements.", symbol: "layers" },
+        { label: "Connected workflows", title: "Your tools, working together", description: "Connect web applications and business tools through APIs, workflow automation and AI-assisted steps, with human review where decisions need it.", symbol: "layers" },
         { label: "Measured before & after", title: "Performance with a baseline", description: "Start with load-time and layout measurements, address what slows the real page, then measure the same templates again after the changes.", symbol: "speed" },
         { label: "Direct communication", title: "Talk to the person building it", description: "You discuss requirements with the developer writing your code. Questions, progress updates and handover come from the same person.", symbol: "message" },
         { label: "Staging first", title: "Review before anything goes live", description: "Changes are prepared on staging and checked before release. Deployments happen in separate steps so a regression can be traced and rolled back.", symbol: "shield" },
@@ -36,12 +42,12 @@ export const HOME_CONTACT = {
 
 export const HOME_ABOUT_CONTENT = {
     heading: "Code without a working handover is just a bill.",
-    introduction: `Approximately ${SITE.experienceYears} years building responsive websites, eCommerce platforms and custom web applications. Most recently a ${WORK_EXPERIENCE[0].role} at ${SITE.employer} (${WORK_EXPERIENCE[0].period}), following my role as ${WORK_EXPERIENCE[1].role} at ${WORK_EXPERIENCE[1].company} (${WORK_EXPERIENCE[1].period}).`,
+    introduction: `${SITE.role} focused on AI automation, connected workflows and web applications. My web-development background includes ${SITE.employer} (${WORK_EXPERIENCE[0].period}) and ${WORK_EXPERIENCE[1].company} (${WORK_EXPERIENCE[1].period}), across storefronts, business applications and API integrations.`,
     supporting: "One person from the brief through to launch. You get commented code, a written summary of what changed, and an editor your team can use without calling me for a copy change.",
 } as const;
 
 export const HOME_ABOUT_FACTS = [
-    { label: "Experience", value: `Approximately ${SITE.experienceYears} years` },
+    { label: "Focus", value: SITE.focus },
     { label: "Based in", value: SITE.location },
     { label: "Most recent team", value: SITE.employer },
     { label: "Previous team", value: WORK_EXPERIENCE[1].company },
@@ -55,7 +61,7 @@ export const HOME_CASE_STUDIES = {
     label: "Selected case studies",
     title: "See what went into the build.",
     description: "The challenge, implementation and handover behind the storefronts. Explore the work in detail.",
-    ids: ["zero-lifestyle", "mia-and-mila", "ox-and-armor"],
+    ids: ["sprout-organic", "mia-and-mila", "ox-and-armor"],
     cta: "Explore case study",
     allLabel: "View all case studies",
     href: "/case-studies",

@@ -33,13 +33,6 @@ export const showcaseItems: ShowcaseItem[] = [
         platform: "Shopify",
     },
     {
-        title: "Predictive search",
-        description: "Search drawer that returns products as you type, with popular queries surfaced first.",
-        project: "zero-lifestyle",
-        url: "https://zerolifestyle.co/",
-        platform: "Shopify",
-    },
-    {
         title: "Related collections",
         description: "Release-grouped merchandising so a launch pulls its related products with it.",
         project: "inelia-records",

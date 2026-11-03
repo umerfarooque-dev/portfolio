@@ -28,7 +28,7 @@ export const MainLayout = async ({ children }: MainLayoutProps) => {
                 <ScrollProgress />
                 <Navbar siteName={config?.siteName} />
                 <main id="main" className="flex-1">{children}</main>
-                <Footer config={config} />
+                <Footer config={{ email: config?.email }} />
                 <FloatingWhatsApp />
                 <ContactPopup />
             </div>

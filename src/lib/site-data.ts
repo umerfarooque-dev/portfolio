@@ -1,10 +1,10 @@
 import { toProject } from "@/lib/db-project";
 import { prisma } from "@/lib/prisma";
-import { shippedProjects, type Project } from "@/data/projects";
+import { RETIRED_PROJECT_SLUGS, shippedProjects, type Project } from "@/data/projects";
 import { cache } from "react";
 
 /** Public project URLs use lowercase, hyphen-separated catalogue slugs. */
-const isPublicSlug = (slug: string) => /^[a-z0-9]+(?:-[a-z0-9]+)*$/.test(slug) && !slug.includes("placeholder");
+const isPublicSlug = (slug: string) => /^[a-z0-9]+(?:-[a-z0-9]+)*$/.test(slug) && !slug.includes("placeholder") && !RETIRED_PROJECT_SLUGS.includes(slug);
 
 /**
  * Database reads for the two routes that still use one, with the database

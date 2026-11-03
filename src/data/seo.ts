@@ -1,8 +1,8 @@
 import { SITE, SITE_URL } from "./site";
 
 export const SEO_CONTENT = {
-    title: `${SITE.name} | WordPress, Shopify & Laravel Developer`,
-    description: `${SITE.name}, a full-stack web developer in ${SITE.location}. WordPress, Shopify, Laravel, React and Next.js websites, eCommerce and custom applications.`,
+    title: `${SITE.name} | Software Engineer & AI Automation`,
+    description: `${SITE.name}, a Software Engineer in ${SITE.location}, focused on AI automation, API integrations, connected workflows and web application development.`,
     siteName: `${SITE.name} Portfolio`,
     language: "en",
     socialImage: "/opengraph-image",

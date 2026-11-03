@@ -97,38 +97,6 @@ export const storeProjects: Project[] = [
     resultsNote: "Source: the supplied MGN Ventures case study, which describes a 12-month results window without exact reporting dates. These are reported team-level outcomes from the combined engagement. Paid-channel growth associated with Sprout's increased ad spend is excluded; no individual or storefront-only attribution is claimed. Separate five-month engagement figures are not combined with these results.",
   },
   {
-    id: "zero-lifestyle",
-    title: "Zero Lifestyle",
-    description: "Consumer tech brand selling smartwatches, earbuds and audio across Pakistan.",
-    tagline: "A hardcoded storefront rebuilt so the marketing team ships campaigns without a developer.",
-    liveUrl: "https://zerolifestyle.co/",
-    imageUrl: "/projects/zero-lifestyle.webp",
-    tags: ["Theme architecture", "Performance", "Campaign tooling"],
-    stack: "shopify",
-    role: "Senior Shopify Developer",
-    category: "Consumer Electronics",
-    duration: "Ongoing retainer",
-    fullDescription:
-      "Most of the storefront was hardcoded, so every campaign meant waiting on a developer to change a line of text. The theme was re-architected into modular Liquid sections the marketing team edits themselves, and the daily back-office work was automated.",
-    challenge:
-      "Campaign velocity was capped by developer availability. Every banner, badge and landing page change was a code deploy, and an accumulation of apps and tracking tags had pushed load times past the point where paid traffic converted.",
-    approach:
-      "Rebuilt the theme as modular Shopify 2.0 sections with schema-driven settings, so copy, imagery and campaign blocks became theme-editor fields. Audited the app footprint, deferred render-blocking scripts and pruned third-party bloat.",
-    scope: [
-      "Modular Liquid 2.0 section architecture",
-      "Core Web Vitals and load-time optimization",
-      "Campaign tooling for non-technical editors",
-      "Back-office automation",
-    ],
-    techStack: ["Shopify 2.0", "Liquid", "JavaScript", "Shopify Flow"],
-    features: [
-      "Theme-editor driven campaign sections",
-      "Deferred third-party script loading",
-      "Automated back-office workflows",
-      "Mobile-first product detail pages",
-    ],
-  },
-  {
     id: "ox-and-armor",
     title: "Ox & Armor",
     description: "Handcrafted full-grain leather jackets and luxury accessories, sold from the UK.",

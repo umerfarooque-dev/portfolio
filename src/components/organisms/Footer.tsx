@@ -86,7 +86,7 @@ const FitWordmark = ({ text }: { text: string }) => {
     );
 };
 
-export const Footer = ({ config }: { config?: SiteConfig }) => {
+export const Footer = ({ config }: { config?: Pick<NonNullable<SiteConfig>, "email"> | null }) => {
     const year = new Date().getFullYear();
     const email = config?.email || SITE.email;
     const fullName = SITE.name;

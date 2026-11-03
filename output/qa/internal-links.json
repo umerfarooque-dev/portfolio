@@ -1,0 +1,434 @@
+[
+  {
+    "route": "/icon.png?b6ae8ebf81cafc28",
+    "status": 200
+  },
+  {
+    "route": "/",
+    "status": 200
+  },
+  {
+    "route": "/contact",
+    "status": 200
+  },
+  {
+    "route": "/services/ai-automation",
+    "status": 200
+  },
+  {
+    "route": "/services/conversion-rate-optimization",
+    "status": 200
+  },
+  {
+    "route": "/services/speed-optimization",
+    "status": 200
+  },
+  {
+    "route": "/services/shopify-development",
+    "status": 200
+  },
+  {
+    "route": "/services/ecommerce-development",
+    "status": 200
+  },
+  {
+    "route": "/services/web-development",
+    "status": 200
+  },
+  {
+    "route": "/services/wordpress-development",
+    "status": 200
+  },
+  {
+    "route": "/services/woocommerce-development",
+    "status": 200
+  },
+  {
+    "route": "/services/react-development",
+    "status": 200
+  },
+  {
+    "route": "/services/nextjs-development",
+    "status": 200
+  },
+  {
+    "route": "/services/laravel-development",
+    "status": 200
+  },
+  {
+    "route": "/services/woocommerce-to-shopify-migration",
+    "status": 200
+  },
+  {
+    "route": "/services/wordpress-to-shopify-migration",
+    "status": 200
+  },
+  {
+    "route": "/services/wix-to-shopify-migration",
+    "status": 200
+  },
+  {
+    "route": "/services/squarespace-to-shopify-migration",
+    "status": 200
+  },
+  {
+    "route": "/services/magento-to-shopify-migration",
+    "status": 200
+  },
+  {
+    "route": "/work",
+    "status": 200
+  },
+  {
+    "route": "/services",
+    "status": 200
+  },
+  {
+    "route": "/showcase",
+    "status": 200
+  },
+  {
+    "route": "/blog",
+    "status": 200
+  },
+  {
+    "route": "/about",
+    "status": 200
+  },
+  {
+    "route": "/free-speed-audit",
+    "status": 200
+  },
+  {
+    "route": "/resume/Umer-Farooque-Resume.pdf",
+    "status": 200
+  },
+  {
+    "route": "/blog/replacing-a-paid-shopify-app-with-line-item-properties",
+    "status": 200
+  },
+  {
+    "route": "/blog/multi-step-forms-that-do-not-waste-time",
+    "status": 200
+  },
+  {
+    "route": "/blog/one-catalogue-many-languages",
+    "status": 200
+  },
+  {
+    "route": "/blog/woocommerce-to-shopify-migration-guide",
+    "status": 200
+  },
+  {
+    "route": "/blog/custom-theme-vs-prebuilt-theme",
+    "status": 200
+  },
+  {
+    "route": "/blog/core-web-vitals-on-a-real-store",
+    "status": 200
+  },
+  {
+    "route": "/blog/when-a-dashboard-needs-websockets",
+    "status": 200
+  },
+  {
+    "route": "/work/outriderx",
+    "status": 200
+  },
+  {
+    "route": "/work/hqpt",
+    "status": 200
+  },
+  {
+    "route": "/work/themindfulc",
+    "status": 200
+  },
+  {
+    "route": "/work/sprout-organic",
+    "status": 200
+  },
+  {
+    "route": "/work/zero-lifestyle",
+    "status": 200
+  },
+  {
+    "route": "/work/ox-and-armor",
+    "status": 200
+  },
+  {
+    "route": "/work/landlord-logic",
+    "status": 200
+  },
+  {
+    "route": "/work/newvana",
+    "status": 200
+  },
+  {
+    "route": "/work/sansaino",
+    "status": 200
+  },
+  {
+    "route": "/work/cmbt-nutrition",
+    "status": 200
+  },
+  {
+    "route": "/work/coach-huddle",
+    "status": 200
+  },
+  {
+    "route": "/work/lampo",
+    "status": 200
+  },
+  {
+    "route": "/work/vadu",
+    "status": 200
+  },
+  {
+    "route": "/work/taxformhero",
+    "status": 200
+  },
+  {
+    "route": "/work/khebrati",
+    "status": 200
+  },
+  {
+    "route": "/work/refreshlifepro",
+    "status": 200
+  },
+  {
+    "route": "/case-studies/cmbt-nutrition",
+    "status": 200
+  },
+  {
+    "route": "/case-studies/sprout-organic",
+    "status": 200
+  },
+  {
+    "route": "/case-studies/zero-lifestyle",
+    "status": 200
+  },
+  {
+    "route": "/case-studies/ox-and-armor",
+    "status": 200
+  },
+  {
+    "route": "/case-studies/proshield",
+    "status": 200
+  },
+  {
+    "route": "/case-studies/elan-by-zunaira",
+    "status": 200
+  },
+  {
+    "route": "/case-studies/mia-and-mila",
+    "status": 200
+  },
+  {
+    "route": "/case-studies/comforsh",
+    "status": 200
+  },
+  {
+    "route": "/case-studies/nrchia",
+    "status": 200
+  },
+  {
+    "route": "/case-studies/inelia-records",
+    "status": 200
+  },
+  {
+    "route": "/case-studies/inelia-books",
+    "status": 200
+  },
+  {
+    "route": "/case-studies/gk-technova",
+    "status": 200
+  },
+  {
+    "route": "/case-studies/coach-huddle",
+    "status": 200
+  },
+  {
+    "route": "/case-studies/landlord-logic",
+    "status": 200
+  },
+  {
+    "route": "/case-studies/newvana",
+    "status": 200
+  },
+  {
+    "route": "/case-studies/sansaino",
+    "status": 200
+  },
+  {
+    "route": "/case-studies/dine-albania",
+    "status": 200
+  },
+  {
+    "route": "/case-studies/dental-source",
+    "status": 200
+  },
+  {
+    "route": "/case-studies/improself",
+    "status": 200
+  },
+  {
+    "route": "/case-studies/vadu",
+    "status": 200
+  },
+  {
+    "route": "/case-studies/outriderx",
+    "status": 200
+  },
+  {
+    "route": "/case-studies/hqpt",
+    "status": 200
+  },
+  {
+    "route": "/case-studies/themindfulc",
+    "status": 200
+  },
+  {
+    "route": "/case-studies/refreshlifepro",
+    "status": 200
+  },
+  {
+    "route": "/case-studies/lampo",
+    "status": 200
+  },
+  {
+    "route": "/case-studies/anphie",
+    "status": 200
+  },
+  {
+    "route": "/case-studies/rightways",
+    "status": 200
+  },
+  {
+    "route": "/case-studies/taxformhero",
+    "status": 200
+  },
+  {
+    "route": "/work/proshield",
+    "status": 200
+  },
+  {
+    "route": "/work/elan-by-zunaira",
+    "status": 200
+  },
+  {
+    "route": "/work/mia-and-mila",
+    "status": 200
+  },
+  {
+    "route": "/work/comforsh",
+    "status": 200
+  },
+  {
+    "route": "/work/nrchia",
+    "status": 200
+  },
+  {
+    "route": "/work/inelia-records",
+    "status": 200
+  },
+  {
+    "route": "/work/valuesofgolf",
+    "status": 200
+  },
+  {
+    "route": "/work/fulham",
+    "status": 200
+  },
+  {
+    "route": "/work/easyrevie",
+    "status": 200
+  },
+  {
+    "route": "/work/rxdirect",
+    "status": 200
+  },
+  {
+    "route": "/work/finalchoice",
+    "status": 200
+  },
+  {
+    "route": "/work/landology",
+    "status": 200
+  },
+  {
+    "route": "/work/marisavaz",
+    "status": 200
+  },
+  {
+    "route": "/work/hajiq",
+    "status": 200
+  },
+  {
+    "route": "/work/dokanat",
+    "status": 200
+  },
+  {
+    "route": "/work/xaigent",
+    "status": 200
+  },
+  {
+    "route": "/work/vara",
+    "status": 200
+  },
+  {
+    "route": "/work/rightways",
+    "status": 200
+  },
+  {
+    "route": "/work/anphie",
+    "status": 200
+  },
+  {
+    "route": "/work/timeless",
+    "status": 200
+  },
+  {
+    "route": "/work/coffee-delivery",
+    "status": 200
+  },
+  {
+    "route": "/services/native-shopify-features",
+    "status": 200
+  },
+  {
+    "route": "/services/store-management",
+    "status": 200
+  },
+  {
+    "route": "/services/shopify-migrations",
+    "status": 200
+  },
+  {
+    "route": "/services/seo-and-search-visibility",
+    "status": 200
+  },
+  {
+    "route": "/work/inelia-books",
+    "status": 200
+  },
+  {
+    "route": "/work/gk-technova",
+    "status": 200
+  },
+  {
+    "route": "/work/dine-albania",
+    "status": 200
+  },
+  {
+    "route": "/work/dental-source",
+    "status": 200
+  },
+  {
+    "route": "/work/improself",
+    "status": 200
+  },
+  {
+    "route": "/case-studies",
+    "status": 200
+  }
+]

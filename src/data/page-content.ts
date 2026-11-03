@@ -4,9 +4,9 @@ import { showcaseItems } from "./showcase";
 export const PAGE_CONTENT = {
     work: { label: "Selected work", title: "Sites in production, not in a folder.", description: "Storefronts, business websites and applications. Explore the implementation and the decisions behind each build." },
     blog: { label: "Blog", title: "Notes from inside the build.", description: "Practical notes on performance, migrations and development decisions, drawn from the projects in this portfolio." },
-    about: { label: `${SITE.role} · ${SITE.location}`, title: "I build websites and keep them working.", description: "From the storefront to the business logic behind it. My work spans WordPress, Shopify, Laravel, React and Next.js." },
+    about: { label: `${SITE.role} · ${SITE.location}`, title: "Software that connects the work.", description: "AI automation, connected workflows and web applications, backed by a background in WordPress, Shopify, Laravel, React and Next.js." },
     showcase: { label: `${showcaseItems.length} shipped features`, title: "Sections your team can actually use.", description: "Reusable storefront features from the project catalogue. Explore the live stores and the implementation behind the work." },
-    services: { label: "Services", title: "What I build, and what I fix.", description: "Custom storefronts, application development, migrations and performance work. Choose the service that fits your next step." },
+    services: { label: "Services", title: "What I build, improve and automate.", description: "AI Automation, Conversion Rate Optimization (CRO) and Speed Optimization lead the services, alongside web applications and storefront development." },
     audit: { label: "Free initial assessment", title: "Find what is slowing the site down.", description: "Send your website URL and the problem you are seeing. We will start with the templates your customers use, then agree what is worth fixing." },
 } as const;
 
@@ -16,7 +16,7 @@ export const ABOUT_CONTENT = {
     experienceNote: "MGN Ventures: April 2026 is an approximate start month; the exact joining date is unconfirmed. Last working day: 24 August 2026.",
     paragraphs: [
         SITE.tagline,
-        "Specialized in custom WordPress themes and plugins, WooCommerce, Shopify theme customization, API integrations, website performance optimization and modern frontend development.",
+        "My focus is connecting web applications and business tools through APIs, workflow automation and AI-assisted steps. Existing web-development work spans custom WordPress themes and plugins, WooCommerce, Shopify, Laravel and modern frontend interfaces.",
         "The handover matters as much as the launch: documented code, an explanation of what changed and a clear path for the next person maintaining the site.",
     ],
     technologiesHeading: "Core technologies",
@@ -46,14 +46,14 @@ export const REFERENCE_UI = {
     viewShowcase: "View showcase",
     viewCaseStudy: "Explore the build",
     serviceGroups: { build: "Core services", migration: "Platform migrations", seo: "Search & visibility" },
-    serviceGroupDescriptions: { build: "Storefronts, custom applications and ongoing development.", migration: "Plan the move, map the data and keep existing URLs accounted for.", seo: "Technical foundations and specialist search support." },
+    serviceGroupDescriptions: { build: "AI automation, connected workflows, web applications and storefront development.", migration: "Plan the move, map the data and keep existing URLs accounted for.", seo: "Technical foundations and specialist search support." },
     auditSteps: ["Share the site URL and your main concern.", "I review the key templates and the likely bottlenecks.", "You receive the next steps before deciding whether to proceed."],
     auditStepsHeading: "What happens next",
     auditCta: "Request an assessment",
 };
 
 export const NAVBAR_CONTENT = {
-    summary: ["Websites and storefronts.", "WordPress, Shopify and Laravel development."],
+    summary: ["Software engineering & AI automation.", "Web apps, APIs and connected workflows."],
     location: `${SITE.location} — Since ${SITE.since}`,
 };
 

@@ -1,5 +1,41 @@
 # CHANGELOG
 
+## 2026-11-03 - Remove Zero Lifestyle
+
+- Removed Zero Lifestyle from the project catalogue, showcase and homepage
+  highlights; removed its blog cover and preview mapping.
+- Retired its slug for optional database reads, preventing its reappearance on
+  work/legacy routes. Case studies and sitemap derive the removal automatically.
+- Kept the general performance article, using its existing portfolio logo cover.
+
+## 2026-11-03 - Priority services
+
+- Promoted AI Automation, Conversion Rate Optimization (CRO) and Speed
+  Optimization to the first three homepage and service-catalogue positions.
+- Updated service introduction and footer links; enquiry options inherit the
+  same priority. Preserved existing URLs and remaining development services.
+- Checks: TypeScript, ESLint, production build, whitespace and SEO audit passed.
+  Production HTML assertions verified the first three entries on homepage,
+  Services and contact options, with all 20 services retained.
+
+## 2026-11-03 - Software Engineer and AI Automation focus
+
+- Removed public three-year experience copy from hero, About, homepage facts,
+  metadata, Person schema and social image; set the portfolio role to Software
+  Engineer and foregrounded AI Automation and connected workflows.
+- Added an AI Automation & Workflow Integrations service and made it the first
+  homepage service, with derived enquiry option, route, schema and sitemap.
+- Moved hero positioning into HOME_HERO and removed stale database hero-text
+  overrides. Updated header/footer and enquiry copy; preserved existing web
+  projects, employment history, visual design and downloadable resume.
+- AI content is an offering/focus; no client results or past AI projects invented.
+- Validation: TypeScript, ESLint, production build and whitespace checks passed.
+  SEO audit passed for 108 content pages, 20 services and 79 sitemap canonicals.
+  Assertions confirmed Software Engineer in every Person schema and no old
+  experience copy in page HTML/client props; new service/enquiry validation passed.
+  Browser checks confirmed the new hero and contact option, one h1 and no
+  horizontal overflow at 320/768/1280/1920px after responsive reflow settled.
+
 ## 2026-11-02 - CMBT Nutrition project and SEO case study
 
 - Added CMBT Nutrition to the Shopify catalogue, homepage selected work and

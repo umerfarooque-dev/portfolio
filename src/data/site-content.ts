@@ -19,6 +19,50 @@ export type AccentKey = "sapphire" | "emerald" | "violet" | "amber";
 export const services: Service[] = [
   {
     num: "01",
+    slug: "ai-automation",
+    title: "AI Automation & Workflow Integrations",
+    meta: "Connected business tools",
+    description: "Connect your web applications and business tools through APIs and AI-assisted workflows. Start with a clear process, automate repetitive steps and keep human review for decisions that need it.",
+    points: [
+      "Workflow mapping and API integrations",
+      "Lead routing and enquiry follow-ups",
+      "AI-assisted drafting and summarization",
+      "Human approvals and documented error handling",
+    ],
+    accent: "sapphire",
+  },
+  {
+    num: "02",
+    slug: "conversion-rate-optimization",
+    title: "Conversion Rate Optimization (CRO)",
+    meta: "UX sprints",
+    description:
+      "Data-backed UX sprints designed to turn ad clicks into buyers. Faster slide-out cart drawers, high-intent product badges, mobile sticky add-to-cart and streamlined checkout flows.",
+    points: [
+      "Frictionless slide-out cart drawers",
+      "Sticky mobile add-to-cart bars",
+      "Device compatibility and variant selectors",
+      "Trust badge and social proof integration",
+    ],
+    accent: "amber",
+  },
+  {
+    num: "03",
+    slug: "speed-optimization",
+    title: "Speed Optimization & Core Web Vitals",
+    meta: "Measured before & after",
+    description:
+      "Stores get slow as apps, tracking tags and unoptimized media accumulate. I audit the real shopper experience, defer render-blocking scripts and prune third-party bloat, with measurements before and after the changes.",
+    points: [
+      "Core Web Vitals field-data audit",
+      "Script deferral and app bloat pruning",
+      "Responsive image delivery and WebP tuning",
+      "Liquid loop and server response refactoring",
+    ],
+    accent: "emerald",
+  },
+  {
+    num: "04",
     slug: "shopify-development",
     title: "Custom Shopify & Theme Redesign",
     meta: "Custom builds",
@@ -33,22 +77,7 @@ export const services: Service[] = [
     accent: "sapphire",
   },
   {
-    num: "02",
-    slug: "speed-optimization",
-    title: "Speed Tuning & Core Web Vitals",
-    meta: "Measured before & after",
-    description:
-      "Stores get slow as apps, tracking tags and unoptimized media accumulate. I audit the real shopper experience, defer render-blocking scripts and prune third-party bloat, with measurements before and after the changes.",
-    points: [
-      "Core Web Vitals field-data audit",
-      "Script deferral and app bloat pruning",
-      "Responsive image delivery and WebP tuning",
-      "Liquid loop and server response refactoring",
-    ],
-    accent: "emerald",
-  },
-  {
-    num: "03",
+    num: "05",
     slug: "shopify-migrations",
     title: "Platform Migrations to Shopify",
     meta: "Zero downtime · 301 redirects",
@@ -63,22 +92,7 @@ export const services: Service[] = [
     accent: "violet",
   },
   {
-    num: "04",
-    slug: "conversion-rate-optimization",
-    title: "Conversion Rate Optimization",
-    meta: "UX sprints",
-    description:
-      "Data-backed UX sprints designed to turn ad clicks into buyers. Faster slide-out cart drawers, high-intent product badges, mobile sticky add-to-cart and streamlined checkout flows.",
-    points: [
-      "Frictionless slide-out cart drawers",
-      "Sticky mobile add-to-cart bars",
-      "Device compatibility and variant selectors",
-      "Trust badge and social proof integration",
-    ],
-    accent: "amber",
-  },
-  {
-    num: "05",
+    num: "06",
     slug: "native-shopify-features",
     title: "Native Features Without Paid Apps",
     meta: "Zero monthly apps · Liquid 2.0",
@@ -93,7 +107,7 @@ export const services: Service[] = [
     accent: "sapphire",
   },
   {
-    num: "06",
+    num: "07",
     slug: "store-management",
     title: "Ongoing Store Management",
     meta: "Monthly retainer",

@@ -17,7 +17,7 @@ export const AboutSection = ({
     config,
     headingAs = "h2",
 }: {
-    config?: SiteConfig;
+    config?: Pick<NonNullable<SiteConfig>, "aboutImage"> | null;
     /**
      * h2 on the home page, where the hero already owns the h1; h1 on /about,
      * which previously had no h1 at all. Only the tag changes — the type scale

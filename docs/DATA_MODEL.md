@@ -1,5 +1,36 @@
 # DATA MODEL
 
+## Retired project (2026-11-03)
+
+Zero Lifestyle is removed from the catalogue, showcase, homepage highlights and
+blog cover. Homepage highlights now feature Sprout Organic in its place. Its
+slug is retired in `RETIRED_PROJECT_SLUGS` so optional database overrides cannot
+restore its public listing or detail routes. Derived case studies and sitemap
+no longer include it. The general Core Web Vitals article remains with a portfolio
+logo cover. Existing image files are retained as unused assets.
+
+## Priority services (2026-11-03)
+
+The homepage accordion and service catalogue lead with AI Automation, CRO and
+Speed Optimization, in that order. Contact options inherit catalogue order;
+footer links expose all three. Existing slugs and all 20 services remain intact.
+
+## Software Engineer and AI Automation positioning (2026-11-03)
+
+SITE.role is Software Engineer; SITE.focus is AI Automation. Removed the numeric
+experienceYears field and public experience-duration claims. HOME_HERO owns
+hero copy and the hero no longer reads database heroTitle/heroDescription, so
+stale overrides cannot restore the old title or years claim. HOME_ABOUT_FACTS
+shows focus instead of experience duration; employment dates and historical
+job/project roles remain factual and unchanged. The downloadable resume is unchanged.
+
+services-pages.ts adds ai-automation as a service offering (20 total), and
+site-content.ts leads the seven homepage accordion services with it. Contact
+options, validation, routes, schema and sitemap derive from that catalogue.
+AI copy describes intended work and delivery approach, not invented shipped
+projects, client results, certifications or claimed tool expertise. SEO/schema,
+header summary, footer pitch and social-image summary follow the new positioning.
+
 ## CMBT Nutrition case study (2026-11-02)
 
 `store-projects.ts` leads with `cmbt-nutrition`, a Shopify project and case study

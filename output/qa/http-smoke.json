@@ -1,0 +1,96 @@
+[
+  {
+    "route": "/",
+    "status": 200,
+    "type": "text/html; charset=utf-8"
+  },
+  {
+    "route": "/about",
+    "status": 200,
+    "type": "text/html; charset=utf-8"
+  },
+  {
+    "route": "/work",
+    "status": 200,
+    "type": "text/html; charset=utf-8"
+  },
+  {
+    "route": "/services",
+    "status": 200,
+    "type": "text/html; charset=utf-8"
+  },
+  {
+    "route": "/services/ai-automation",
+    "status": 200,
+    "type": "text/html; charset=utf-8"
+  },
+  {
+    "route": "/contact",
+    "status": 200,
+    "type": "text/html; charset=utf-8"
+  },
+  {
+    "route": "/case-studies/cmbt-nutrition",
+    "status": 200,
+    "type": "text/html; charset=utf-8"
+  },
+  {
+    "route": "/case-studies/sprout-organic",
+    "status": 200,
+    "type": "text/html; charset=utf-8"
+  },
+  {
+    "route": "/robots.txt",
+    "status": 200,
+    "type": "text/plain"
+  },
+  {
+    "route": "/sitemap.xml",
+    "status": 200,
+    "type": "application/xml"
+  },
+  {
+    "route": "/resume/Umer-Farooque-Resume.pdf",
+    "status": 200,
+    "type": "application/pdf"
+  },
+  {
+    "route": "/qa-missing-page",
+    "status": 404,
+    "type": "text/html; charset=utf-8"
+  },
+  {
+    "route": "/services/qa-missing",
+    "status": 404,
+    "type": "text/html; charset=utf-8"
+  },
+  {
+    "route": "/api/contact",
+    "input": "{",
+    "status": 400,
+    "response": {
+      "error": "Please send a valid JSON request."
+    }
+  },
+  {
+    "route": "/api/contact",
+    "input": "{}",
+    "status": 400,
+    "response": {
+      "error": "Invalid input"
+    }
+  },
+  {
+    "route": "/api/contact",
+    "input": "{\"email\":\"bad\",\"service\":\"ai-automation\",\"message\":\"test\"}",
+    "status": 400,
+    "response": {
+      "error": "Enter a valid email address so I can reply."
+    }
+  },
+  {
+    "route": "/api/contact",
+    "method": "GET",
+    "status": 405
+  }
+]

@@ -34,8 +34,7 @@ export const PROJECT_PREVIEWS: Record<string, string> = {
     "/projects/timeless.webp": "/projects/previews/timeless.webp",
     "/projects/valuesofgolf.webp": "/projects/previews/valuesofgolf.webp",
     "/projects/vara.webp": "/projects/previews/vara.webp",
-    "/projects/xaigent.webp": "/projects/previews/xaigent.webp",
-    "/projects/zero-lifestyle.webp": "/projects/previews/zero-lifestyle.webp"
+    "/projects/xaigent.webp": "/projects/previews/xaigent.webp"
 };
 export const UNAVAILABLE_PROJECT_IMAGES: string[] = [
     "/projects/elan-by-zunaira.webp",

@@ -310,7 +310,7 @@ export const posts: Post[] = [
     },
     {
         slug: "core-web-vitals-on-a-real-store",
-        cover: "/projects/zero-lifestyle.webp",
+        cover: "/images/porfolio-logo.png",
         title: "Core Web Vitals on a store that already has apps",
         excerpt:
             "Lighthouse on a fresh theme tells you nothing. Here is what actually moves the numbers on a store with two years of accumulated tags.",

@@ -1,5 +1,14 @@
 # COMPONENT REGISTRY
 
+## Hero positioning (2026-11-03)
+
+HeroSection takes slides only and renders HOME_HERO from the data layer, with
+Software Engineer as the title and AI Automation focus. The old config prop and
+hero text overrides are removed; Home still fetches config for About's portrait.
+The experience badge becomes a focus label. Existing design/motion is preserved.
+AboutSection receives only the aboutImage config field and Footer only email;
+unused database marketing copy no longer ships inside client props.
+
 ## Project attribution (2026-11-02)
 
 ProjectDetail renders optional Project.credit below the hero introduction and

@@ -735,7 +735,10 @@ export const projects: Project[] = [...storeProjects, ...customProjects, ...othe
  * project is always visible in the file. They must never reach a public listing,
  * and this is the one place that rule is expressed.
  */
-export const isShipped = (project: Project) => !project.id.includes("placeholder");
+/** Retired entries must not return through optional database overrides. */
+export const RETIRED_PROJECT_SLUGS: readonly string[] = ["zero-lifestyle"];
+
+export const isShipped = (project: Project) => !project.id.includes("placeholder") && !RETIRED_PROJECT_SLUGS.includes(project.id);
 
 /** Use this, not `projects`, for anything a visitor can see. */
 export const shippedProjects: Project[] = projects.filter(isShipped);

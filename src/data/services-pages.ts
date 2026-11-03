@@ -1,9 +1,8 @@
 /**
  * Service pages. Each entry is one route under /services/<slug>.
  *
- * Scope is limited to what the CV actually covers — WordPress, WooCommerce,
- * Shopify, Laravel, React and Next.js — so no page offers a platform that is
- * not backed by real experience.
+ * Existing web services reflect portfolio work. AI automation is the user's
+ * requested service focus; no past AI projects or results are implied.
  */
 
 export interface ServicePage {
@@ -31,6 +30,46 @@ export interface ServicePage {
 }
 
 export const servicePages: ServicePage[] = [
+    {
+        slug: "ai-automation",
+        name: "AI Automation & Workflow Integrations",
+        group: "build",
+        headline: "Connect your tools. Automate the repeat work.",
+        intro: "AI-assisted workflows and API integrations built around a clearly defined business process, with human review where it matters.",
+        summary: "Connect business tools, route information and automate repetitive steps with APIs and AI-assisted workflows.",
+        problem: "Manual handoffs between forms, inboxes, websites and business tools create repeated data entry and missed follow-ups. Adding AI without clear rules can make the process harder to monitor instead of easier to run.",
+        approach: "Start by mapping the workflow, inputs, permissions and expected output. Connect the required APIs, add AI-assisted steps only where they fit, and keep approvals for sensitive decisions. Test failure paths and document how your team can monitor, pause and maintain the workflow.",
+        deliverables: [
+            "Workflow map and agreed automation scope",
+            "API and webhook integrations between approved business tools",
+            "AI-assisted classification, drafting or summarization where appropriate",
+            "Lead-routing and enquiry follow-up workflows",
+            "Human-review steps, error handling and retry rules",
+            "Testing, monitoring notes and a documented handover",
+        ],
+        relatedStacks: ["laravel", "nextjs"],
+        stack: ["REST APIs", "Webhooks", "JavaScript", "TypeScript", "Laravel", "Node.js"],
+    },
+    {
+        slug: "conversion-rate-optimization", name: "Conversion Rate Optimization (CRO)", group: "build",
+        headline: "Remove friction between browsing and buying.",
+        intro: "Focused product-page, cart and mobile shopping improvements for existing stores.",
+        summary: "Product selectors, cart drawers and checkout journeys reviewed and improved.",
+        problem: "A shopper can want the product and still abandon the order because an option is confusing, a cart is slow or the mobile purchase flow is difficult to use.",
+        approach: "Review the buying journey and available analytics, agree a focused set of changes, and implement them on staging. Tracking and a measurement plan are included; revenue uplift is assessed from actual results rather than promised in advance.",
+        deliverables: ["Product-to-checkout journey review", "Mobile product-page improvements", "Variant and compatibility selector fixes", "Cart drawer and add-to-cart refinements", "Trust and delivery information placement", "Tracking checks and measurement plan"],
+        relatedStacks: ["shopify", "wordpress"], stack: ["Shopify", "WooCommerce", "JavaScript", "GA4", "Liquid"],
+    },
+    {
+        slug: "speed-optimization", name: "Speed Optimization & Core Web Vitals", group: "build",
+        headline: "Make the pages your customers use faster.",
+        intro: "A performance pass for Shopify, WordPress and custom frontends, measured on the same templates before and after.",
+        summary: "Image delivery, script loading and layout stability, backed by a baseline audit.",
+        problem: "Large images, unnecessary scripts and layout shifts turn a useful page into a frustrating visit. A score alone does not tell you which changes will help the customer.",
+        approach: "Audit representative pages on mobile, identify the largest bottlenecks, apply changes on staging, and compare the same pages afterwards. The handover records what changed and what still depends on hosting or third-party apps.",
+        deliverables: ["Baseline Lighthouse and Core Web Vitals review", "Responsive image sizes and modern formats", "Third-party script and app loading review", "Layout shift fixes on key templates", "Theme and frontend rendering improvements", "Before-and-after report and handover"],
+        relatedStacks: ["shopify", "wordpress", "nextjs"], stack: ["Lighthouse", "Core Web Vitals", "Liquid", "Next.js", "WebP"],
+    },
     {
         slug: "shopify-development",
         name: "Shopify Development",
@@ -207,8 +246,6 @@ export const servicePages: ServicePage[] = [
         relatedStacks: ["nextjs", "laravel", "wordpress"],
         stack: ["WordPress", "Laravel", "Next.js", "React.js", "MySQL"],
     },
-
-    // --- Migrations ---
     {
         slug: "woocommerce-to-shopify-migration",
         name: "WooCommerce to Shopify",
@@ -345,16 +382,6 @@ export const servicePages: ServicePage[] = [
         stack: ["Next.js Metadata API", "Search Console", "GA4", "JSON-LD", "Core Web Vitals", "Lighthouse"],
     },
     {
-        slug: "speed-optimization", name: "Speed Optimization & Core Web Vitals", group: "build",
-        headline: "Make the pages your customers use faster.",
-        intro: "A performance pass for Shopify, WordPress and custom frontends, measured on the same templates before and after.",
-        summary: "Image delivery, script loading and layout stability, backed by a baseline audit.",
-        problem: "Large images, unnecessary scripts and layout shifts turn a useful page into a frustrating visit. A score alone does not tell you which changes will help the customer.",
-        approach: "Audit representative pages on mobile, identify the largest bottlenecks, apply changes on staging, and compare the same pages afterwards. The handover records what changed and what still depends on hosting or third-party apps.",
-        deliverables: ["Baseline Lighthouse and Core Web Vitals review", "Responsive image sizes and modern formats", "Third-party script and app loading review", "Layout shift fixes on key templates", "Theme and frontend rendering improvements", "Before-and-after report and handover"],
-        relatedStacks: ["shopify", "wordpress", "nextjs"], stack: ["Lighthouse", "Core Web Vitals", "Liquid", "Next.js", "WebP"],
-    },
-    {
         slug: "shopify-migrations", name: "Platform Migrations to Shopify", group: "migration",
         headline: "Move the store with a plan for every record and URL.",
         intro: "Migration planning and implementation for WooCommerce, WordPress, Wix, Squarespace and Magento storefronts.",
@@ -363,16 +390,6 @@ export const servicePages: ServicePage[] = [
         approach: "Inventory the source platform, map the data and URLs, import a test catalogue, and validate the purchasing flow. Launch planning includes redirect checks and a rollback path, with platform limitations documented in advance.",
         deliverables: ["Source platform and data inventory", "Product and variant mapping", "Supported customer and order imports", "One-to-one URL redirect plan", "Shopify theme and checkout checks", "Staged launch and post-launch verification"],
         relatedStacks: ["shopify", "wordpress"], stack: ["Shopify", "WooCommerce", "CSV", "Platform APIs", "301 redirects"],
-    },
-    {
-        slug: "conversion-rate-optimization", name: "Conversion Rate Optimization", group: "build",
-        headline: "Remove friction between browsing and buying.",
-        intro: "Focused product-page, cart and mobile shopping improvements for existing stores.",
-        summary: "Product selectors, cart drawers and checkout journeys reviewed and improved.",
-        problem: "A shopper can want the product and still abandon the order because an option is confusing, a cart is slow or the mobile purchase flow is difficult to use.",
-        approach: "Review the buying journey and available analytics, agree a focused set of changes, and implement them on staging. Tracking and a measurement plan are included; revenue uplift is assessed from actual results rather than promised in advance.",
-        deliverables: ["Product-to-checkout journey review", "Mobile product-page improvements", "Variant and compatibility selector fixes", "Cart drawer and add-to-cart refinements", "Trust and delivery information placement", "Tracking checks and measurement plan"],
-        relatedStacks: ["shopify", "wordpress"], stack: ["Shopify", "WooCommerce", "JavaScript", "GA4", "Liquid"],
     },
     {
         slug: "native-shopify-features", name: "Native Shopify Features", group: "build",

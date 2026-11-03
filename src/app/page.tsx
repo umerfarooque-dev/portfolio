@@ -37,7 +37,7 @@ export default async function Home() {
 
   return (
     <>
-      <HeroSection config={siteConfig} slides={heroSlides} />
+      <HeroSection slides={heroSlides} />
       <BrandsStrip />
       <ServicesSection />
       <ProcessSection />
@@ -47,7 +47,7 @@ export default async function Home() {
       <CaseStudyHighlights />
       <ShowcaseSection />
       <BlogPreviewSection />
-      <AboutSection config={siteConfig} />
+      <AboutSection config={{ aboutImage: siteConfig?.aboutImage }} />
       <FaqSection />
       <ContactSection />
     </>

@@ -14,7 +14,7 @@ export const CONTACT_COPY = {
     eyebrow: "Let’s work together",
     close: "Close enquiry",
     heading: "Let’s talk about your next project.",
-    intro: "A new build, a faster store, or a problem that needs a second pair of eyes. Tell me what you have in mind.",
+    intro: "A web application, an AI-assisted workflow, connected business tools or a storefront improvement. Tell me what you want to build or automate.",
     availability: SITE.availability,
     directHeading: "Prefer a quick hello?",
     directIntro: "Reach me directly, or leave the details in the form. I usually reply within one working day.",

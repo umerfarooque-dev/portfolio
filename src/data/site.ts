@@ -4,9 +4,10 @@
 export const SITE = {
     name: "Umer Farooque",
     shortName: "Umer",
-    role: "Full-Stack Web Developer",
-    tagline: "Full-Stack Web Developer with approximately 3 years of professional experience building responsive websites, eCommerce platforms and custom web applications using WordPress, Shopify, PHP, Laravel, React.js, Next.js, JavaScript and MySQL.",
-    experienceYears: 3,
+    role: "Software Engineer",
+    focus: "AI Automation",
+    tagline: "Software Engineer focused on AI automation, workflow integrations and web applications. Connecting APIs and business tools alongside WordPress, Shopify, Laravel, React and Next.js development.",
+    socialSummary: "AI automation, connected workflows and web applications built around your business.",
     availability: "Available for new opportunities",
     email: "00.umer786@gmail.com",
     whatsapp: "923003024283",
@@ -57,7 +58,7 @@ export const WORK_EXPERIENCE = [
 
 export const FOOTER_CONTENT = {
     wordmark: "Umer",
-    pitch: `${SITE.role} building fast storefronts, websites and business applications.`,
+    pitch: `${SITE.role} focused on AI automation, connected workflows and web applications.`,
     invitation: "Let’s make an impact together.",
     availability: SITE.availability,
     copyright: "All rights reserved.",
@@ -79,8 +80,8 @@ export const SITE_URL = (
 
 /** The three-up label rows across the top of the hero. */
 export const HERO_LABEL_ROWS: string[][] = [
-    ["WordPress", "Shopify", "Laravel"],
-    ["React.js & Next.js", "Payment integrations", "Core Web Vitals"],
+    ["AI Automation", "API Integrations", "Workflow Automation"],
+    ["React.js & Next.js", "WordPress & Shopify", "Laravel"],
 ];
 
 export interface FooterLink {
@@ -101,6 +102,9 @@ export const FOOTER_COLUMNS: FooterColumn[] = [
     {
         heading: "Services",
         links: [
+            { name: "AI Automation", href: "/services/ai-automation" },
+            { name: "CRO", href: "/services/conversion-rate-optimization" },
+            { name: "Speed Optimization", href: "/services/speed-optimization" },
             { name: "Shopify Development", href: "/services/shopify-development" },
             { name: "E-Commerce Development", href: "/services/ecommerce-development" },
             { name: "Web Development", href: "/services/web-development" },

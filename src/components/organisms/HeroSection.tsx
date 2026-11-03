@@ -4,8 +4,7 @@ import { AnimatedText } from "@/components/atoms/AnimatedText";
 import { Magnetic } from "@/components/atoms/Magnetic";
 import { HeroSlideshow } from "@/components/organisms/HeroSlideshow";
 import { HERO_LABEL_ROWS, SITE } from "@/data/site";
-import { HOME_CONTACT } from "@/data/homepage";
-import type { SiteConfig } from "@/types/site";
+import { HOME_CONTACT, HOME_HERO } from "@/data/homepage";
 import Link from "next/link";
 import { useEffect, useState } from "react";
 
@@ -37,7 +36,7 @@ const LocalClock = () => {
     );
 };
 
-export const HeroSection = ({ config, slides = [] }: { config?: SiteConfig; slides?: string[] }) => {
+export const HeroSection = ({ slides = [] }: { slides?: string[] }) => {
     return (
         <section aria-label="Introduction" className="relative flex min-h-svh flex-col justify-between">
             <HeroSlideshow slides={slides} />
@@ -74,7 +73,7 @@ export const HeroSection = ({ config, slides = [] }: { config?: SiteConfig; slid
                             {SITE.availability}
                         </span>
                         <span className="hidden font-mono text-[11px] uppercase tracking-wider text-muted sm:inline">
-                            · 3 Years Experience
+                            · {HOME_HERO.focus}
                         </span>
                         <span className="hidden font-mono text-[11px] uppercase tracking-wider text-muted md:inline">
                             · 24h reply
@@ -84,8 +83,8 @@ export const HeroSection = ({ config, slides = [] }: { config?: SiteConfig; slid
                     <AnimatedText
                         as="h1"
                         immediate
-                        text={config?.heroTitle || "Full-Stack Web Developer WordPress, Shopify & Laravel"}
-                        accentFrom={3}
+                        text={HOME_HERO.title}
+                        accentFrom={2}
                         className="max-w-[22ch] text-balance text-h1 font-medium leading-[1.05]"
                     />
 
@@ -94,10 +93,7 @@ export const HeroSection = ({ config, slides = [] }: { config?: SiteConfig; slid
                         immediate
                         muted
                         delay={0.15}
-                        text={
-                            config?.heroDescription ||
-                            "3 years of experience across e-commerce, SaaS and corporate. Custom WordPress themes and plugins, Shopify storefronts, Laravel back ends, and React interfaces — with Stripe and PayPal wired in."
-                        }
+                        text={HOME_HERO.description}
                         className="mt-6 max-w-[58ch] leading-relaxed text-muted"
                     />
 

@@ -1,5 +1,12 @@
 # SEO
 
+## Positioning (2026-11-03)
+
+Global metadata, Person schema and the social-image copy now reflect Software
+Engineer / AI Automation, without experience-duration claims. /services/ai-automation
+is generated from service data and included in the sitemap and Service schema.
+No completed AI projects or results have been added to structured data.
+
 ## Technical SEO update (2026-11-02)
 
 Live baseline: homepage, robots.txt and sitemap.xml returned HTTP 200; the live

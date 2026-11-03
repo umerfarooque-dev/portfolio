@@ -7,7 +7,7 @@ import type { Metadata } from "next";
 
 export const metadata: Metadata = withPageSeo({
     title: `About | ${SITE.name}`,
-    description: `${SITE.role} in ${SITE.location} with ${SITE.experienceYears} years building WordPress, Shopify and Laravel sites for e-commerce, SaaS and corporate teams.`,
+    description: `${SITE.role} in ${SITE.location}, focused on AI automation, connected workflows, API integrations and web applications.`,
     alternates: { canonical: "/about" },
 });
 
